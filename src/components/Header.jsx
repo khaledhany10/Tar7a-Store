@@ -68,9 +68,6 @@ const Header = () => {
       )}
       
       <div className="flex items-center gap-6">
-        <button className="text-[#2d1a1e] dark:text-white p-2" title="بحث">
-          <span className="material-symbols-outlined">search</span>
-        </button>
         <Link to="/cart" className="text-[#2d1a1e] dark:text-white p-2 relative" title="سلة التسوق">
           <span className="material-symbols-outlined">shopping_bag</span>
           <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">٠</span>
