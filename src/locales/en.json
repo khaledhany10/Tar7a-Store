@@ -1,0 +1,36 @@
+{
+  "header": {
+    "home": "Home",
+    "allProducts": "All Products",
+    "fabrics": "Fabrics",
+    "achievements": "Achievements",
+    "contact": "Contact",
+    "sale": "Sale",
+    "search": "Search",
+    "cart": "Cart",
+    "chiffon": "Chiffon",
+    "silk": "Silk",
+    "jersey": "Jersey",
+    "modal": "Modal"
+  },
+  "hero": {
+    "title": "Modesty & Beauty",
+    "description": "Redefining the modern headscarf. Discover our new collection of premium fabrics, crafted for everyday elegance and modest sophistication.",
+    "shopCollection": "Shop Collection",
+    "ourFabrics": "Our Fabrics"
+  },
+  "common": {
+    "new": "New",
+    "sale": "Sale",
+    "bestseller": "Bestseller",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "viewAll": "View All",
+    "price": "EGP",
+    "categories": "Categories",
+    "sortBy": "Sort By",
+    "search": "Search...",
+    "filter": "Filter",
+    "clearAll": "Clear All"
+  }
+}

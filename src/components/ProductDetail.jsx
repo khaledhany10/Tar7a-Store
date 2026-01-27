@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 import { products } from '../data/products';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { language } = useLanguage();
   const product = products.find(p => p.id === parseInt(id));
   const [selectedColor, setSelectedColor] = useState(product?.colors[0] || {});
   const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || '');
@@ -14,9 +16,11 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="arabic-text text-2xl font-bold mb-4">المنتج غير موجود</h2>
-          <Link to="/" className="arabic-text text-primary hover:underline">
-            العودة إلى الرئيسية
+          <h2 className={`${language === 'ar' ? 'arabic-text' : ''} text-2xl font-bold mb-4`}>
+            {language === 'ar' ? 'المنتج غير موجود' : 'Product Not Found'}
+          </h2>
+          <Link to="/" className={`${language === 'ar' ? 'arabic-text' : ''} text-primary hover:underline`}>
+            {language === 'ar' ? 'العودة إلى الرئيسية' : 'Back to Home'}
           </Link>
         </div>
       </div>
@@ -24,52 +28,59 @@ const ProductDetail = () => {
   }
 
   const handleAddToCart = () => {
-    alert(`تم إضافة ${quantity} ${product.name} إلى سلة التسوق!`);
-    // في التطبيق الحقيقي، سيتم إرسال الأمر إلى Redux أو Context
+    alert(`${language === 'ar' ? 'تم إضافة' : 'Added'} ${quantity} ${language === 'ar' ? product.name_ar : product.name_en} ${language === 'ar' ? 'إلى سلة التسوق!' : 'to cart!'}`);
   };
 
   const handleBuyNow = () => {
-    alert(`المتابعة إلى الدفع مع ${quantity} ${product.name}`);
-    // في التطبيق الحقيقي، سيتم التوجيه إلى صفحة الدفع
+    alert(`${language === 'ar' ? 'المتابعة إلى الدفع مع' : 'Proceed to checkout with'} ${quantity} ${language === 'ar' ? product.name_ar : product.name_en}`);
   };
 
   // دالة لترجمة الفئات
   const translateCategory = (category) => {
     const translations = {
-      'Chiffon': 'شيفون',
-      'Jersey': 'جيرسي',
-      'Modal': 'مودال',
-      'Silk': 'حرير',
-      'Crinkle': 'كرينكل',
-      'Linen': 'كتان',
-      'Velvet': 'قطيفة',
-      'Georgette': 'جرجيت',
-      'Sale': 'خصم',
-      'New': 'جديد',
-      'Bestseller': 'الأكثر مبيعاً'
+      'Chiffon': language === 'ar' ? 'شيفون' : 'Chiffon',
+      'Jersey': language === 'ar' ? 'جيرسي' : 'Jersey',
+      'Modal': language === 'ar' ? 'مودال' : 'Modal',
+      'Silk': language === 'ar' ? 'حرير' : 'Silk',
+      'Crinkle': language === 'ar' ? 'كرينكل' : 'Crinkle',
+      'Linen': language === 'ar' ? 'كتان' : 'Linen',
+      'Velvet': language === 'ar' ? 'قطيفة' : 'Velvet',
+      'Georgette': language === 'ar' ? 'جرجيت' : 'Georgette',
+      'Sale': language === 'ar' ? 'خصم' : 'Sale',
+      'New': language === 'ar' ? 'جديد' : 'New',
+      'Bestseller': language === 'ar' ? 'الأكثر مبيعاً' : 'Bestseller'
     };
     return translations[category] || category;
   };
 
+  // تحديث بيانات المنتج لتشمل الأسماء بالعربية والإنجليزية
+  const productName = language === 'ar' ? product.name_ar || product.name : product.name_en || product.name;
+  const productDescription = language === 'ar' ? product.description_ar || product.description : product.description_en || product.description;
+  const fullDescription = language === 'ar' ? product.fullDescription_ar || product.fullDescription : product.fullDescription_en || product.fullDescription;
+
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark">
-      {/* مسار التنقل */}
+      {/* Breadcrumb */}
       <div className="container mx-auto px-6 py-8">
-        <nav className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-8">
-          <Link to="/" className="arabic-text hover:text-primary transition-colors">الرئيسية</Link>
+        <nav className={`flex items-center text-sm text-gray-600 dark:text-gray-400 mb-8 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+          <Link to="/" className={`${language === 'ar' ? 'arabic-text' : ''} hover:text-primary transition-colors`}>
+            {language === 'ar' ? 'الرئيسية' : 'Home'}
+          </Link>
           <span className="mx-2">/</span>
-          <Link to="/products" className="arabic-text hover:text-primary transition-colors">التسوق</Link>
+          <Link to="/products" className={`${language === 'ar' ? 'arabic-text' : ''} hover:text-primary transition-colors`}>
+            {language === 'ar' ? 'التسوق' : 'Shop'}
+          </Link>
           <span className="mx-2">/</span>
-          <span className="arabic-text text-gray-900 dark:text-white">{product.name}</span>
+          <span className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-900 dark:text-white`}>{productName}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* صور المنتج */}
+          {/* Product Images */}
           <div>
             <div className="rounded-3xl overflow-hidden mb-6">
               <img 
                 src={product.images[selectedImage]} 
-                alt={product.name}
+                alt={productName}
                 className="w-full h-auto object-cover aspect-square"
               />
             </div>
@@ -85,7 +96,7 @@ const ProductDetail = () => {
                 >
                   <img 
                     src={img} 
-                    alt={`${product.name} ${index + 1}`}
+                    alt={`${productName} ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </button>
@@ -93,18 +104,18 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* معلومات المنتج */}
+          {/* Product Information */}
           <div className="space-y-8">
             <div>
               {product.tag && (
-                <span className="arabic-text inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-primary/10 text-primary">
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-primary/10 text-primary`}>
                   {translateCategory(product.tag)}
                 </span>
               )}
               
-              <h1 className="arabic-text text-4xl font-bold mb-4 dark:text-white">{product.name}</h1>
+              <h1 className={`${language === 'ar' ? 'arabic-text' : ''} text-4xl font-bold mb-4 dark:text-white`}>{productName}</h1>
               
-              <div className="flex items-center gap-4 mb-4">
+              <div className={`flex items-center gap-4 mb-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className="flex items-center">
                   <div className="flex text-primary">
                     {[...Array(5)].map((_, i) => (
@@ -113,34 +124,38 @@ const ProductDetail = () => {
                       </span>
                     ))}
                   </div>
-                  <span className="arabic-text mr-2 text-gray-600 dark:text-gray-400">
-                    {product.rating} ({product.reviews} تقييم)
+                  <span className={`${language === 'ar' ? 'arabic-text mr-2' : 'ml-2'} text-gray-600 dark:text-gray-400`}>
+                    {product.rating} ({product.reviews} {language === 'ar' ? 'تقييم' : 'reviews'})
                   </span>
                 </div>
-                <span className={`arabic-text px-2 py-1 rounded text-xs font-bold ${product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                  {product.inStock ? 'متوفر' : 'نفذت الكمية'}
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} px-2 py-1 rounded text-xs font-bold ${product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  {product.inStock ? (language === 'ar' ? 'متوفر' : 'In Stock') : (language === 'ar' ? 'نفذت الكمية' : 'Out of Stock')}
                 </span>
               </div>
 
-              <div className="flex items-center gap-4 mb-6">
-                <span className="arabic-text text-3xl font-bold text-primary">{product.price}</span>
+              <div className={`flex items-center gap-4 mb-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-3xl font-bold text-primary`}>{product.price}</span>
                 {product.originalPrice && (
-                  <span className="arabic-text text-xl line-through text-gray-500">{product.originalPrice}</span>
+                  <span className={`${language === 'ar' ? 'arabic-text' : ''} text-xl line-through text-gray-500`}>{product.originalPrice}</span>
                 )}
               </div>
             </div>
 
-            {/* الوصف */}
+            {/* Description */}
             <div>
-              <h3 className="arabic-text text-lg font-bold mb-3 dark:text-white">الوصف</h3>
-              <p className="arabic-text text-gray-700 dark:text-gray-300 leading-relaxed">
-                {product.fullDescription}
+              <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-lg font-bold mb-3 dark:text-white`}>
+                {language === 'ar' ? 'الوصف' : 'Description'}
+              </h3>
+              <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-700 dark:text-gray-300 leading-relaxed`}>
+                {fullDescription}
               </p>
             </div>
 
-            {/* اختيار اللون */}
+            {/* Color Selection */}
             <div>
-              <h3 className="arabic-text text-lg font-bold mb-3 dark:text-white">اللون: <span className="font-normal">{selectedColor.name}</span></h3>
+              <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-lg font-bold mb-3 dark:text-white`}>
+                {language === 'ar' ? 'اللون:' : 'Color:'} <span className="font-normal">{selectedColor.name}</span>
+              </h3>
               <div className="flex gap-3">
                 {product.colors.map((color, index) => (
                   <button
@@ -156,15 +171,17 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* اختيار المقاس */}
+            {/* Size Selection */}
             <div>
-              <h3 className="arabic-text text-lg font-bold mb-3 dark:text-white">المقاس</h3>
+              <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-lg font-bold mb-3 dark:text-white`}>
+                {language === 'ar' ? 'المقاس' : 'Size'}
+              </h3>
               <div className="flex gap-3">
                 {product.sizes.map((size, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedSize(size)}
-                    className={`arabic-text px-6 py-3 rounded-lg border ${
+                    className={`${language === 'ar' ? 'arabic-text' : ''} px-6 py-3 rounded-lg border ${
                       selectedSize === size 
                         ? 'border-primary bg-primary/10 text-primary' 
                         : 'border-gray-300 hover:border-primary'
@@ -176,17 +193,19 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            {/* الكمية وإضافة إلى السلة */}
+            {/* Quantity and Add to Cart */}
             <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center border rounded-lg">
+              <div className={`flex items-center gap-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center border rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
                     <span className="material-symbols-outlined">remove</span>
                   </button>
-                  <span className="arabic-text px-6 py-3 text-lg font-medium">{quantity.toLocaleString('ar-EG')}</span>
+                  <span className={`${language === 'ar' ? 'arabic-text' : ''} px-6 py-3 text-lg font-medium`}>
+                    {quantity.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
+                  </span>
                   <button 
                     onClick={() => setQuantity(quantity + 1)}
                     className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -199,37 +218,44 @@ const ProductDetail = () => {
                   <button
                     onClick={handleAddToCart}
                     disabled={!product.inStock}
-                    className="arabic-text px-8 py-4 bg-primary text-white rounded-lg font-bold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`${language === 'ar' ? 'arabic-text' : ''} px-8 py-4 bg-primary text-white rounded-lg font-bold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    إضافة إلى السلة
+                    {language === 'ar' ? 'إضافة إلى السلة' : 'Add to Cart'}
                   </button>
                   <button
                     onClick={handleBuyNow}
                     disabled={!product.inStock}
-                    className="arabic-text px-8 py-4 bg-white dark:bg-gray-800 text-primary border-2 border-primary rounded-lg font-bold hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`${language === 'ar' ? 'arabic-text' : ''} px-8 py-4 bg-white dark:bg-gray-800 text-primary border-2 border-primary rounded-lg font-bold hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
                   >
-                    شراء الآن
+                    {language === 'ar' ? 'شراء الآن' : 'Buy Now'}
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* تفاصيل المنتج */}
+            {/* Product Details */}
             <div className="border-t pt-6 space-y-4">
-              <div className="flex justify-between">
-                <span className="arabic-text text-gray-600 dark:text-gray-400">النسيج</span>
-                <span className="arabic-text font-medium dark:text-white">{product.material}</span>
+              <div className={`flex justify-between ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
+                  {language === 'ar' ? 'النسيج' : 'Material'}
+                </span>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} font-medium dark:text-white`}>{product.material}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="arabic-text text-gray-600 dark:text-gray-400">تعليمات العناية</span>
-                <span className="arabic-text font-medium dark:text-white">{product.care}</span>
+              <div className={`flex justify-between ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
+                  {language === 'ar' ? 'تعليمات العناية' : 'Care Instructions'}
+                </span>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} font-medium dark:text-white`}>{product.care}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="arabic-text text-gray-600 dark:text-gray-400">الفئة</span>
-                <span className="arabic-text font-medium dark:text-white">{translateCategory(product.category)}</span>
+              <div className={`flex justify-between ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
+                  {language === 'ar' ? 'الفئة' : 'Category'}
+                </span>
+                <span className={`${language === 'ar' ? 'arabic-text' : ''} font-medium dark:text-white`}>
+                  {translateCategory(product.category)}
+                </span>
               </div>
             </div>
-
           </div>
         </div>
       </div>

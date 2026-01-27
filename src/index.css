@@ -92,3 +92,24 @@ body {
 img {
   @apply w-full h-full object-cover rounded-lg;
 }
+
+
+
+/* RTL/LTR Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="ltr"] {
+  text-align: left;
+}
+
+/* Arabic font support */
+.arabic-text {
+  font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+/* Smooth language transition */
+.transition-language {
+  transition: all 0.3s ease;
+}

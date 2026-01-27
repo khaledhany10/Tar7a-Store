@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 import { products, categories } from '../data/products';
 
 const AllProducts = () => {
   const location = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState('الكل');
+  const { language } = useLanguage();
+  const [selectedCategory, setSelectedCategory] = useState(language === 'ar' ? 'الكل' : 'All');
   const [sortBy, setSortBy] = useState('featured');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,26 +18,46 @@ const AllProducts = () => {
     const categoryParam = params.get('category');
     if (categoryParam) {
       setSelectedCategory(categoryParam);
-      setCurrentPage(1); // Reset to first page when category changes
+      setCurrentPage(1);
     }
   }, [location.search]);
 
   // Filter products based on selected category and search query
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'الكل' || product.category === selectedCategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    // التحقق من التصنيف
+    const categoryMatch = selectedCategory === (language === 'ar' ? 'الكل' : 'All') || 
+                          selectedCategory === 'All' || 
+                          product.category === selectedCategory ||
+                          (selectedCategory === 'عرض' && product.hasOffer === true);
+    
+    // إذا لم يكن هناك بحث، نرجع المنتجات المطابقة للتصنيف فقط
+    if (!searchQuery.trim()) return categoryMatch;
+    
+    // الحصول على اسم المنتج مع قيمة افتراضية
+    const productName = (language === 'ar' ? product.name : product.name) || '';
+    const productDescription = product.description || '';
+    const productCategory = product.category || '';
+    
+    // التحقق من البحث
+    const searchMatch = productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                       productDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                       productCategory.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return categoryMatch && searchMatch;
   });
 
   // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case 'price-low':
-        return parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', ''));
+        // تحويل السعر من "100EGP" إلى رقم
+        const priceA = parseFloat(a.price.replace('EGP', '').trim()) || 0;
+        const priceB = parseFloat(b.price.replace('EGP', '').trim()) || 0;
+        return priceA - priceB;
       case 'price-high':
-        return parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', ''));
+        const priceAHigh = parseFloat(a.price.replace('EGP', '').trim()) || 0;
+        const priceBHigh = parseFloat(b.price.replace('EGP', '').trim()) || 0;
+        return priceBHigh - priceAHigh;
       case 'rating':
         return b.rating - a.rating;
       case 'newest':
@@ -85,68 +107,59 @@ const AllProducts = () => {
 
   // Reset filters
   const resetFilters = () => {
-    setSelectedCategory('الكل');
+    setSelectedCategory(language === 'ar' ? 'الكل' : 'All');
     setSearchQuery('');
     setSortBy('featured');
     setCurrentPage(1);
   };
 
-  // Translate category names to Arabic
-  const translateCategoryToArabic = (category) => {
+  // Translate category names
+  const translateCategory = (category) => {
     const translations = {
-      'Chiffon': 'شيفون',
-      'Jersey': 'جيرسي',
-      'Modal': 'مودال',
-      'Silk': 'حرير',
-      'Crinkle': 'كرينكل',
-      'Linen': 'كتان',
-      'Velvet': 'قطيفة',
-      'Georgette': 'جرجيت',
-      'New': 'جديد',
-      'Sale': 'خصم',
-      'All': 'الكل',
-      'Featured': 'مميز'
+      'شيفون': language === 'ar' ? 'شيفون' : 'Chiffon',
+      'مودال': language === 'ar' ? 'مودال' : 'Modal',
+      'حرير': language === 'ar' ? 'حرير' : 'Silk',
+      'عرض': language === 'ar' ? 'عرض' : 'Offer',
+      'الكل': language === 'ar' ? 'الكل' : 'All',
+      'All': language === 'ar' ? 'الكل' : 'All'
     };
     return translations[category] || category;
   };
 
-  // Translate sort options to Arabic
+  // Translate sort options
   const translateSortOption = (value) => {
     const translations = {
-      'featured': 'المميزة',
-      'newest': 'الأحدث',
-      'rating': 'الأعلى تقييماً',
-      'price-low': 'السعر: منخفض إلى مرتفع',
-      'price-high': 'السعر: مرتفع إلى منخفض'
+      'featured': language === 'ar' ? 'المميزة' : 'Featured',
+      'newest': language === 'ar' ? 'الأحدث' : 'Newest',
+      'rating': language === 'ar' ? 'الأعلى تقييماً' : 'Highest Rated',
+      'price-low': language === 'ar' ? 'السعر: منخفض إلى مرتفع' : 'Price: Low to High',
+      'price-high': language === 'ar' ? 'السعر: مرتفع إلى منخفض' : 'Price: High to Low'
     };
     return translations[value] || value;
   };
 
-  // Translate tag names to Arabic
-  const translateTagToArabic = (tag) => {
-    const translations = {
-      'Sale': 'خصم',
-      'New': 'جديد',
-      'Bestseller': 'الأكثر مبيعاً',
-      'Eco': 'صديق للبيئة',
-      'Travel': 'سفر',
-      'Summer': 'صيفي',
-      'Winter': 'شتوي',
-      'Evening': 'مسائي',
-      'Set': 'مجموعة',
-      'Luxury': 'فاخر'
-    };
-    return translations[tag] || tag;
-  };
+  // Sort options
+  const sortOptions = [
+    { value: 'featured', label_ar: 'المميزة', label_en: 'Featured' },
+    { value: 'newest', label_ar: 'الأحدث', label_en: 'Newest' },
+    { value: 'rating', label_ar: 'الأعلى تقييماً', label_en: 'Highest Rated' },
+    { value: 'price-low', label_ar: 'السعر: منخفض إلى مرتفع', label_en: 'Price: Low to High' },
+    { value: 'price-high', label_ar: 'السعر: مرتفع إلى منخفض', label_en: 'Price: High to Low' }
+  ];
 
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary/10 to-peach-soft dark:from-primary/5 dark:to-background-dark py-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="arabic-text text-5xl font-bold mb-6 dark:text-white">تسوق جميع الحجابات</h1>
-          <p className="arabic-text text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            اكتشف مجموعتنا الكاملة من الحجابات المميزة بأنواع وألوان وتصاميم متنوعة.
+          <h1 className={`${language === 'ar' ? 'arabic-text' : ''} text-5xl font-bold mb-6 dark:text-white`}>
+            {language === 'ar' ? 'تسوق جميع الحجابات' : 'Shop All Hijabs'}
+          </h1>
+          <p className={`${language === 'ar' ? 'arabic-text' : ''} text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto`}>
+            {language === 'ar' 
+              ? 'اكتشف مجموعتنا الكاملة من الحجابات المميزة بأنواع وألوان وتصاميم متنوعة.'
+              : 'Discover our complete collection of premium hijabs in various fabrics, colors, and designs.'
+            }
           </p>
           
           {/* Search Bar */}
@@ -159,10 +172,14 @@ const AllProducts = () => {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                placeholder="ابحث عن الحجابات بالاسم، النسيج، أو اللون..."
-                className="arabic-text w-full px-6 py-4 rounded-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                placeholder={language === 'ar' 
+                  ? "ابحث عن الحجابات بالاسم، النسيج، أو اللون..."
+                  : "Search for hijabs by name, fabric, or color..."
+                }
+                className={`${language === 'ar' ? 'arabic-text' : ''} w-full px-6 py-4 rounded-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none`}
+                dir={language === 'ar' ? 'rtl' : 'ltr'}
               />
-              <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+              <button className={`absolute ${language === 'ar' ? 'left-3' : 'right-3'} top-1/2 transform -translate-y-1/2 text-gray-500`}>
                 <span className="material-symbols-outlined">search</span>
               </button>
             </div>
@@ -177,52 +194,50 @@ const AllProducts = () => {
             <div className="sticky top-24 space-y-8">
               {/* Categories */}
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="arabic-text text-xl font-bold dark:text-white">الفئات</h3>
-                  {(selectedCategory !== 'الكل' || searchQuery) && (
+                <div className={`flex justify-between items-center mb-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                  <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold dark:text-white`}>
+                    {language === 'ar' ? 'الفئات' : 'Categories'}
+                  </h3>
+                  {(selectedCategory !== (language === 'ar' ? 'الكل' : 'All') || searchQuery) && (
                     <button 
                       onClick={resetFilters}
-                      className="arabic-text text-sm text-primary hover:text-primary-dark transition-colors"
+                      className={`${language === 'ar' ? 'arabic-text' : ''} text-sm text-primary hover:text-primary-dark transition-colors`}
                     >
-                      مسح الكل
+                      {language === 'ar' ? 'مسح الكل' : 'Clear All'}
                     </button>
                   )}
                 </div>
                 <div className="space-y-2">
                   <button
                     onClick={() => {
-                      setSelectedCategory('الكل');
+                      setSelectedCategory(language === 'ar' ? 'الكل' : 'All');
                       setCurrentPage(1);
                     }}
-                    className={`arabic-text w-full text-right px-4 py-3 rounded-lg transition-colors ${
-                      selectedCategory === 'الكل'
+                    className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} w-full px-4 py-3 rounded-lg transition-colors flex justify-between items-center ${
+                      selectedCategory === (language === 'ar' ? 'الكل' : 'All') || selectedCategory === 'All'
                         ? 'bg-primary/10 text-primary font-bold'
                         : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                     }`}
                   >
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">{products.length}</span>
-                      <span>جميع المنتجات</span>
-                    </div>
+                    <span className="text-sm text-gray-500">{products.length}</span>
+                    <span>{language === 'ar' ? 'جميع المنتجات' : 'All Products'}</span>
                   </button>
                   
-                  {categories.filter(cat => cat.name !== 'All').map(category => (
+                  {categories.map(category => (
                     <button
                       key={category.id}
                       onClick={() => {
                         setSelectedCategory(category.name);
                         setCurrentPage(1);
                       }}
-                      className={`arabic-text w-full text-right px-4 py-3 rounded-lg transition-colors ${
+                      className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} w-full px-4 py-3 rounded-lg transition-colors flex justify-between items-center ${
                         selectedCategory === category.name
                           ? 'bg-primary/10 text-primary font-bold'
                           : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-500">{category.count}</span>
-                        <span>{translateCategoryToArabic(category.name)}</span>
-                      </div>
+                      <span className="text-sm text-gray-500">{category.count}</span>
+                      <span>{translateCategory(category.name)}</span>
                     </button>
                   ))}
                 </div>
@@ -230,43 +245,43 @@ const AllProducts = () => {
 
               {/* Sort By */}
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
-                <h3 className="arabic-text text-xl font-bold mb-6 dark:text-white">ترتيب حسب</h3>
+                <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold mb-6 dark:text-white`}>
+                  {language === 'ar' ? 'ترتيب حسب' : 'Sort By'}
+                </h3>
                 <div className="space-y-2">
-                  {[
-                    { value: 'featured', label: 'المميزة' },
-                    { value: 'newest', label: 'الأحدث' },
-                    { value: 'rating', label: 'الأعلى تقييماً' },
-                    { value: 'price-low', label: 'السعر: منخفض إلى مرتفع' },
-                    { value: 'price-high', label: 'السعر: مرتفع إلى منخفض' }
-                  ].map(option => (
+                  {sortOptions.map(option => (
                     <button
                       key={option.value}
                       onClick={() => {
                         setSortBy(option.value);
                         setCurrentPage(1);
                       }}
-                      className={`arabic-text w-full text-right px-4 py-3 rounded-lg transition-colors ${
+                      className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} w-full px-4 py-3 rounded-lg transition-colors ${
                         sortBy === option.value
                           ? 'bg-primary/10 text-primary font-bold'
                           : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
-                      {option.label}
+                      {language === 'ar' ? option.label_ar : option.label_en}
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Active Filters */}
-              {(selectedCategory !== 'الكل' || searchQuery) && (
+              {(selectedCategory !== (language === 'ar' ? 'الكل' : 'All') || searchQuery) && (
                 <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
-                  <h3 className="arabic-text text-xl font-bold mb-4 dark:text-white">الفلتر النشط</h3>
+                  <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold mb-4 dark:text-white`}>
+                    {language === 'ar' ? 'الفلتر النشط' : 'Active Filters'}
+                  </h3>
                   <div className="space-y-2">
-                    {selectedCategory !== 'الكل' && (
-                      <div className="flex items-center justify-between bg-primary/5 px-3 py-2 rounded-lg">
-                        <span className="arabic-text text-sm">الفئة: {translateCategoryToArabic(selectedCategory)}</span>
+                    {selectedCategory !== (language === 'ar' ? 'الكل' : 'All') && selectedCategory !== 'All' && (
+                      <div className={`flex items-center justify-between bg-primary/5 px-3 py-2 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                        <span className={`${language === 'ar' ? 'arabic-text' : ''} text-sm`}>
+                          {language === 'ar' ? 'الفئة:' : 'Category:'} {translateCategory(selectedCategory)}
+                        </span>
                         <button
-                          onClick={() => setSelectedCategory('الكل')}
+                          onClick={() => setSelectedCategory(language === 'ar' ? 'الكل' : 'All')}
                           className="text-gray-500 hover:text-gray-700"
                         >
                           <span className="material-symbols-outlined text-sm">close</span>
@@ -274,8 +289,10 @@ const AllProducts = () => {
                       </div>
                     )}
                     {searchQuery && (
-                      <div className="flex items-center justify-between bg-primary/5 px-3 py-2 rounded-lg">
-                        <span className="arabic-text text-sm">بحث: "{searchQuery}"</span>
+                      <div className={`flex items-center justify-between bg-primary/5 px-3 py-2 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                        <span className={`${language === 'ar' ? 'arabic-text' : ''} text-sm`}>
+                          {language === 'ar' ? 'بحث:' : 'Search:'} "{searchQuery}"
+                        </span>
                         <button
                           onClick={() => setSearchQuery('')}
                           className="text-gray-500 hover:text-gray-700"
@@ -290,22 +307,32 @@ const AllProducts = () => {
 
               {/* Quick Links */}
               <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
-                <h3 className="arabic-text text-xl font-bold mb-6 dark:text-white">روابط سريعة</h3>
+                <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold mb-6 dark:text-white`}>
+                  {language === 'ar' ? 'روابط سريعة' : 'Quick Links'}
+                </h3>
                 <div className="space-y-4">
-                  <Link to="/" className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-                    <span className="arabic-text">الرئيسية</span>
+                  <Link to="/" className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''} text-gray-700 dark:text-gray-300 hover:text-primary transition-colors`}>
+                    <span className={`${language === 'ar' ? 'arabic-text' : ''}`}>
+                      {language === 'ar' ? 'الرئيسية' : 'Home'}
+                    </span>
                     <span className="material-symbols-outlined">home</span>
                   </Link>
-                  <Link to="/products?category=Sale" className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-                    <span className="arabic-text">مجموعة الخصم</span>
+                  <Link to="/products?category=عرض" className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''} text-gray-700 dark:text-gray-300 hover:text-primary transition-colors`}>
+                    <span className={`${language === 'ar' ? 'arabic-text' : ''}`}>
+                      {language === 'ar' ? 'مجموعة العرض' : 'Offer Collection'}
+                    </span>
                     <span className="material-symbols-outlined">local_offer</span>
                   </Link>
-                  <Link to="/products?category=New" className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-                    <span className="arabic-text">الأكثر مبيعاً</span>
+                  <Link to="/products?category=شيفون" className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''} text-gray-700 dark:text-gray-300 hover:text-primary transition-colors`}>
+                    <span className={`${language === 'ar' ? 'arabic-text' : ''}`}>
+                      {language === 'ar' ? 'مجموعة الشيفون' : 'Chiffon Collection'}
+                    </span>
                     <span className="material-symbols-outlined">star</span>
                   </Link>
-                  <Link to="/contact" className="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-                    <span className="arabic-text">دعم العملاء</span>
+                  <Link to="/contact" className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''} text-gray-700 dark:text-gray-300 hover:text-primary transition-colors`}>
+                    <span className={`${language === 'ar' ? 'arabic-text' : ''}`}>
+                      {language === 'ar' ? 'دعم العملاء' : 'Customer Support'}
+                    </span>
                     <span className="material-symbols-outlined">support_agent</span>
                   </Link>
                 </div>
@@ -315,27 +342,33 @@ const AllProducts = () => {
 
           {/* Products Grid */}
           <div className="lg:w-3/4">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
               <div>
-                <h2 className="arabic-text text-2xl font-bold dark:text-white">
-                  {selectedCategory === 'الكل' ? 'جميع المنتجات' : translateCategoryToArabic(selectedCategory)}
-                  <span className="arabic-text text-lg font-normal text-gray-600 dark:text-gray-400 mr-2">
-                    ({sortedProducts.length} {sortedProducts.length === 1 ? 'منتج' : 'منتج'})
+                <h2 className={`${language === 'ar' ? 'arabic-text' : ''} text-2xl font-bold dark:text-white`}>
+                  {selectedCategory === (language === 'ar' ? 'الكل' : 'All') || selectedCategory === 'All' 
+                    ? (language === 'ar' ? 'جميع المنتجات' : 'All Products')
+                    : translateCategory(selectedCategory)}
+                  <span className={`${language === 'ar' ? 'arabic-text' : ''} text-lg font-normal text-gray-600 dark:text-gray-400 ${language === 'ar' ? 'mr-2' : 'ml-2'}`}>
+                    ({sortedProducts.length} {sortedProducts.length === 1 
+                      ? (language === 'ar' ? 'منتج' : 'product') 
+                      : (language === 'ar' ? 'منتجات' : 'products')})
                   </span>
                 </h2>
                 {searchQuery && (
-                  <p className="arabic-text text-gray-600 dark:text-gray-400 mt-1">
-                    نتائج البحث عن "{searchQuery}"
+                  <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400 mt-1`}>
+                    {language === 'ar' ? 'نتائج البحث عن' : 'Search results for'} "{searchQuery}"
                   </p>
                 )}
               </div>
               
-              <div className="flex items-center gap-4">
-                <div className="arabic-text text-gray-600 dark:text-gray-400 text-sm">
-                  صفحة {currentPage} من {totalPages}
+              <div className={`flex items-center gap-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400 text-sm`}>
+                  {language === 'ar' ? 'صفحة' : 'Page'} {currentPage} {language === 'ar' ? 'من' : 'of'} {totalPages}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="arabic-text text-gray-600 dark:text-gray-400">العرض:</span>
+                  <span className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
+                    {language === 'ar' ? 'العرض:' : 'View:'}
+                  </span>
                   <button className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700">
                     <span className="material-symbols-outlined">grid_view</span>
                   </button>
@@ -349,110 +382,113 @@ const AllProducts = () => {
             {currentProducts.length === 0 ? (
               <div className="text-center py-20">
                 <span className="material-symbols-outlined text-6xl text-gray-400 mb-4">search_off</span>
-                <h3 className="arabic-text text-2xl font-bold mb-2 dark:text-white">لم يتم العثور على منتجات</h3>
-                <p className="arabic-text text-gray-600 dark:text-gray-400 mb-6">حاول تعديل معايير البحث أو الفلتر</p>
+                <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-2xl font-bold mb-2 dark:text-white`}>
+                  {language === 'ar' ? 'لم يتم العثور على منتجات' : 'No Products Found'}
+                </h3>
+                <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400 mb-6`}>
+                  {language === 'ar' ? 'حاول تعديل معايير البحث أو الفلتر' : 'Try adjusting your search or filter criteria'}
+                </p>
                 <button
                   onClick={resetFilters}
-                  className="arabic-text px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                  className={`${language === 'ar' ? 'arabic-text' : ''} px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary-dark transition-colors`}
                 >
-                  مسح جميع الفلاتر
+                  {language === 'ar' ? 'مسح جميع الفلاتر' : 'Clear All Filters'}
                 </button>
               </div>
             ) : (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {currentProducts.map(product => (
-                    <div key={product.id} className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                      <Link to={`/product/${product.id}`}>
-                        <div className="relative aspect-square overflow-hidden">
-                          <img 
-                            src={product.image} 
-                            alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          {product.tag && (
-                            <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                              product.tag === 'Sale' 
-                                ? 'bg-primary text-white' 
-                                : product.tag === 'New' || product.tag === 'Bestseller'
-                                ? 'bg-green-500 text-white'
-                                : product.tag === 'Eco'
-                                ? 'bg-emerald-500 text-white'
-                                : 'bg-white/90 text-gray-800'
-                            }`}>
-                              <span className="arabic-text">{translateTagToArabic(product.tag)}</span>
-                            </div>
-                          )}
-                          
-                          {!product.inStock && (
-                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                              <span className="arabic-text text-white text-lg font-bold">نفذت الكمية</span>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="p-4">
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="arabic-text text-base font-bold dark:text-white group-hover:text-primary transition-colors line-clamp-1">
-                              {product.name}
-                            </h3>
-                            <div className="text-left">
-                              <span className="arabic-text text-lg font-bold text-primary">{product.price}</span>
-                              {product.originalPrice && (
-                                <div className="arabic-text text-xs line-through text-gray-500">{product.originalPrice}</div>
-                              )}
-                            </div>
-                          </div>
-
-                          <p className="arabic-text text-gray-600 dark:text-gray-400 text-xs mb-3 line-clamp-2">
-                            {product.description}
-                          </p>
-
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1">
-                              <div className="flex gap-0.5">
-                                {[...Array(5)].map((_, i) => (
-                                  <span key={i} className="material-symbols-outlined text-primary text-sm">
-                                    {i < Math.floor(product.rating) ? 'star' : 'star_half'}
-                                  </span>
-                                ))}
+                  {currentProducts.map(product => {
+                    const productName = product.name || '';
+                    
+                    return (
+                      <div key={product.id} className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                        <Link to={`/product/${product.id}`}>
+                          <div className="relative aspect-square overflow-hidden">
+                            <img 
+                              src={product.image || product.images?.[0] || '/img/default.jpeg'} 
+                              alt={productName}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                            
+                            {/* عرض علامة "عرض" إذا كان المنتج لديه عرض */}
+                            {product.hasOffer === true && (
+                              <div className={`absolute top-4 ${language === 'ar' ? 'right-4' : 'left-4'} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-primary text-white`}>
+                                <span className={`${language === 'ar' ? 'arabic-text' : ''}`}>
+                                  {language === 'ar' ? 'عرض' : 'Offer'}
+                                </span>
                               </div>
-                              <span className="arabic-text text-xs text-gray-600 dark:text-gray-400 mr-1">
-                                ({product.reviews})
-                              </span>
-                            </div>
-
-                            <div className="flex gap-1">
-                              {product.colors.slice(0, 3).map((color, index) => (
-                                <div 
-                                  key={index}
-                                  className="w-3 h-3 rounded-full border border-gray-300"
-                                  style={{ backgroundColor: color.value }}
-                                  title={color.name}
-                                />
-                              ))}
-                              {product.colors.length > 3 && (
-                                <div className="w-3 h-3 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-[8px]">
-                                  +{product.colors.length - 3}
-                                </div>
-                              )}
-                            </div>
+                            )}
+                            
+                            {!product.inStock && (
+                              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-white text-lg font-bold`}>
+                                  {language === 'ar' ? 'نفذت الكمية' : 'Out of Stock'}
+                                </span>
+                              </div>
+                            )}
                           </div>
 
-                          <button className="arabic-text w-full mt-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary-dark transition-colors opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            عرض التفاصيل
-                          </button>
-                        </div>
-                      </Link>
-                    </div>
-                  ))}
+                          <div className="p-4">
+                            <div className={`flex justify-between items-start mb-2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                              <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-base font-bold dark:text-white group-hover:text-primary transition-colors line-clamp-1`}>
+                                {productName}
+                              </h3>
+                              <div className={language === 'ar' ? 'text-left' : 'text-right'}>
+                                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-lg font-bold text-primary`}>{product.price}</span>
+                              </div>
+                            </div>
+
+                            <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400 text-xs mb-3 line-clamp-2`}>
+                              {product.description || ''}
+                            </p>
+
+                            <div className={`flex items-center justify-between ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                              <div className="flex items-center gap-1">
+                                <div className="flex gap-0.5">
+                                  {[...Array(5)].map((_, i) => (
+                                    <span key={i} className="material-symbols-outlined text-primary text-sm">
+                                      {i < Math.floor(product.rating || 0) ? 'star' : 'star_half'}
+                                    </span>
+                                  ))}
+                                </div>
+                                <span className={`${language === 'ar' ? 'arabic-text mr-1' : 'ml-1'} text-xs text-gray-600 dark:text-gray-400`}>
+                                  ({product.reviews || 0})
+                                </span>
+                              </div>
+
+                              <div className="flex gap-1">
+                                {(product.colors || []).slice(0, 3).map((color, index) => (
+                                  <div 
+                                    key={index}
+                                    className="w-3 h-3 rounded-full border border-gray-300"
+                                    style={{ backgroundColor: color.value || '#ccc' }}
+                                    title={color.name || 'لون'}
+                                  />
+                                ))}
+                                {(product.colors || []).length > 3 && (
+                                  <div className="w-3 h-3 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-[8px]">
+                                    +{(product.colors || []).length - 3}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <button className={`${language === 'ar' ? 'arabic-text' : ''} w-full mt-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary-dark transition-colors opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+                              {language === 'ar' ? 'عرض التفاصيل' : 'View Details'}
+                            </button>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-                    <div className="arabic-text text-sm text-gray-600 dark:text-gray-400">
-                      عرض {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, sortedProducts.length)} من {sortedProducts.length} منتج
+                    <div className={`${language === 'ar' ? 'arabic-text' : ''} text-sm text-gray-600 dark:text-gray-400`}>
+                      {language === 'ar' ? 'عرض' : 'Showing'} {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, sortedProducts.length)} {language === 'ar' ? 'من' : 'of'} {sortedProducts.length} {language === 'ar' ? 'منتج' : 'products'}
                     </div>
                     
                     <div className="flex items-center gap-2">
@@ -462,7 +498,9 @@ const AllProducts = () => {
                         disabled={currentPage === 1}
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <span className="material-symbols-outlined">chevron_right</span>
+                        <span className="material-symbols-outlined">
+                          {language === 'ar' ? 'chevron_right' : 'chevron_left'}
+                        </span>
                       </button>
                       
                       {/* First Page */}
@@ -470,9 +508,9 @@ const AllProducts = () => {
                         <>
                           <button
                             onClick={() => handlePageChange(1)}
-                            className="arabic-text w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                            className={`${language === 'ar' ? 'arabic-text' : ''} w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700`}
                           >
-                            ١
+                            {1}
                           </button>
                           {currentPage > 4 && (
                             <span className="px-2 text-gray-400">...</span>
@@ -485,13 +523,13 @@ const AllProducts = () => {
                         <button
                           key={page}
                           onClick={() => handlePageChange(page)}
-                          className={`arabic-text w-10 h-10 rounded-lg font-medium ${
+                          className={`${language === 'ar' ? 'arabic-text' : ''} w-10 h-10 rounded-lg font-medium ${
                             currentPage === page
                               ? 'bg-primary text-white'
                               : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                           }`}
                         >
-                          {page.toLocaleString('ar-EG')}
+                          {page.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
                         </button>
                       ))}
                       
@@ -503,9 +541,9 @@ const AllProducts = () => {
                           )}
                           <button
                             onClick={() => handlePageChange(totalPages)}
-                            className="arabic-text w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                            className={`${language === 'ar' ? 'arabic-text' : ''} w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700`}
                           >
-                            {totalPages.toLocaleString('ar-EG')}
+                            {totalPages.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
                           </button>
                         </>
                       )}
@@ -516,20 +554,25 @@ const AllProducts = () => {
                         disabled={currentPage === totalPages}
                         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <span className="material-symbols-outlined">chevron_left</span>
+                        <span className="material-symbols-outlined">
+                          {language === 'ar' ? 'chevron_left' : 'chevron_right'}
+                        </span>
                       </button>
                     </div>
                     
-                    <div className="flex items-center gap-2">
-                      <span className="arabic-text text-sm text-gray-600 dark:text-gray-400">اذهب إلى:</span>
+                    <div className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                      <span className={`${language === 'ar' ? 'arabic-text' : ''} text-sm text-gray-600 dark:text-gray-400`}>
+                        {language === 'ar' ? 'اذهب إلى:' : 'Go to:'}
+                      </span>
                       <select
                         value={currentPage}
                         onChange={(e) => handlePageChange(parseInt(e.target.value))}
-                        className="arabic-text px-3 py-1 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800"
+                        className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800`}
+                        dir={language === 'ar' ? 'rtl' : 'ltr'}
                       >
                         {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                           <option key={page} value={page}>
-                            صفحة {page.toLocaleString('ar-EG')}
+                            {language === 'ar' ? 'صفحة' : 'Page'} {page.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
                           </option>
                         ))}
                       </select>
