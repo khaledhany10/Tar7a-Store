@@ -34,7 +34,7 @@ const Header = () => {
           <img src={Logo} alt={t('header.shop', language)} />
         </div>
         <h2 className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-white text-2xl font-bold tracking-tight`}>
-          {language === 'ar' ? 'متجر طرحة' : 'Tar7a_Store'}
+          Tar7a_Store
         </h2>
       </Link>
       
@@ -56,36 +56,17 @@ const Header = () => {
         <Link to="/products" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
           {t('header.allProducts', language)}
         </Link>
+
         
-        <div className="relative group">
-          <button className={`flex items-center gap-1 ${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-            {t('header.fabrics', language)}
-            <span className="material-symbols-outlined text-base">expand_more</span>
-          </button>
-          <div className={`absolute top-full ${language === 'ar' ? 'left-0' : 'right-0'} mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50`}>
-            <Link to="/products?category=Chiffon" className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} block px-4 py-3 hover:bg-primary/10 hover:text-primary transition-colors`}>
-              {t('header.chiffon', language)}
-            </Link>
-            <Link to="/products?category=Silk" className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} block px-4 py-3 hover:bg-primary/10 hover:text-primary transition-colors`}>
-              {t('header.silk', language)}
-            </Link>
-            <Link to="/products?category=Jersey" className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} block px-4 py-3 hover:bg-primary/10 hover:text-primary transition-colors`}>
-              {t('header.jersey', language)}
-            </Link>
-            <Link to="/products?category=Modal" className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} block px-4 py-3 hover:bg-primary/10 hover:text-primary transition-colors`}>
-              {t('header.modal', language)}
-            </Link>
-          </div>
-        </div>
         
         <Link to="/achievements" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
           {t('header.achievements', language)}
         </Link>
         <Link to="/contact" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
           {t('header.contact', language)}
-        </Link>
-        <Link to="/products?category=Sale" className={`${language === 'ar' ? 'arabic-text' : ''} text-primary text-sm font-semibold hover:text-primary-dark transition-colors`}>
-          {t('header.sale', language)}
+        </Link> 
+        <Link to="/customize-order" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
+          {language === 'ar' ? 'طلب مخصص' : 'Custom Order'}
         </Link>
       </nav>
       
@@ -137,18 +118,6 @@ const Header = () => {
           )}
         </div>
         
-        {/* زر البحث */}
-        <button className="text-[#2d1a1e] dark:text-white p-2" title={t('header.search', language)}>
-          <span className="material-symbols-outlined">search</span>
-        </button>
-        
-        {/* سلة التسوق */}
-        <Link to="/cart" className="text-[#2d1a1e] dark:text-white p-2 relative" title={t('header.cart', language)}>
-          <span className="material-symbols-outlined">shopping_bag</span>
-          <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-            {language === 'ar' ? '٠' : '0'}
-          </span>
-        </Link>
       </div>
       
       {/* القائمة المتنقلة */}
@@ -161,23 +130,6 @@ const Header = () => {
             <Link to="/products" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
               {t('header.allProducts', language)}
             </Link>
-            <div className="space-y-2">
-              <div className={`${language === 'ar' ? 'arabic-text text-right' : ''} font-semibold text-sm text-gray-500 uppercase tracking-wider`}>
-                {t('header.fabrics', language)}
-              </div>
-              <Link to="/products?category=Chiffon" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 ${language === 'ar' ? 'pr-4' : 'pl-4'} hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-                {t('header.chiffon', language)}
-              </Link>
-              <Link to="/products?category=Silk" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 ${language === 'ar' ? 'pr-4' : 'pl-4'} hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-                {t('header.silk', language)}
-              </Link>
-              <Link to="/products?category=Jersey" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 ${language === 'ar' ? 'pr-4' : 'pl-4'} hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-                {t('header.jersey', language)}
-              </Link>
-              <Link to="/products?category=Modal" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 ${language === 'ar' ? 'pr-4' : 'pl-4'} hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-                {t('header.modal', language)}
-              </Link>
-            </div>
             <Link to="/achievements" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
               {t('header.achievements', language)}
             </Link>

@@ -61,12 +61,12 @@ export const products = [
   },
   {
     id: 3,
-    name: "رمادي أردواز مودال",
+    name: "رمادي أردواز شيفون",
     price: "100EGP",
     description: "صديق للبيئة • ناعم • يتدلى بشكل جميل",
-    fullDescription: "حجاب المودال الصديق للبيئة المصنوع من لب خشب الزان. ناعم بشكل لا يصدق بتدليه فاخر يشبه الجلد الثاني. اللون الرمادي الأردوازي أنيق ويعمل للمناسبات العادية والرسمية. مثالي للبشرة الحساسة.",
+    fullDescription: "حجاب الشيفون الصديق للبيئة المصنوع من مواد عضوية. ناعم بشكل لا يصدق بتدليه فاخر يشبه الجلد الثاني. اللون الرمادي الأردوازي أنيق ويعمل للمناسبات العادية والرسمية. مثالي للبشرة الحساسة.",
     image: "/img/3.jpeg",
-    category: "مودال",
+    category: "شيفون",
     bgColor: "bg-[#f0f0f0]",
     colors: [
       { name: "رمادي أردوازي", value: "#7d8285" },
@@ -74,7 +74,7 @@ export const products = [
       { name: "أزرق غبارى", value: "#a3b5c8" }
     ],
     sizes: ["(195*70)"],
-    material: "100% مودال (ألياف خشب الزان)",
+    material: "100% شيفون عضوي",
     care: "غسيل آلي لطيف، تنشيف على حبل، كي على حرارة متوسطة",
     rating: 4.7,
     reviews: 67,
@@ -84,10 +84,10 @@ export const products = [
   },
   {
     id: 4,
-    name: "وشاح حرير وردي خجول",
+    name: "وشاح شيفون وردي خجول",
     price: "100EGP",
-    description: "100% حرير نقي • لمعان أنيق",
-    fullDescription: "حجاب حرير فاخر 100% حرير نقي مع لمعان طبيعي جميل. اللون الوردي الخجول مناسب للجميع ويضيف لمسة أنيقة لأي زي. الحواف الملفوفة يدوياً والنسيج خفيف الوزن يجعل هذا عرضنا الأكثر فخامة.",
+    description: "100% شيفون نقي • لمعان أنيق",
+    fullDescription: "حجاب شيفون فاخر 100% شيفون نقي مع لمعان طبيعي جميل. اللون الوردي الخجول مناسب للجميع ويضيف لمسة أنيقة لأي زي. الحواف الملفوفة يدوياً والنسيج خفيف الوزن يجعل هذا عرضنا الأكثر فخامة.",
     image: "/img/4.jpeg",
     category: "شيفون",
     bgColor: "bg-[#fdf2f2]",
@@ -97,8 +97,8 @@ export const products = [
       { name: "وردي ذهبي", value: "#e6b8b2" }
     ],
     sizes: ["كبير (70x200سم)"],
-    material: "100% حرير توت",
-    care: "تنظيف جاف فقط أو غسل يدوي بمنظف خاص للحرير",
+    material: "100% شيفون توت",
+    care: "تنظيف جاف فقط أو غسل يدوي بمنظف خاص للشيفون",
     rating: 4.9,
     reviews: 203,
     inStock: true,
@@ -179,7 +179,7 @@ export const products = [
     name: "حجاب شيفون للمساء",
     price: "100EGP",
     description: "أنيق • متدفق • للمناسبات المسائية",
-    fullDescription: "حجاب جورجيت أنيق بتدليه جميل للمناسبات المسائية والمناسبات الخاصة. النسيج له شفافية خفيفة تلتقط الضوء بشكل جميل. مثالي لحفلات الزفاف، الحفلات، والفعاليات الرسمية.",
+    fullDescription: "حجاب شيفون أنيق بتدليه جميل للمناسبات المسائية والمناسبات الخاصة. النسيج له شفافية خفيفة تلتقط الضوء بشكل جميل. مثالي لحفلات الزفاف، الحفلات، والفعاليات الرسمية.",
     image: "/img/8.jpeg",
     category: "شيفون",
     bgColor: "bg-[#f9f3ff]",
@@ -268,19 +268,19 @@ export const products = [
   },
   {
     id: 12,
-    name: "حرير مطرز بالذهب",
+    name: "شيفون مطرز بالذهب",
     price: "100EGP",
     description: "مطرز يدوياً • فخم • للمناسبات الخاصة",
-    fullDescription: "حجاب حرير رائع مطرز يدوياً بتفاصيل خيوط ذهبية. كل قطعة فريدة وتستغرق ساعات من الحرفية الماهرة. مثالي لحفلات الزفاف، العيد، والاحتفالات الخاصة.",
+    fullDescription: "حجاب شيفون رائع مطرز يدوياً بتفاصيل خيوط ذهبية. كل قطعة فريدة وتستغرق ساعات من الحرفية الماهرة. مثالي لحفلات الزفاف، العيد، والاحتفالات الخاصة.",
     image: "/img/12.jpeg",
-    category: "حرير",
+    category: "شيفون",
     bgColor: "bg-[#fffaf0]",
     colors: [
       { name: "عاجي", value: "#fffaf0" },
       { name: "ذهبي", value: "#ffd700" }
     ],
     sizes: ["(195*70)"],
-    material: "100% حرير مع خيوط ذهبية",
+    material: "100% شيفون مع خيوط ذهبية",
     care: "تنظيف جاف فقط",
     rating: 4.9,
     reviews: 203,
@@ -292,20 +292,30 @@ export const products = [
 
 // إنشاء المزيد من المنتجات باستخدام الصور المتبقية
 for (let i = 13; i <= 20; i++) {
-  const categoriesList = ["شيفون"];
-  
-  const randomCategory = categoriesList[Math.floor(Math.random() * categoriesList.length)];
   // جعل نصف المنتجات عليها عرض والنصف الآخر بدون
   const hasOffer = i % 2 === 0;
   
+  const productNames = [
+    "شيفون كلاسيكي",
+    "شيفون أنيق",
+    "شيفون عصري",
+    "شيفون فاخر",
+    "شيفون خفيف",
+    "شيفون مريح",
+    "شيفون أنيق",
+    "شيفون مميز"
+  ];
+  
+  const randomNameIndex = (i - 13) % productNames.length;
+  
   products.push({
     id: i,
-    name: `مجموعة ${randomCategory} ${i}`,
+    name: `${productNames[randomNameIndex]} ${i}`,
     price: "100EGP",
     description: "جودة ممتازة • تدليه جميل • مريح",
-    fullDescription: `حجاب ${randomCategory.toLowerCase()} جميل مصنوع من مواد ممتازة. مثالي للارتداء اليومي بتناسب مريح وتدليه أنيق.`,
+    fullDescription: `حجاب شيفون جميل مصنوع من مواد ممتازة. مثالي للارتداء اليومي بتناسب مريح وتدليه أنيق.`,
     image: `/img/${i}.jpeg`,
-    category: randomCategory,
+    category: "شيفون",
     bgColor: "bg-[#f5f5f5]",
     colors: [
       { name: "كلاسيكي", value: "#f5f5f5" },
@@ -313,7 +323,7 @@ for (let i = 13; i <= 20; i++) {
       { name: "عصري", value: "#7d8285" }
     ],
     sizes: ["(195*70)"],
-    material: "نسيج ممتاز",
+    material: "نسيج شيفون ممتاز",
     care: "اتبع تعليمات العناية للحصول على أفضل النتائج",
     rating: 4.5 + Math.random() * 0.4,
     reviews: Math.floor(Math.random() * 100) + 20,
@@ -326,9 +336,7 @@ for (let i = 13; i <= 20; i++) {
 // حساب عدد المنتجات في كل فئة
 export const categories = [
   { id: 1, name: "شيفون", count: products.filter(p => p.category === "شيفون").length },
-  { id: 2, name: "مودال", count: products.filter(p => p.category === "مودال").length },
-  { id: 3, name: "حرير", count: products.filter(p => p.category === "حرير").length },
-  { id: 4, name: "عرض", count: products.filter(p => p.hasOffer === true).length }
+  { id: 2, name: "عرض", count: products.filter(p => p.hasOffer === true).length }
 ];
 
 // دالة لترجمة الفئات للعربية والإنجليزية
@@ -336,14 +344,10 @@ export const translateCategory = (category, language = 'ar') => {
   const translations = {
     'ar': {
       'شيفون': 'شيفون',
-      'مودال': 'مودال',
-      'حرير': 'حرير',
       'عرض': 'عرض'
     },
     'en': {
       'شيفون': 'Chiffon',
-      'مودال': 'Modal',
-      'حرير': 'Silk',
       'عرض': 'Offer'
     }
   };

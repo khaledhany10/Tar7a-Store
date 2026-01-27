@@ -12,7 +12,6 @@ export const translations = {
     "common.loading": "جاري التحميل...",
     
     // Header
-    "header.shop": "متجر طرحة",
     "header.home": "الرئيسية",
     "header.allProducts": "جميع المنتجات",
     "header.fabrics": "الأقمشة",

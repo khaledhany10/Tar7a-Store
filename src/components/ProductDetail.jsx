@@ -53,6 +53,19 @@ const ProductDetail = () => {
     return translations[category] || category;
   };
 
+  const handleOrderNow = (product) => {
+  const orderData = {
+    productName: language === 'ar' ? product.name : product.name,
+    productDescription: product.description || '',
+    productPrice: product.price || '100EGP',
+    productImage: product.image || product.images?.[0] || '',
+    timestamp: new Date().toISOString()
+  };
+  
+  localStorage.setItem('lastSelectedProduct', JSON.stringify(orderData));
+  window.location.href = '/order-form';
+};
+
   // تحديث بيانات المنتج لتشمل الأسماء بالعربية والإنجليزية
   const productName = language === 'ar' ? product.name_ar || product.name : product.name_en || product.name;
   const productDescription = language === 'ar' ? product.description_ar || product.description : product.description_en || product.description;
@@ -222,6 +235,13 @@ const ProductDetail = () => {
                   >
                     {language === 'ar' ? 'إضافة إلى السلة' : 'Add to Cart'}
                   </button>
+                  <button
+  onClick={() => handleOrderNow(product)}
+  className={`${language === 'ar' ? 'arabic-text' : ''} w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 mt-4`}
+>
+  <span className="material-symbols-outlined">assignment</span>
+  {language === 'ar' ? 'أطلب الآن عبر الاستمارة' : 'Order Now via Form'}
+</button>
                   <button
                     onClick={handleBuyNow}
                     disabled={!product.inStock}

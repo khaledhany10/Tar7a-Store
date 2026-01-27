@@ -113,3 +113,31 @@ img {
 .transition-language {
   transition: all 0.3s ease;
 }
+
+
+.font-arabic-heading {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.font-english-heading {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.font-arabic-body {
+  line-height: 1.8;
+}
+
+.font-english-body {
+  line-height: 1.6;
+}
+
+/* تحسين قرائية النصوص العربية */
+[lang="ar"] {
+  text-align: right;
+}
+
+[lang="en"] {
+  text-align: left;
+}

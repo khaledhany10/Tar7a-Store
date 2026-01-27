@@ -16,8 +16,17 @@ export default {
         "beige-card": "#faf7f4",
       },
       fontFamily: {
-        "display": ["Plus Jakarta Sans", "sans-serif"],
-        "arabic": ["Noto Sans Arabic", "sans-serif"]
+        // الخطوط الإنجليزية الحديثة
+        "english-body": ["Inter", "Poppins", "sans-serif"], // للنصوص الإنجليزية
+        "english-heading": ["Poppins", "Inter", "sans-serif"], // للعناوين الإنجليزية
+        
+        // الخطوط العربية الحديثة
+        "arabic-body": ["IBM Plex Sans Arabic", "Cairo", "sans-serif"], // للنصوص العربية
+        "arabic-heading": ["Cairo", "IBM Plex Sans Arabic", "sans-serif"], // للعناوين العربية
+        
+        // يمكنك الإبقاء على الخطوط القديمة للتوافق
+        "display": ["Poppins", "Inter", "sans-serif"],
+        "arabic": ["IBM Plex Sans Arabic", "Cairo", "sans-serif"]
       },
       borderRadius: {
         "lg": "0.5rem",

@@ -126,6 +126,19 @@ const AllProducts = () => {
     return translations[category] || category;
   };
 
+  const handleOrderClick = (product) => {
+  const orderData = {
+    productName: product.name || '',
+    productDescription: product.description || '',
+    productPrice: product.price || '100EGP',
+    productImage: product.image || product.images?.[0] || '/img/default.jpeg',
+    timestamp: new Date().toISOString()
+  };
+  
+  localStorage.setItem('lastSelectedProduct', JSON.stringify(orderData));
+  window.location.href = '/order-form';
+};
+
   // Translate sort options
   const translateSortOption = (value) => {
     const translations = {
@@ -479,6 +492,14 @@ const AllProducts = () => {
                             </button>
                           </div>
                         </Link>
+                        <button 
+  onClick={() => handleOrderClick(product)}
+  className={`${language === 'ar' ? 'arabic-text' : ''} w-full mt-2 py-2 bg-green-600 text-white rounded-lg text-sm font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-1`}
+>
+  <span className="material-symbols-outlined text-sm">shopping_cart</span>
+  {language === 'ar' ? 'أطلب الآن' : 'Order Now'}
+</button>
+                        
                       </div>
                     );
                   })}

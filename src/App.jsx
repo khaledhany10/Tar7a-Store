@@ -8,7 +8,8 @@ import Achievements from './components/Achievements';
 import AllProducts from './components/AllProducts';
 import Contact from './components/Contact';
 import ProductDetail from './components/ProductDetail';
-import Cart from './components/Cart';
+import CustomizeOrder from './components/CustomizeOrder'; // أضف هذا الاستيراد
+import OrderForm from './components/OrderForm';
 
 function App() {
   return (
@@ -21,10 +22,11 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/achievements" element={<Achievements />} />
-              <Route path="/cart" element={<Cart />} />
               <Route path="/products" element={<AllProducts />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/customize-order" element={<CustomizeOrder />} /> {/* أضف هذا المسار */}
+              <Route path="/order-form" element={<OrderForm />} />
               {/* يمكنك إضافة مسارات أخرى هنا */}
             </Routes>
           </main>
