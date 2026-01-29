@@ -54,7 +54,7 @@ export const products = [
   {
     id: 2,
     name: "شوفان جيرسي ممتاز",
-    price: "100EGP",
+    price: "130EGP",
     description: "مطاط • قابل للتنفس • غير منزلق",
     fullDescription: "مصنوع من مزيج قطني جيرسي ممتاز يوفر مطاطية مثالية واستعادة الشكل. النسيج غير المنزلق يضمن بقاءه في مكانه طوال اليوم دون دبابيس. مثالي لأسلوب الحياة النشط، العمل، أو إنجاز المهام. اللون الشوفاني محايد متناسق مع كل شيء.",
     image: "/img/Shefon print/Shefon print 1.jpeg",
@@ -102,7 +102,7 @@ export const products = [
   {
     id: 4,
     name: "وشاح شيفون وردي خجول",
-    price: "100EGP",
+    price: "130EGP",
     description: "100% شيفون نقي • لمعان أنيق",
     fullDescription: "حجاب شيفون فاخر 100% شيفون نقي مع لمعان طبيعي جميل. اللون الوردي الخجول مناسب للجميع ويضيف لمسة أنيقة لأي زي. الحواف الملفوفة يدوياً والنسيج خفيف الوزن يجعل هذا عرضنا الأكثر فخامة.",
     image: "/img/Shefon print/Shefon print 2.jpeg",
@@ -150,7 +150,7 @@ export const products = [
   {
     id: 6,
     name: "مزيج شيفون قطني",
-    price: "100EGP",
+    price: "130EGP",
     description: "قابل للتنفس • طبيعي • نسيج مجعد",
     fullDescription: "مزيج مثالي من القطن والكتان لأقصى قدر من التنفس. النسيج المجعد الطبيعي يضيف شخصية والنسيج يصبح أكثر نعومة مع كل غسلة. مثالي للصيف والمناخات الدافئة.",
     image: "/img/Shefon print/Shefon print 3.jpeg",
@@ -198,7 +198,7 @@ export const products = [
   {
     id: 8,
     name: "حجاب شيفون للمساء",
-    price: "100EGP",
+    price: "130EGP",
     description: "أنيق • متدفق • للمناسبات المسائية",
     fullDescription: "حجاب شيفون أنيق بتدليه جميل للمناسبات المسائية والمناسبات الخاصة. النسيج له شفافية خفيفة تلتقط الضوء بشكل جميل. مثالي لحفلات الزفاف، الحفلات، والفعاليات الرسمية.",
     image: "/img/Shefon print/Shefon print 4.jpeg",
@@ -246,7 +246,7 @@ export const products = [
   {
     id: 10,
     name: "حجاب شيفون بامبو",
-    price: "100EGP",
+    price: "130EGP",
     description: "مستدام • ناعم للغاية • مضاد للبكتيريا",
     fullDescription: "مصنوع من ألياف البامبو المستدامة، هذا الحجاب الشيفون ناعم للغاية وله خصائص مضادة للبكتيريا طبيعية. مثالي للبشرة الحساسة والمتسوقات الواعيات بيئياً.",
     image: "/img/Shefon print/Shefon print 5.jpeg",
@@ -294,7 +294,7 @@ export const products = [
   {
     id: 12,
     name: "شيفون مطرز بالذهب",
-    price: "100EGP",
+    price: "130EGP",
     description: "مطرز يدوياً • فخم • للمناسبات الخاصة",
     fullDescription: "حجاب شيفون رائع مطرز يدوياً بتفاصيل خيوط ذهبية. كل قطعة فريدة وتستغرق ساعات من الحرفية الماهرة. مثالي لحفلات الزفاف، العيد، والاحتفالات الخاصة.",
     image: "/img/Shefon print/Shefon print 6.jpeg",
@@ -320,6 +320,7 @@ export const products = [
 for (let i = 13; i <= 20; i++) {
   const hasOffer = i % 2 === 0;
   const isSada = i % 2 !== 0; // المنتجات الفردية Sada، الزوجية Print
+  const price = isSada ? "100EGP" : "130EGP";
   
   const productNames = [
     "شيفون كلاسيكي",
@@ -338,7 +339,7 @@ for (let i = 13; i <= 20; i++) {
   products.push({
     id: i,
     name: `${productNames[randomNameIndex]} ${i}`,
-    price: "100EGP",
+    price: price,
     description: "جودة ممتازة • تدليه جميل • مريح",
     fullDescription: `حجاب شيفون جميل مصنوع من مواد ممتازة. مثالي للارتداء اليومي بتناسب مريح وتدليه أنيق.`,
     image: isSada 
@@ -368,6 +369,7 @@ for (let i = 21; i <= 50; i++) {
   const hasOffer = i % 3 === 0;
   const isSada = i % 3 === 1;
   const isPrint = !isSada;
+  const price = isSada ? "100EGP" : "130EGP";
   
   const productNames = [
     "شيفون ربيعي",
@@ -386,7 +388,7 @@ for (let i = 21; i <= 50; i++) {
   products.push({
     id: i,
     name: `${productNames[randomNameIndex]} ${i}`,
-    price: i % 4 === 0 ? "120EGP" : "100EGP",
+    price: price,
     description: "جودة عالية • مريح للارتداء • أنيق",
     fullDescription: `حجاب شيفون مصنوع بدقة وعناية. يتميز بتدليه جميل وملمس ناعم يناسب جميع المناسبات.`,
     image: isSada 
@@ -453,4 +455,18 @@ export const filterProductsByType = (type) => {
     default:
       return products.filter(p => p.category === type);
   }
+};
+
+// دالة جديدة للحصول على السعر بناءً على نوع المنتج
+export const getProductPrice = (product) => {
+  return product.printed ? "130EGP" : "100EGP";
+};
+
+// دالة جديدة لتصفية المنتجات حسب السعر
+export const filterProductsByPrice = (min, max) => {
+  return products.filter(product => {
+    const priceStr = product.price.replace('EGP', '').trim();
+    const price = parseFloat(priceStr);
+    return price >= min && price <= max;
+  });
 };

@@ -362,52 +362,46 @@ const ProductDetail = () => {
             )}
 
             {/* Quantity and Actions */}
-            <div className="space-y-6">
-              {/* Quantity Selector */}
-              <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold dark:text-white`}>
-                  {language === 'ar' ? 'الكمية:' : 'Quantity:'}
-                </h3>
-                <div className={`flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                  <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <span className="material-symbols-outlined">remove</span>
-                  </button>
-                  <span className={`${language === 'ar' ? 'arabic-text' : ''} px-8 py-3 text-xl font-bold min-w-[80px] text-center dark:text-white`}>
-                    {quantity.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
-                  </span>
-                  <button 
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <span className="material-symbols-outlined">add</span>
-                  </button>
-                </div>
-              </div>
+      <div className="space-y-6">
+  {/* Row 1: Quantity and Order Button in same row */}
+  <div className={`flex flex-col md:flex-row gap-6 items-center ${language === 'ar' ? 'md:flex-row-reverse' : ''}`}>
+    {/* Quantity Selector */}
+    <div className={`flex items-center gap-4 w-full md:w-auto ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+      <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold dark:text-white whitespace-nowrap`}>
+        {language === 'ar' ? 'الكمية:' : 'Quantity:'}
+      </h3>
+      <div className={`flex items-center border-2 border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+        <button 
+          onClick={() => setQuantity(Math.max(1, quantity - 1))}
+          className="px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          <span className="material-symbols-outlined">remove</span>
+        </button>
+        <span className={`${language === 'ar' ? 'arabic-text' : ''} px-8 py-3 text-xl font-bold min-w-[80px] text-center dark:text-white`}>
+          {quantity.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
+        </span>
+        <button 
+          onClick={() => setQuantity(quantity + 1)}
+          className="px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          <span className="material-symbols-outlined">add</span>
+        </button>
+      </div>
+    </div>
 
-              {/* Action Buttons */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!product.inStock}
-                  className={`${language === 'ar' ? 'arabic-text' : ''} px-8 py-4 bg-gradient-to-r from-primary to-purple-600 text-white rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
-                >
-                  <span className="material-symbols-outlined">shopping_cart</span>
-                  {language === 'ar' ? 'إضافة إلى السلة' : 'Add to Cart'}
-                </button>
-                
-                <button
-                  onClick={handleOrderNow}
-                  disabled={!product.inStock}
-                  className={`${language === 'ar' ? 'arabic-text' : ''} px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
-                >
-                  <span className="material-symbols-outlined">assignment</span>
-                  {language === 'ar' ? 'أطلب الآن عبر الاستمارة' : 'Order Now via Form'}
-                </button>
-              </div>
-            </div>
+    {/* Order Button - Takes remaining space */}
+    <div className="w-full md:flex-1">
+      <button
+        onClick={handleOrderNow}
+        disabled={!product.inStock}
+        className={`${language === 'ar' ? 'arabic-text' : ''} w-full px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
+      >
+        <span className="material-symbols-outlined">assignment</span>
+        {language === 'ar' ? 'أطلب الآن عبر الاستمارة' : 'Order Now via Form'}
+      </button>
+    </div>
+  </div>
+</div>
 
             {/* Product Details */}
             <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 space-y-6">

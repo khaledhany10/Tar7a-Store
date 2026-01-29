@@ -97,25 +97,6 @@ const ImageGallery = () => {
         </div>
 
         <div className="relative mb-8">
-          {/* الصورة الرئيسية */}
-          <div className="relative aspect-[4/5] md:aspect-[3/4] lg:aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl">
-            <img 
-              src={getImagePath(images[currentIndex])}
-              alt={`${language === 'ar' ? 'صورة المنتج' : 'Product image'} ${currentIndex + 1}`}
-              className="w-full h-full object-cover"
-            />
-            
-            {/* شارة نوع المنتج */}
-            <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute top-6 ${language === 'ar' ? 'right-6' : 'left-6'} bg-black/70 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm`}>
-              {language === 'ar' ? images[currentIndex].type : (images[currentIndex].type === 'سادة' ? 'Plain' : 'Printed')}
-            </div>
-            
-            {/* عداد الصور */}
-            <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute top-6 ${language === 'ar' ? 'left-6' : 'right-6'} bg-black/70 text-white px-4 py-2 rounded-full text-sm font-medium`}>
-              {currentIndex + 1} / {totalImages}
-            </div>
-          </div>
-
           {/* أزرار التنقل */}
           <button
             onClick={nextImage}

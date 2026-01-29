@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Achievements from './components/Achievements';
 import AllProducts from './components/AllProducts';
-import Contact from './components/Contact';
+import AboutUs from './components/AboutUs';
 import ProductDetail from './components/ProductDetail';
 import CustomizeOrder from './components/CustomizeOrder'; // أضف هذا الاستيراد
 import OrderForm from './components/OrderForm';
@@ -24,7 +24,7 @@ function App() {
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/products" element={<AllProducts />} />
               <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/AboutUs" element={<AboutUs />} />
               <Route path="/customize-order" element={<CustomizeOrder />} /> {/* أضف هذا المسار */}
               <Route path="/order-form" element={<OrderForm />} />
               {/* يمكنك إضافة مسارات أخرى هنا */}

@@ -62,8 +62,8 @@ const Header = () => {
         <Link to="/achievements" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
           {t('header.achievements', language)}
         </Link>
-        <Link to="/contact" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-          {t('header.contact', language)}
+        <Link to="/AboutUs" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
+          {t('AboutUs', language)}
         </Link> 
         <Link to="/customize-order" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
           {language === 'ar' ? 'طلب مخصص' : 'Custom Order'}
@@ -133,8 +133,8 @@ const Header = () => {
             <Link to="/achievements" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
               {t('header.achievements', language)}
             </Link>
-            <Link to="/contact" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-              {t('header.contact', language)}
+            <Link to="/AboutUs" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
+              {t('AboutUs', language)}
             </Link>
             <Link to="/products?category=Sale" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 text-primary font-semibold`} onClick={() => setIsMenuOpen(false)}>
               {t('header.sale', language)}

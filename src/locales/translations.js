@@ -86,7 +86,7 @@ export const translations = {
     "newsletter.weekly": "نشرة إخبارية أسبوعية • يمكنك إلغاء الاشتراك في أي وقت",
     "newsletter.success": "شكرًا لك! تم الاشتراك بنجاح.",
     
-    // Contact (بالإضافة لما تم إضافته سابقاً)
+    // Contact
     "contact.title": "تواصل معنا",
     "contact.subtitle": "لديك أسئلة؟ نحن هنا لمساعدتك! تواصل مع فريقنا لأي استفسارات حول المنتجات أو الطلبات أو الشراكات.",
     "contact.contactInfo": "معلومات الاتصال",
@@ -152,7 +152,53 @@ export const translations = {
     "productDetail.category": "الفئة",
     "productDetail.reviews": "تقييم",
     
-    // وغيرها الكثير...
+    // Achievements
+    "achievements.title": "إنجازاتنا",
+    "achievements.subtitle": "رحلة نجاحنا في تمكين المرأة المسلمة من خلال الموضة المحتشمة",
+    "achievements.ctaTitle": "انضم إلى رحلتنا",
+    "achievements.ctaDescription": "كن جزءًا من مجتمعنا المتنامي وساهم في إعادة تعريف الموضة المحتشمة",
+    "achievements.ctaButton": "استكشف المنتجات",
+    
+    // Achievement items
+    "achievement.customer2024": "10,000 عميل مخلص",
+    "achievement.customer2024Desc": "تجاوزنا عتبة الـ 10,000 عميل راضٍ في جميع أنحاء العالم",
+    "achievement.award2023": "جائزة أفضل متجر إلكتروني",
+    "achievement.award2023Desc": "فوزنا بجائزة أفضل متجر إلكتروني للموضة المحتشمة في المنطقة",
+    "achievement.expansion2023": "التوسع إلى 50 دولة",
+    "achievement.expansion2023Desc": "وصلنا إلى 50 دولة جديدة مع شحن عالمي سريع",
+    "achievement.eco2022": "مبادرة الصديق للبيئة",
+    "achievement.eco2022Desc": "تحولنا إلى تغليف صديق للبيئة وعمليات مستدامة",
+    "achievement.community2022": "مبادرة مجتمعية",
+    "achievement.community2022Desc": "إطلاق برنامج تمكين المرأة من خلال ورش العمل والدورات التدريبية",
+    "achievement.launch2021": "إطلاق متجر طرحة",
+    "achievement.launch2021Desc": "بداية رحلتنا مع أول مجموعة من حجابات الشيفون",
+    
+    // Milestones
+    "milestones.uniqueDesigns": "تصاميم فريدة",
+    "milestones.fiveStarReviews": "تقييم 5 نجوم",
+    "milestones.countriesServed": "دولة نخدمها",
+    "milestones.satisfiedCustomers": "عميل راضٍ",
+    "milestones.fabricTypes": "نوع قماش",
+    "milestones.customerSupport": "دعم العملاء",
+    
+    // Team
+    "team.title": "فريقنا المتميز",
+    "team.subtitle": "فريق متخصص من المصممين والمهنيين الملتزمين بجودة المنتج ورضا العملاء",
+    "team.sara": "سارة أحمد",
+    "team.saraRole": "المصممة الرئيسية",
+    "team.saraDesc": "خبيرة في تصميم الحجابات مع خبرة 8 سنوات في صناعة الموضة المحتشمة",
+    "team.fatima": "فاطمة محمد",
+    "team.fatimaRole": "مديرة العمليات",
+    "team.fatimaDesc": "تضمن عمليات سلسة وجودة منتج متميزة ورضا عملاء مطلق",
+    "team.amena": "آمنة خالد",
+    "team.amenaRole": "خبيرة الجودة",
+    "team.amenaDesc": "تضمن أن كل منتج يلبي أعلى معايير الجودة والراحة",
+    
+    // Mission & Vision
+    "mission.title": "مهمتنا",
+    "mission.text": "تمكين المرأة المسلمة من خلال توفير حجابات عالية الجودة تجمع بين الأناقة والراحة والاحتشام، مع الالتزام بالاستدامة ورضا العملاء",
+    "vision.title": "رؤيتنا",
+    "vision.text": "أن نكون الوجهة الأولى عالميًا للموضة المحتشمة، ونصبح علامة تجارية معترف بها للجودة والابتكار في تصميم الحجابات"
   },
   
   en: {
@@ -307,6 +353,54 @@ export const translations = {
     "productDetail.care": "Care Instructions",
     "productDetail.category": "Category",
     "productDetail.reviews": "Reviews",
+    
+    // Achievements
+    "achievements.title": "Our Achievements",
+    "achievements.subtitle": "Our journey of success in empowering Muslim women through modest fashion",
+    "achievements.ctaTitle": "Join Our Journey",
+    "achievements.ctaDescription": "Be part of our growing community and contribute to redefining modest fashion",
+    "achievements.ctaButton": "Explore Products",
+    
+    // Achievement items
+    "achievement.customer2024": "10,000 Loyal Customers",
+    "achievement.customer2024Desc": "We surpassed 10,000 satisfied customers worldwide",
+    "achievement.award2023": "Best E-commerce Store Award",
+    "achievement.award2023Desc": "Won the Best E-commerce Store for Modest Fashion award in the region",
+    "achievement.expansion2023": "Expansion to 50 Countries",
+    "achievement.expansion2023Desc": "Reached 50 new countries with fast global shipping",
+    "achievement.eco2022": "Eco-Friendly Initiative",
+    "achievement.eco2022Desc": "Transitioned to eco-friendly packaging and sustainable operations",
+    "achievement.community2022": "Community Initiative",
+    "achievement.community2022Desc": "Launched women empowerment program through workshops and training",
+    "achievement.launch2021": "Tar7a Store Launch",
+    "achievement.launch2021Desc": "The beginning of our journey with the first chiffon hijab collection",
+    
+    // Milestones
+    "milestones.uniqueDesigns": "Unique Designs",
+    "milestones.fiveStarReviews": "5-Star Reviews",
+    "milestones.countriesServed": "Countries Served",
+    "milestones.satisfiedCustomers": "Satisfied Customers",
+    "milestones.fabricTypes": "Fabric Types",
+    "milestones.customerSupport": "Customer Support",
+    
+    // Team
+    "team.title": "Our Distinguished Team",
+    "team.subtitle": "A dedicated team of designers and professionals committed to product quality and customer satisfaction",
+    "team.sara": "Sara Ahmed",
+    "team.saraRole": "Head Designer",
+    "team.saraDesc": "Expert in hijab design with 8 years experience in modest fashion industry",
+    "team.fatima": "Fatima Mohamed",
+    "team.fatimaRole": "Operations Manager",
+    "team.fatimaDesc": "Ensures smooth operations, premium product quality, and ultimate customer satisfaction",
+    "team.amena": "Amena Khaled",
+    "team.amenaRole": "Quality Expert",
+    "team.amenaDesc": "Ensures every product meets the highest standards of quality and comfort",
+    
+    // Mission & Vision
+    "mission.title": "Our Mission",
+    "mission.text": "Empowering Muslim women by providing high-quality hijabs that combine elegance, comfort, and modesty, while committing to sustainability and customer satisfaction",
+    "vision.title": "Our Vision",
+    "vision.text": "To become the leading global destination for modest fashion, recognized as a brand of quality and innovation in hijab design"
   }
 };
 

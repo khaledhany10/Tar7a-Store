@@ -110,12 +110,7 @@ const Testimonials = () => {
               {language === 'ar' ? 'متوسط التقييم' : 'Average Rating'}
             </div>
           </div>
-          <div>
-            <div className={`${language === 'ar' ? 'arabic-text' : ''} text-4xl font-bold text-primary mb-2`}>٥٠+</div>
-            <div className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
-              {language === 'ar' ? 'دولة يتم الشحن لها' : 'Shipping Countries'}
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
