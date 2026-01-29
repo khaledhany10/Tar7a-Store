@@ -1,3 +1,4 @@
+// translations.js
 export const translations = {
   ar: {
     // Common

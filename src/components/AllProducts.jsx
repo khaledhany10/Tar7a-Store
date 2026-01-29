@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { products } from '../data/products';
+import { t } from '../locales/translations';
 
 const AllProducts = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const AllProducts = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  const productsPerPage = 9;
+  const productsPerPage = 12; // زيادة عدد المنتجات في الصفحة لأن الكارد أصغر
 
   // Simulate loading
   useEffect(() => {
@@ -37,15 +38,35 @@ const AllProducts = () => {
     setCurrentPage(1);
   }, [location.search]);
 
-  // Categories
+  // Categories with translations
   const categories = useMemo(() => [
-    { id: 'all', name_ar: 'الكل', name_en: 'All', count: products.length },
-    { id: 'sada', name_ar: 'شيفون سادة', name_en: 'Plain Chiffon', count: products.filter(p => p.printed === false).length },
-    { id: 'print', name_ar: 'شيفون مطبوع', name_en: 'Printed Chiffon', count: products.filter(p => p.printed === true).length },
-    { id: 'offer', name_ar: 'العروض', name_en: 'Offers', count: products.filter(p => p.hasOffer === true).length },
-  ], []);
+    { 
+      id: 'all', 
+      name_ar: t('header.allProducts', 'ar'), 
+      name_en: t('header.allProducts', 'en'), 
+      count: products.length 
+    },
+    { 
+      id: 'sada', 
+      name_ar: 'شيفون سادة', 
+      name_en: 'Plain Chiffon', 
+      count: products.filter(p => p.printed === false).length 
+    },
+    { 
+      id: 'print', 
+      name_ar: 'شيفون مطبوع', 
+      name_en: 'Printed Chiffon', 
+      count: products.filter(p => p.printed === true).length 
+    },
+    { 
+      id: 'offer', 
+      name_ar: t('header.sale', 'ar'), 
+      name_en: t('header.sale', 'en'), 
+      count: products.filter(p => p.hasOffer === true).length 
+    },
+  ], [language]);
 
-  // Sort options
+  // Sort options with translations
   const sortOptions = [
     { value: 'newest', label_ar: 'الأحدث أولاً', label_en: 'Newest First' },
     { value: 'rating', label_ar: 'الأعلى تقييماً', label_en: 'Highest Rated' },
@@ -86,12 +107,6 @@ const AllProducts = () => {
 
   // Filter products
   const filteredProducts = useMemo(() => {
-    console.log('Filtering products...', {
-      selectedCategory,
-      searchQuery,
-      totalProducts: products.length
-    });
-    
     return products.filter(product => {
       // Check category
       let categoryMatch = false;
@@ -133,7 +148,6 @@ const AllProducts = () => {
 
   // Sort products
   const sortedProducts = useMemo(() => {
-    console.log('Sorting products...', filteredProducts.length);
     return [...filteredProducts].sort((a, b) => {
       switch (sortBy) {
         case 'price-low':
@@ -160,9 +174,7 @@ const AllProducts = () => {
   const currentProducts = useMemo(() => {
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const result = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-    console.log('Current products:', result.length);
-    return result;
+    return sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   }, [sortedProducts, currentPage, productsPerPage]);
 
   // Calculate total pages
@@ -211,13 +223,13 @@ const AllProducts = () => {
 
   // Skeleton loader
   const SkeletonLoader = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[...Array(6)].map((_, index) => (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      {[...Array(10)].map((_, index) => (
         <div key={index} className="animate-pulse">
-          <div className="bg-gray-200 dark:bg-gray-700 rounded-2xl aspect-[3/4] mb-4"></div>
-          <div className="space-y-3">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+          <div className="bg-gray-200 dark:bg-gray-700 rounded-xl aspect-[3/4] mb-3"></div>
+          <div className="space-y-2">
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+            <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
           </div>
         </div>
       ))}
@@ -227,7 +239,7 @@ const AllProducts = () => {
   // SVG pattern
   const gridPattern = `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 20 0 L 0 0 0 20' fill='none' stroke='rgba(255,107,107,0.1)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23smallGrid)'/%3E%3C/svg%3E")`;
 
-  // Product Card Component
+  // Product Card Component - UPDATED SMALLER SIZE
   const ProductCard = ({ product }) => {
     const isHovered = hoveredProduct === product.id;
     const productImage = correctImagePath(getProductImage(product));
@@ -237,29 +249,30 @@ const AllProducts = () => {
         className="group relative"
         onMouseEnter={() => setHoveredProduct(product.id)}
         onMouseLeave={() => setHoveredProduct(null)}
+        dir={language === 'ar' ? 'rtl' : 'ltr'}
       >
-        <div className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${getProductBgClass(product)}`}>
+        <div className={`relative rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${getProductBgClass(product)}`}>
           <Link to={`/product/${product.id}`}>
             <div className="relative aspect-[3/4] overflow-hidden">
               <img 
                 src={productImage} 
                 alt={product.name}
-                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                 onError={(e) => {
                   e.target.src = '/default.jpeg';
                 }}
               />
               
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
               
-              <div className="absolute top-4 left-4 flex flex-col gap-2">
+              <div className={`absolute top-3 ${language === 'ar' ? 'right-3' : 'left-3'} flex flex-col gap-1.5`}>
                 {product.hasOffer && (
-                  <div className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg`}>
-                    {language === 'ar' ? 'عرض مميز' : 'Special Offer'}
+                  <div className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-purple-600 text-white shadow-md`}>
+                    {language === 'ar' ? 'عرض' : 'Offer'}
                   </div>
                 )}
                 
-                <div className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                <div className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                   product.printed 
                     ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' 
                     : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
@@ -268,83 +281,76 @@ const AllProducts = () => {
                 </div>
               </div>
 
-              <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex items-end justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-300 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                <div className="space-y-3 w-full">
-                  <button className={`${language === 'ar' ? 'arabic-text' : ''} w-full py-3 bg-white text-primary rounded-xl font-bold hover:bg-primary hover:text-white transition-all duration-300 transform hover:scale-105 active:scale-95`}>
-                    {language === 'ar' ? 'التفاصيل الكاملة' : 'View Full Details'}
-                  </button>
+              {/* Quick Action on Hover */}
+              <div className={`absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300`}>
+                <div className="bg-black/50 backdrop-blur-sm rounded-full p-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <span className="material-symbols-outlined text-white text-lg">
+                    visibility
+                  </span>
                 </div>
               </div>
             </div>
           </Link>
           
-          <div className="p-5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
-            <div className={`flex justify-between items-start mb-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <div>
-                <Link to={`/product/${product.id}`}>
-                  <h3 className={`${language === 'ar' ? 'arabic-text' : ''} font-bold text-lg mb-1 dark:text-white group-hover:text-primary transition-colors line-clamp-1`}>
-                    {product.name}
-                  </h3>
-                </Link>
-                <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400 text-sm line-clamp-2`}>
-                  {product.description}
-                </p>
-              </div>
-              <div className={language === 'ar' ? 'text-left' : 'text-right'}>
-                <span className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent`}>
-                  {product.price}
-                </span>
-              </div>
+          {/* Product Info */}
+          <div className="p-3 bg-white dark:bg-gray-800">
+            <div className="mb-2">
+              <Link to={`/product/${product.id}`}>
+                <h3 className="font-semibold text-sm mb-1 dark:text-white group-hover:text-primary transition-colors line-clamp-1">
+                  {product.name}
+                </h3>
+              </Link>
+              <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-1 mb-2">
+                {product.description}
+              </p>
             </div>
             
-            <div className={`flex items-center justify-between ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <div className="flex items-center gap-1">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="material-symbols-outlined text-primary text-sm">
-                      {i < Math.floor(product.rating || 0) ? 'star' : 'star_half'}
-                    </span>
-                  ))}
-                </div>
-                <span className={`${language === 'ar' ? 'arabic-text mr-1' : 'ml-1'} text-xs text-gray-600 dark:text-gray-400`}>
-                  ({product.reviews || 0})
-                </span>
-              </div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-base bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                {product.price}
+              </span>
               
-              <div className="flex -space-x-2">
-                {(product.colors || []).slice(0, 3).map((color, index) => (
-                  <div 
-                    key={index}
-                    className="w-6 h-6 rounded-full border-2 border-white shadow-lg transform hover:scale-125 transition-transform"
-                    style={{ backgroundColor: color.value || '#ccc' }}
-                    title={color.name || 'لون'}
-                  />
-                ))}
-                {(product.colors || []).length > 3 && (
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-xs shadow-lg">
-                    +{(product.colors || []).length - 3}
-                  </div>
-                )}
+              <div className="flex items-center gap-0.5">
+                <span className="material-symbols-outlined text-primary text-sm">
+                  star
+                </span>
+                <span className="text-xs text-gray-600 dark:text-gray-400">
+                  {product.rating || '4.5'}
+                </span>
               </div>
             </div>
             
+            {/* Colors Preview */}
+            <div className="flex items-center gap-1 mb-3">
+              {(product.colors || []).slice(0, 4).map((color, index) => (
+                <div 
+                  key={index}
+                  className="w-4 h-4 rounded-full border border-white shadow-sm"
+                  style={{ backgroundColor: color.value || '#ccc' }}
+                  title={color.name || 'Color'}
+                />
+              ))}
+              {(product.colors || []).length > 4 && (
+                <span className="text-[10px] text-gray-500">
+                  +{(product.colors || []).length - 4}
+                </span>
+              )}
+            </div>
+            
+            {/* Order Button */}
             <button 
               onClick={() => handleOrderClick(product)}
-              className={`${language === 'ar' ? 'arabic-text' : ''} mt-4 w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2`}
+              className="w-full py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-semibold rounded-lg hover:shadow-md transition-all duration-300 flex items-center justify-center gap-1"
             >
               <span className="material-symbols-outlined text-sm">shopping_cart</span>
               {language === 'ar' ? 'أطلب الآن' : 'Order Now'}
-              {product.hasOffer && (
-                <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
-                  {language === 'ar' ? 'خصم!' : 'Offer!'}
-                </span>
-              )}
             </button>
           </div>
         </div>
         
+        {/* Glow effect on hover */}
         {isHovered && (
-          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-2xl blur-xl opacity-50 -z-10"></div>
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-xl blur opacity-50 -z-10"></div>
         )}
       </div>
     );
@@ -383,19 +389,19 @@ const AllProducts = () => {
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
     return (
-      <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
+      <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className={`${language === 'ar' ? 'arabic-text' : ''} text-sm text-gray-600 dark:text-gray-400`}>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
             {language === 'ar' ? 'عرض' : 'Showing'} {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, sortedProducts.length)} {language === 'ar' ? 'من' : 'of'} {sortedProducts.length}
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
-              <span className="material-symbols-outlined">
+              <span className="material-symbols-outlined text-sm">
                 {language === 'ar' ? 'chevron_right' : 'chevron_left'}
               </span>
             </button>
@@ -404,9 +410,9 @@ const AllProducts = () => {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`w-10 h-10 rounded-xl font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${
+                className={`w-8 h-8 rounded-lg text-sm transition-all duration-300 ${
                   currentPage === page
-                    ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg'
+                    ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-md'
                     : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                 }`}
               >
@@ -417,9 +423,9 @@ const AllProducts = () => {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 active:scale-95"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
-              <span className="material-symbols-outlined">
+              <span className="material-symbols-outlined text-sm">
                 {language === 'ar' ? 'chevron_left' : 'chevron_right'}
               </span>
             </button>
@@ -429,7 +435,7 @@ const AllProducts = () => {
             <select
               value={currentPage}
               onChange={(e) => handlePageChange(parseInt(e.target.value))}
-              className={`${language === 'ar' ? 'arabic-text' : ''} px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 hover:shadow-md`}
+              className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 text-sm"
               dir={language === 'ar' ? 'rtl' : 'ltr'}
             >
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
@@ -447,17 +453,17 @@ const AllProducts = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-peach-soft/20 to-white dark:from-background-dark dark:via-background-dark dark:to-gray-900">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-primary/5 via-peach-soft/30 to-lavender-soft/30 dark:from-primary/10 dark:via-background-dark dark:to-gray-900 py-20 px-6">
+      <div className="relative overflow-hidden bg-gradient-to-r from-primary/5 via-peach-soft/30 to-lavender-soft/30 dark:from-primary/10 dark:via-background-dark dark:to-gray-900 py-16 px-6">
         <div className="absolute inset-0" style={{ backgroundImage: gridPattern, opacity: 0.3 }}></div>
         
         <div className="max-w-7xl mx-auto relative">
-          <div className="text-center mb-12">
-            <h1 className={`${language === 'ar' ? 'arabic-text' : ''} text-5xl md:text-6xl font-bold mb-6 dark:text-white`}>
+          <div className="text-center mb-10" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 dark:text-white">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
                 {language === 'ar' ? 'مجموعتنا الكاملة' : 'Our Complete Collection'}
               </span>
             </h1>
-            <p className={`${language === 'ar' ? 'arabic-text' : ''} text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto`}>
+            <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
               {language === 'ar' 
                 ? 'اكتشف عالم الأناقة والراحة مع مجموعتنا المتميزة من حجابات الشيفون'
                 : 'Discover a world of elegance and comfort with our premium collection of chiffon hijabs'
@@ -466,7 +472,7 @@ const AllProducts = () => {
           </div>
           
           {/* Search Bar */}
-          <div className="max-w-2xl mx-auto mb-12">
+          <div className="max-w-2xl mx-auto mb-10">
             <div className="relative group">
               <input
                 type="text"
@@ -476,53 +482,45 @@ const AllProducts = () => {
                   ? "🔍 ابحث عن حجاب أحلامك..."
                   : "🔍 Search for your dream hijab..."
                 }
-                className={`${language === 'ar' ? 'arabic-text' : ''} w-full px-6 py-5 rounded-2xl border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-4 focus:ring-primary/30 focus:border-primary outline-none shadow-lg shadow-primary/10 backdrop-blur-sm transition-all duration-300`}
+                className={`w-full px-5 py-4 rounded-xl border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none shadow-md backdrop-blur-sm transition-all duration-300`}
                 dir={language === 'ar' ? 'rtl' : 'ltr'}
               />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/10 to-purple-600/10 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Sticky Categories Bar */}
-      <div className="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className={`flex flex-col md:flex-row justify-between items-center gap-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-            {/* Categories Tabs */}
-            <div className="flex flex-wrap gap-2">
+      {/* Sticky Filters Bar */}
+      <div className="sticky top-0 z-20 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-3">
+          <div className={`flex flex-col md:flex-row justify-between items-center gap-3`}>
+            {/* Categories Tabs - Smaller */}
+            <div className="flex flex-wrap gap-1.5">
               {categories.map(category => (
                 <button
                   key={category.id}
                   onClick={() => handleCategoryChange(category.id)}
-                  className={`${language === 'ar' ? 'arabic-text' : ''} group relative px-5 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     selectedCategory === category.id
-                      ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg shadow-primary/30'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 shadow hover:shadow-md'
+                      ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-md'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
+                  dir={language === 'ar' ? 'rtl' : 'ltr'}
                 >
-                  <span className="relative z-10">
-                    {language === 'ar' ? category.name_ar : category.name_en}
-                    <span className={`${language === 'ar' ? 'mr-2' : 'ml-2'} text-xs opacity-70`}>
-                      ({category.count})
-                    </span>
+                  {language === 'ar' ? category.name_ar : category.name_en}
+                  <span className={`${language === 'ar' ? 'mr-1' : 'ml-1'} text-xs opacity-70`}>
+                    ({category.count})
                   </span>
-                  
-                  {selectedCategory === category.id && (
-                    <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-white rounded-full"></span>
-                  )}
-                  
-                  <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </button>
               ))}
             </div>
             
-            {/* Sort Dropdown */}
-            <div className="relative group">
+            {/* Sort Dropdown - Smaller */}
+            <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value)}
-                className={`${language === 'ar' ? 'arabic-text' : ''} appearance-none px-5 py-3 pr-10 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-300 hover:shadow-md cursor-pointer`}
+                className="appearance-none px-4 py-2 pr-8 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none transition-all duration-300 text-sm"
                 dir={language === 'ar' ? 'rtl' : 'ltr'}
               >
                 {sortOptions.map(option => (
@@ -531,8 +529,8 @@ const AllProducts = () => {
                   </option>
                 ))}
               </select>
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
-                <span className="material-symbols-outlined">expand_more</span>
+              <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
+                <span className="material-symbols-outlined text-sm">expand_more</span>
               </span>
             </div>
           </div>
@@ -540,19 +538,20 @@ const AllProducts = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Active Filters & Results */}
-        <div className={`flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-          <div className="space-y-2">
-            <h2 className={`${language === 'ar' ? 'arabic-text' : ''} text-2xl md:text-3xl font-bold dark:text-white`}>
+        <div className={`flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3`}>
+          <div className="space-y-1" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+            <h2 className="text-xl md:text-2xl font-bold dark:text-white">
               {selectedCategory === 'all' 
                 ? (language === 'ar' ? 'جميع التصميمات' : 'All Designs')
-                : categories.find(c => c.id === selectedCategory)?.name_ar || 
-                  categories.find(c => c.id === selectedCategory)?.name_en || ''}
+                : language === 'ar' 
+                  ? categories.find(c => c.id === selectedCategory)?.name_ar 
+                  : categories.find(c => c.id === selectedCategory)?.name_en}
             </h2>
             
             <div className="flex flex-wrap gap-2 items-center">
-              <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
                 {sortedProducts.length} {language === 'ar' ? 'تصميم متاح' : 'designs available'}
               </p>
               
@@ -561,9 +560,9 @@ const AllProducts = () => {
                   <span className="text-gray-400">•</span>
                   <button
                     onClick={handleResetFilters}
-                    className={`${language === 'ar' ? 'arabic-text' : ''} flex items-center gap-2 text-sm text-primary hover:text-primary-dark transition-colors group`}
+                    className="flex items-center gap-1 text-xs text-primary hover:text-primary-dark transition-colors"
                   >
-                    <span className="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform">close</span>
+                    <span className="material-symbols-outlined text-xs">close</span>
                     {language === 'ar' ? 'مسح الفلاتر' : 'Clear Filters'}
                   </button>
                 </>
@@ -572,7 +571,7 @@ const AllProducts = () => {
               {searchQuery && (
                 <>
                   <span className="text-gray-400">•</span>
-                  <span className={`${language === 'ar' ? 'arabic-text' : ''} text-sm bg-primary/10 text-primary px-3 py-1 rounded-full`}>
+                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                     "{searchQuery}"
                   </span>
                 </>
@@ -582,26 +581,26 @@ const AllProducts = () => {
           
           {/* Pagination Info */}
           {sortedProducts.length > 0 && (
-            <div className={`flex items-center gap-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <div className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400`}>
+            <div className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+              <div className="text-gray-600 dark:text-gray-400 text-sm">
                 {language === 'ar' ? 'صفحة' : 'Page'} {currentPage} {language === 'ar' ? 'من' : 'of'} {totalPages}
               </div>
             </div>
           )}
         </div>
 
-        {/* Products Grid */}
+        {/* Products Grid - UPDATED: More cards per row */}
         {isLoading ? (
           <SkeletonLoader />
         ) : currentProducts.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-primary/10 to-purple-600/10 rounded-full flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-primary">search_off</span>
+          <div className="text-center py-16" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-r from-primary/10 to-purple-600/10 rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-3xl text-primary">search_off</span>
             </div>
-            <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-2xl font-bold mb-2 dark:text-white`}>
+            <h3 className="text-xl font-bold mb-2 dark:text-white">
               {language === 'ar' ? 'لم نجد ما تبحث عنه' : "We couldn't find what you're looking for"}
             </h3>
-            <p className={`${language === 'ar' ? 'arabic-text' : ''} text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto`}>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto text-sm">
               {language === 'ar' 
                 ? 'حاول البحث بكلمات مختلفة أو تصفح الفئات الأخرى'
                 : 'Try searching with different words or browse other categories'
@@ -609,14 +608,15 @@ const AllProducts = () => {
             </p>
             <button
               onClick={handleResetFilters}
-              className={`${language === 'ar' ? 'arabic-text' : ''} px-6 py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all duration-300`}
+              className="px-5 py-2.5 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-medium hover:shadow-md transition-all duration-300 text-sm"
             >
               {language === 'ar' ? 'عرض جميع المنتجات' : 'View All Products'}
             </button>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Updated grid with more columns for smaller cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {currentProducts.map(product => (
                 <ProductCard
                   key={product.id}
