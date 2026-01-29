@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import Logo from "../../public/img/32.jpeg";
+import Logo from "../../public/Shefon print/Shefon print 14.jpeg";
 
 const Hero = () => {
   const { language } = useLanguage();

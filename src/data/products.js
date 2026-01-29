@@ -1,12 +1,26 @@
 // توليد أرقام عشوائية للصور لتنويع المنتجات
-const generateRandomImages = (baseNumber, count = 3) => {
+const generateRandomImages = (folder, baseNumber, count = 3) => {
   const images = [];
+  
   // استخدام الصورة الأساسية
-  images.push(`/img/${baseNumber}.jpeg`);
-  // إضافة صور إضافية بشكل عشوائي من المجموعة
+  if (folder === 'sada') {
+    images.push(`/img/Shefon Sada/Shefon Sada${baseNumber}.jpeg`);
+  } else {
+    images.push(`/img/Shefon print/Shefon print ${baseNumber}.jpeg`);
+  }
+  
+  // إضافة صور إضافية بشكل عشوائي
   for (let i = 1; i < count; i++) {
-    const randomImage = Math.floor(Math.random() * 68) + 1;
-    images.push(`/img/${randomImage}.jpeg`);
+    let randomImage;
+    if (folder === 'sada') {
+      // صور Sada من 1 إلى 6
+      randomImage = Math.floor(Math.random() * 6) + 1;
+      images.push(`/img/Shefon Sada/Shefon Sada${randomImage}.jpeg`);
+    } else {
+      // صور Print من 1 إلى 62
+      randomImage = Math.floor(Math.random() * 62) + 1;
+      images.push(`/img/Shefon print/Shefon print ${randomImage}.jpeg`);
+    }
   }
   return images;
 };
@@ -18,8 +32,9 @@ export const products = [
     price: "100EGP",
     description: "خفيف الوزن • منفوش • شبه شفاف",
     fullDescription: "حجاب الشيفون الممتاز المصنوع من 100% شيفون حرير. خفيف كالهواء بتدليه جميل يتحرك برشاقة معك. مثالي للارتداء اليومي والمناسبات الخاصة. اللون الوردي الكوارتزي الرقيق يلائم جميع درجات البشرة ويمكن تنسيقه بشكل أنيق أو بسيط.",
-    image: "/img/1.jpeg",
+    image: "/img/Shefon Sada/Shefon Sada1.jpeg",
     category: "شيفون",
+    printed: false,
     bgColor: "bg-[#f3e9e5]",
     colors: [
       { name: "كوارتز وردي", value: "#e5d5d5" },
@@ -33,8 +48,8 @@ export const products = [
     rating: 4.8,
     reviews: 124,
     inStock: true,
-    images: generateRandomImages(1),
-    hasOffer: true // عرض على هذا المنتج
+    images: generateRandomImages('sada', 1),
+    hasOffer: true
   },
   {
     id: 2,
@@ -42,8 +57,9 @@ export const products = [
     price: "100EGP",
     description: "مطاط • قابل للتنفس • غير منزلق",
     fullDescription: "مصنوع من مزيج قطني جيرسي ممتاز يوفر مطاطية مثالية واستعادة الشكل. النسيج غير المنزلق يضمن بقاءه في مكانه طوال اليوم دون دبابيس. مثالي لأسلوب الحياة النشط، العمل، أو إنجاز المهام. اللون الشوفاني محايد متناسق مع كل شيء.",
-    image: "/img/2.jpeg",
+    image: "/img/Shefon print/Shefon print 1.jpeg",
     category: "شيفون",
+    printed: true,
     bgColor: "bg-[#e9e4e0]",
     colors: [
       { name: "شوفان", value: "#d4c8be" },
@@ -56,8 +72,8 @@ export const products = [
     rating: 4.9,
     reviews: 89,
     inStock: true,
-    images: generateRandomImages(2),
-    hasOffer: false // لا يوجد عرض
+    images: generateRandomImages('print', 1),
+    hasOffer: false
   },
   {
     id: 3,
@@ -65,8 +81,9 @@ export const products = [
     price: "100EGP",
     description: "صديق للبيئة • ناعم • يتدلى بشكل جميل",
     fullDescription: "حجاب الشيفون الصديق للبيئة المصنوع من مواد عضوية. ناعم بشكل لا يصدق بتدليه فاخر يشبه الجلد الثاني. اللون الرمادي الأردوازي أنيق ويعمل للمناسبات العادية والرسمية. مثالي للبشرة الحساسة.",
-    image: "/img/3.jpeg",
+    image: "/img/Shefon Sada/Shefon Sada2.jpeg",
     category: "شيفون",
+    printed: false,
     bgColor: "bg-[#f0f0f0]",
     colors: [
       { name: "رمادي أردوازي", value: "#7d8285" },
@@ -79,8 +96,8 @@ export const products = [
     rating: 4.7,
     reviews: 67,
     inStock: true,
-    images: generateRandomImages(3),
-    hasOffer: true // عرض على هذا المنتج
+    images: generateRandomImages('sada', 2),
+    hasOffer: true
   },
   {
     id: 4,
@@ -88,8 +105,9 @@ export const products = [
     price: "100EGP",
     description: "100% شيفون نقي • لمعان أنيق",
     fullDescription: "حجاب شيفون فاخر 100% شيفون نقي مع لمعان طبيعي جميل. اللون الوردي الخجول مناسب للجميع ويضيف لمسة أنيقة لأي زي. الحواف الملفوفة يدوياً والنسيج خفيف الوزن يجعل هذا عرضنا الأكثر فخامة.",
-    image: "/img/4.jpeg",
+    image: "/img/Shefon print/Shefon print 2.jpeg",
     category: "شيفون",
+    printed: true,
     bgColor: "bg-[#fdf2f2]",
     colors: [
       { name: "وردي خجول", value: "#f9dbdb" },
@@ -102,8 +120,8 @@ export const products = [
     rating: 4.9,
     reviews: 203,
     inStock: true,
-    images: generateRandomImages(4),
-    hasOffer: false // لا يوجد عرض
+    images: generateRandomImages('print', 2),
+    hasOffer: false
   },
   {
     id: 5,
@@ -111,8 +129,9 @@ export const products = [
     price: "100EGP",
     description: "لا يحتاج كي • مناسب للسفر • سهل العناية",
     fullDescription: "نسيج كرينكل لا يحتاج إلى كي وهو مثالي للسفر. اللون الزمردي الجميل يترك انطباعاً بينما يجعل النسيج سهل العناية الحياة أبسط. رائع للمبتدئين والنساء المشغولات.",
-    image: "/img/5.jpeg",
+    image: "/img/Shefon Sada/Shefon Sada3.jpeg",
     category: "شيفون",
+    printed: false,
     bgColor: "bg-[#e8f5e9]",
     colors: [
       { name: "زمردي", value: "#50c878" },
@@ -125,8 +144,8 @@ export const products = [
     rating: 4.6,
     reviews: 56,
     inStock: true,
-    images: generateRandomImages(5),
-    hasOffer: true // عرض على هذا المنتج
+    images: generateRandomImages('sada', 3),
+    hasOffer: true
   },
   {
     id: 6,
@@ -134,8 +153,9 @@ export const products = [
     price: "100EGP",
     description: "قابل للتنفس • طبيعي • نسيج مجعد",
     fullDescription: "مزيج مثالي من القطن والكتان لأقصى قدر من التنفس. النسيج المجعد الطبيعي يضيف شخصية والنسيج يصبح أكثر نعومة مع كل غسلة. مثالي للصيف والمناخات الدافئة.",
-    image: "/img/6.jpeg",
+    image: "/img/Shefon print/Shefon print 3.jpeg",
     category: "شيفون",
+    printed: true,
     bgColor: "bg-[#f5f1e6]",
     colors: [
       { name: "طبيعي", value: "#f5f1e6" },
@@ -148,8 +168,8 @@ export const products = [
     rating: 4.5,
     reviews: 42,
     inStock: true,
-    images: generateRandomImages(6),
-    hasOffer: false // لا يوجد عرض
+    images: generateRandomImages('print', 3),
+    hasOffer: false
   },
   {
     id: 7,
@@ -157,8 +177,9 @@ export const products = [
     price: "100EGP",
     description: "دافئ • فاخر • أساسي شتوي",
     fullDescription: "حجاب مخمل مفروش مثالي للطقس البارد. يوفر الدفء دون الحجم وله ملمس فاخر. اللون العنابي العميق مثالي لموسم الأعياد والمناسبات الشتوية الخاصة.",
-    image: "/img/7.jpeg",
+    image: "/img/Shefon Sada/Shefon Sada4.jpeg",
     category: "شيفون",
+    printed: false,
     bgColor: "bg-[#f8e8e8]",
     colors: [
       { name: "عنابي", value: "#800020" },
@@ -171,8 +192,8 @@ export const products = [
     rating: 4.8,
     reviews: 78,
     inStock: true,
-    images: generateRandomImages(7),
-    hasOffer: true // عرض على هذا المنتج
+    images: generateRandomImages('sada', 4),
+    hasOffer: true
   },
   {
     id: 8,
@@ -180,8 +201,9 @@ export const products = [
     price: "100EGP",
     description: "أنيق • متدفق • للمناسبات المسائية",
     fullDescription: "حجاب شيفون أنيق بتدليه جميل للمناسبات المسائية والمناسبات الخاصة. النسيج له شفافية خفيفة تلتقط الضوء بشكل جميل. مثالي لحفلات الزفاف، الحفلات، والفعاليات الرسمية.",
-    image: "/img/8.jpeg",
+    image: "/img/Shefon print/Shefon print 4.jpeg",
     category: "شيفون",
+    printed: true,
     bgColor: "bg-[#f9f3ff]",
     colors: [
       { name: "ذهبي", value: "#ffd700" },
@@ -194,8 +216,8 @@ export const products = [
     rating: 4.7,
     reviews: 91,
     inStock: true,
-    images: generateRandomImages(8),
-    hasOffer: false // لا يوجد عرض
+    images: generateRandomImages('print', 4),
+    hasOffer: false
   },
   {
     id: 9,
@@ -203,8 +225,9 @@ export const products = [
     price: "100EGP",
     description: "باستيل ناعم • مجموعة 3 قطع • متنوعة",
     fullDescription: "مجموعة جميلة من ثلاثة حجاب شيفون بألوان الباستيل المتناسقة. مثالية لخلق مظاهر متعددة باستثمار بسيط. كل حجاب خفيف الوزن ويتدلى بشكل جميل.",
-    image: "/img/9.jpeg",
+    image: "/img/Shefon Sada/Shefon Sada5.jpeg",
     category: "شيفون",
+    printed: false,
     bgColor: "bg-[#f8f0f8]",
     colors: [
       { name: "لافندر", value: "#e6d4f7" },
@@ -217,8 +240,8 @@ export const products = [
     rating: 4.9,
     reviews: 145,
     inStock: true,
-    images: generateRandomImages(9),
-    hasOffer: true // عرض على هذا المنتج
+    images: generateRandomImages('sada', 5),
+    hasOffer: true
   },
   {
     id: 10,
@@ -226,8 +249,9 @@ export const products = [
     price: "100EGP",
     description: "مستدام • ناعم للغاية • مضاد للبكتيريا",
     fullDescription: "مصنوع من ألياف البامبو المستدامة، هذا الحجاب الشيفون ناعم للغاية وله خصائص مضادة للبكتيريا طبيعية. مثالي للبشرة الحساسة والمتسوقات الواعيات بيئياً.",
-    image: "/img/10.jpeg",
+    image: "/img/Shefon print/Shefon print 5.jpeg",
     category: "شيفون",
+    printed: true,
     bgColor: "bg-[#e8f5e9]",
     colors: [
       { name: "طبيعي", value: "#f5f1e6" },
@@ -240,8 +264,8 @@ export const products = [
     rating: 4.8,
     reviews: 67,
     inStock: true,
-    images: generateRandomImages(10),
-    hasOffer: false // لا يوجد عرض
+    images: generateRandomImages('print', 5),
+    hasOffer: false
   },
   {
     id: 11,
@@ -249,8 +273,9 @@ export const products = [
     price: "100EGP",
     description: "لون غني • شعور فاخر • قابل للتنفس",
     fullDescription: "حجاب شيفون أزرق ملكي عميق يترك انطباعاً. اللون الغني يتناسق بشكل جميل مع الملابس المحايدة ونسيج الشيفون يشعر بالفخامة على الجلد.",
-    image: "/img/11.jpeg",
+    image: "/img/Shefon Sada/Shefon Sada6.jpeg",
     category: "شيفون",
+    printed: false,
     bgColor: "bg-[#e8eaf6]",
     colors: [
       { name: "أزرق ملكي", value: "#4169e1" },
@@ -263,8 +288,8 @@ export const products = [
     rating: 4.6,
     reviews: 89,
     inStock: true,
-    images: generateRandomImages(11),
-    hasOffer: true // عرض على هذا المنتج
+    images: generateRandomImages('sada', 6),
+    hasOffer: true
   },
   {
     id: 12,
@@ -272,8 +297,9 @@ export const products = [
     price: "100EGP",
     description: "مطرز يدوياً • فخم • للمناسبات الخاصة",
     fullDescription: "حجاب شيفون رائع مطرز يدوياً بتفاصيل خيوط ذهبية. كل قطعة فريدة وتستغرق ساعات من الحرفية الماهرة. مثالي لحفلات الزفاف، العيد، والاحتفالات الخاصة.",
-    image: "/img/12.jpeg",
+    image: "/img/Shefon print/Shefon print 6.jpeg",
     category: "شيفون",
+    printed: true,
     bgColor: "bg-[#fffaf0]",
     colors: [
       { name: "عاجي", value: "#fffaf0" },
@@ -285,15 +311,15 @@ export const products = [
     rating: 4.9,
     reviews: 203,
     inStock: true,
-    images: generateRandomImages(12),
-    hasOffer: false // لا يوجد عرض
+    images: generateRandomImages('print', 6),
+    hasOffer: false
   }
 ];
 
 // إنشاء المزيد من المنتجات باستخدام الصور المتبقية
 for (let i = 13; i <= 20; i++) {
-  // جعل نصف المنتجات عليها عرض والنصف الآخر بدون
   const hasOffer = i % 2 === 0;
+  const isSada = i % 2 !== 0; // المنتجات الفردية Sada، الزوجية Print
   
   const productNames = [
     "شيفون كلاسيكي",
@@ -307,6 +333,7 @@ for (let i = 13; i <= 20; i++) {
   ];
   
   const randomNameIndex = (i - 13) % productNames.length;
+  const baseNumber = ((i - 13) % (isSada ? 6 : 62)) + 1;
   
   products.push({
     id: i,
@@ -314,8 +341,11 @@ for (let i = 13; i <= 20; i++) {
     price: "100EGP",
     description: "جودة ممتازة • تدليه جميل • مريح",
     fullDescription: `حجاب شيفون جميل مصنوع من مواد ممتازة. مثالي للارتداء اليومي بتناسب مريح وتدليه أنيق.`,
-    image: `/img/${i}.jpeg`,
+    image: isSada 
+      ? `/img/Shefon Sada/Shefon Sada${baseNumber}.jpeg`
+      : `/img/Shefon print/Shefon print ${baseNumber}.jpeg`,
     category: "شيفون",
+    printed: !isSada,
     bgColor: "bg-[#f5f5f5]",
     colors: [
       { name: "كلاسيكي", value: "#f5f5f5" },
@@ -328,7 +358,55 @@ for (let i = 13; i <= 20; i++) {
     rating: 4.5 + Math.random() * 0.4,
     reviews: Math.floor(Math.random() * 100) + 20,
     inStock: Math.random() > 0.1,
-    images: generateRandomImages(i),
+    images: generateRandomImages(isSada ? 'sada' : 'print', baseNumber),
+    hasOffer: hasOffer
+  });
+}
+
+// إنشاء المزيد من المنتجات لتغطية المزيد من الصور
+for (let i = 21; i <= 50; i++) {
+  const hasOffer = i % 3 === 0;
+  const isSada = i % 3 === 1;
+  const isPrint = !isSada;
+  
+  const productNames = [
+    "شيفون ربيعي",
+    "شيفون صيفي",
+    "شيفون خريفي",
+    "شيفون شتوي",
+    "شيفون نهاري",
+    "شيفون ليلي",
+    "شيفون رسمي",
+    "شيفون عادي"
+  ];
+  
+  const randomNameIndex = (i - 21) % productNames.length;
+  const baseNumber = ((i - 21) % (isSada ? 6 : 62)) + 1;
+  
+  products.push({
+    id: i,
+    name: `${productNames[randomNameIndex]} ${i}`,
+    price: i % 4 === 0 ? "120EGP" : "100EGP",
+    description: "جودة عالية • مريح للارتداء • أنيق",
+    fullDescription: `حجاب شيفون مصنوع بدقة وعناية. يتميز بتدليه جميل وملمس ناعم يناسب جميع المناسبات.`,
+    image: isSada 
+      ? `/img/Shefon Sada/Shefon Sada${baseNumber}.jpeg`
+      : `/img/Shefon print/Shefon print ${baseNumber}.jpeg`,
+    category: "شيفون",
+    printed: isPrint,
+    bgColor: isSada ? "bg-[#f0f8ff]" : "bg-[#fff0f5]",
+    colors: [
+      { name: "طبيعي", value: "#f5f5f5" },
+      { name: "فاتح", value: "#e8e8e8" },
+      { name: "غامق", value: "#a9a9a9" }
+    ],
+    sizes: ["(195*70)"],
+    material: "شيفون عالي الجودة",
+    care: "غسيل يدوي لطيف، تنشيف طبيعي",
+    rating: 4.3 + Math.random() * 0.5,
+    reviews: Math.floor(Math.random() * 80) + 10,
+    inStock: Math.random() > 0.05,
+    images: generateRandomImages(isSada ? 'sada' : 'print', baseNumber),
     hasOffer: hasOffer
   });
 }
@@ -336,7 +414,9 @@ for (let i = 13; i <= 20; i++) {
 // حساب عدد المنتجات في كل فئة
 export const categories = [
   { id: 1, name: "شيفون", count: products.filter(p => p.category === "شيفون").length },
-  { id: 2, name: "عرض", count: products.filter(p => p.hasOffer === true).length }
+  { id: 2, name: "عرض", count: products.filter(p => p.hasOffer === true).length },
+  { id: 3, name: "سادة", count: products.filter(p => p.printed === false).length },
+  { id: 4, name: "مطبوع", count: products.filter(p => p.printed === true).length }
 ];
 
 // دالة لترجمة الفئات للعربية والإنجليزية
@@ -344,13 +424,33 @@ export const translateCategory = (category, language = 'ar') => {
   const translations = {
     'ar': {
       'شيفون': 'شيفون',
-      'عرض': 'عرض'
+      'عرض': 'عرض',
+      'سادة': 'سادة',
+      'مطبوع': 'مطبوع'
     },
     'en': {
       'شيفون': 'Chiffon',
-      'عرض': 'Offer'
+      'عرض': 'Offer',
+      'سادة': 'Plain',
+      'مطبوع': 'Printed'
     }
   };
   
   return translations[language][category] || category;
+};
+
+// دالة لتصفية المنتجات حسب النوع
+export const filterProductsByType = (type) => {
+  switch(type) {
+    case 'all':
+      return products;
+    case 'sada':
+      return products.filter(p => p.printed === false);
+    case 'print':
+      return products.filter(p => p.printed === true);
+    case 'offer':
+      return products.filter(p => p.hasOffer === true);
+    default:
+      return products.filter(p => p.category === type);
+  }
 };

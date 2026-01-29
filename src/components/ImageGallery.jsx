@@ -1,18 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 
 const ImageGallery = () => {
-  const [currentImage, setCurrentImage] = useState(1);
-  const totalImages = 24;
   const { language } = useLanguage();
+  
+  // بيانات الصور - نجمع بين السادة والمطبوع
+  const images = [
+    // صور السادة (6 صور)
+    { id: 1, folder: 'sada', number: 1, type: 'سادة' },
+    { id: 2, folder: 'sada', number: 2, type: 'سادة' },
+    { id: 3, folder: 'sada', number: 3, type: 'سادة' },
+    { id: 4, folder: 'sada', number: 4, type: 'سادة' },
+    { id: 5, folder: 'sada', number: 5, type: 'سادة' },
+    { id: 6, folder: 'sada', number: 6, type: 'سادة' },
+    
+    // صور المطبوع (24 صورة من أصل 62 للتنوع)
+    { id: 7, folder: 'print', number: 1, type: 'مطبوع' },
+    { id: 8, folder: 'print', number: 2, type: 'مطبوع' },
+    { id: 9, folder: 'print', number: 3, type: 'مطبوع' },
+    { id: 10, folder: 'print', number: 4, type: 'مطبوع' },
+    { id: 11, folder: 'print', number: 5, type: 'مطبوع' },
+    { id: 12, folder: 'print', number: 6, type: 'مطبوع' },
+    { id: 13, folder: 'print', number: 7, type: 'مطبوع' },
+    { id: 14, folder: 'print', number: 8, type: 'مطبوع' },
+    { id: 15, folder: 'print', number: 9, type: 'مطبوع' },
+    { id: 16, folder: 'print', number: 10, type: 'مطبوع' },
+    { id: 17, folder: 'print', number: 11, type: 'مطبوع' },
+    { id: 18, folder: 'print', number: 12, type: 'مطبوع' },
+    { id: 19, folder: 'print', number: 13, type: 'مطبوع' },
+    { id: 20, folder: 'print', number: 14, type: 'مطبوع' },
+    { id: 21, folder: 'print', number: 15, type: 'مطبوع' },
+    { id: 22, folder: 'print', number: 16, type: 'مطبوع' },
+    { id: 23, folder: 'print', number: 17, type: 'مطبوع' },
+    { id: 24, folder: 'print', number: 18, type: 'مطبوع' },
+    { id: 25, folder: 'print', number: 19, type: 'مطبوع' },
+    { id: 26, folder: 'print', number: 20, type: 'مطبوع' },
+    { id: 27, folder: 'print', number: 21, type: 'مطبوع' },
+    { id: 28, folder: 'print', number: 22, type: 'مطبوع' },
+    { id: 29, folder: 'print', number: 23, type: 'مطبوع' },
+    { id: 30, folder: 'print', number: 24, type: 'مطبوع' },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const totalImages = images.length;
+  
+  // دالة للحصول على مسار الصورة
+  const getImagePath = (img) => {
+    if (img.folder === 'sada') {
+      return `/Shefon Sada/Shefon Sada${img.number}.jpeg`;
+    } else {
+      return `/Shefon print/Shefon print ${img.number}.jpeg`;
+    }
+  };
 
   const nextImage = () => {
-    setCurrentImage(prev => prev === totalImages ? 1 : prev + 1);
+    setCurrentIndex(prev => prev === totalImages - 1 ? 0 : prev + 1);
   };
 
   const prevImage = () => {
-    setCurrentImage(prev => prev === 1 ? totalImages : prev - 1);
+    setCurrentIndex(prev => prev === 0 ? totalImages - 1 : prev - 1);
+  };
+
+  // تغيير تلقائي للصورة كل 5 ثواني
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextImage();
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  // عرض 12 صورة مصغرة فقط
+  const getThumbnails = () => {
+    const thumbnails = [];
+    for (let i = 0; i < 12; i++) {
+      const index = (currentIndex + i) % totalImages;
+      thumbnails.push(images[index]);
+    }
+    return thumbnails;
   };
 
   return (
@@ -30,8 +96,27 @@ const ImageGallery = () => {
           </p>
         </div>
 
-        <div className="relative">
-          {/* Navigation Buttons */}
+        <div className="relative mb-8">
+          {/* الصورة الرئيسية */}
+          <div className="relative aspect-[4/5] md:aspect-[3/4] lg:aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl">
+            <img 
+              src={getImagePath(images[currentIndex])}
+              alt={`${language === 'ar' ? 'صورة المنتج' : 'Product image'} ${currentIndex + 1}`}
+              className="w-full h-full object-cover"
+            />
+            
+            {/* شارة نوع المنتج */}
+            <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute top-6 ${language === 'ar' ? 'right-6' : 'left-6'} bg-black/70 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm`}>
+              {language === 'ar' ? images[currentIndex].type : (images[currentIndex].type === 'سادة' ? 'Plain' : 'Printed')}
+            </div>
+            
+            {/* عداد الصور */}
+            <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute top-6 ${language === 'ar' ? 'left-6' : 'right-6'} bg-black/70 text-white px-4 py-2 rounded-full text-sm font-medium`}>
+              {currentIndex + 1} / {totalImages}
+            </div>
+          </div>
+
+          {/* أزرار التنقل */}
           <button
             onClick={nextImage}
             className={`absolute ${language === 'ar' ? 'right-4' : 'left-4'} top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors`}
@@ -49,42 +134,105 @@ const ImageGallery = () => {
               {language === 'ar' ? 'chevron_left' : 'chevron_right'}
             </span>
           </button>
+        </div>
 
-          {/* Image Counter */}
-          <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute top-6 ${language === 'ar' ? 'right-6' : 'left-6'} bg-black/70 text-white px-4 py-2 rounded-full text-sm font-medium`}>
-            {currentImage} / {totalImages}
+        {/* شبكة الصور المصغرة */}
+        <div className="mb-8">
+          <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-semibold mb-4 dark:text-white text-center`}>
+            {language === 'ar' ? 'تصفح سريع' : 'Quick Browse'}
+          </h3>
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-2">
+            {getThumbnails().map((img, index) => {
+              const isActive = images.findIndex(i => i.id === img.id) === currentIndex;
+              return (
+                <button
+                  key={img.id}
+                  onClick={() => {
+                    const foundIndex = images.findIndex(i => i.id === img.id);
+                    setCurrentIndex(foundIndex);
+                  }}
+                  className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                    isActive ? 'border-primary scale-105' : 'border-transparent hover:border-gray-300'
+                  } group`}
+                >
+                  <img 
+                    src={getImagePath(img)}
+                    alt={`${language === 'ar' ? 'صورة مصغرة' : 'Thumbnail'} ${img.number}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                  />
+                  {/* شارة مصغرة للنوع */}
+                  <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute bottom-1 right-1 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded`}>
+                    {language === 'ar' ? img.type.charAt(0) : (img.type === 'سادة' ? 'P' : 'Pr')}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Thumbnail Grid */}
-        <div className="mt-8 grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-2">
-          {Array.from({ length: 12 }, (_, i) => {
-            const imgNum = ((currentImage - 1 + i) % totalImages) + 1;
-            return (
-              <button
-                key={i}
-                onClick={() => setCurrentImage(imgNum)}
-                className={`aspect-square rounded-lg overflow-hidden border-2 ${
-                  currentImage === imgNum ? 'border-primary' : 'border-transparent'
-                }`}
-              >
+        {/* قسم الفئات */}
+        <div className="mb-8">
+          <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-semibold mb-4 dark:text-white text-center`}>
+            {language === 'ar' ? 'تصفح حسب النوع' : 'Browse by Type'}
+          </h3>
+          <div className="flex flex-col md:flex-row justify-center gap-4">
+            <Link 
+              to="/products?type=sada"
+              className="flex flex-col items-center p-6 bg-gradient-to-r from-pink-50 to-peach-soft rounded-2xl hover:shadow-lg transition-all"
+            >
+              <div className="w-16 h-16 mb-4 rounded-full overflow-hidden border-4 border-white shadow">
                 <img 
-                  src={`/img/${imgNum}.jpeg`}
-                  alt={`${language === 'ar' ? 'صورة مصغرة' : 'Thumbnail'} ${imgNum}`}
-                  className="w-full h-full object-cover hover:scale-110 transition-transform"
+                  src="/Shefon Sada/Shefon Sada1.jpeg"
+                  alt={language === 'ar' ? 'سادة' : 'Plain'}
+                  className="w-full h-full object-cover"
                 />
-              </button>
-            );
-          })}
+              </div>
+              <span className={`${language === 'ar' ? 'arabic-text' : ''} font-bold text-lg`}>
+                {language === 'ar' ? 'سادة' : 'Plain'}
+              </span>
+              <span className="text-sm text-gray-600">
+                {language === 'ar' ? '6 تصميم' : '6 designs'}
+              </span>
+            </Link>
+            
+            <Link 
+              to="/products?type=print"
+              className="flex flex-col items-center p-6 bg-gradient-to-r from-purple-50 to-lavender-soft rounded-2xl hover:shadow-lg transition-all"
+            >
+              <div className="w-16 h-16 mb-4 rounded-full overflow-hidden border-4 border-white shadow">
+                <img 
+                  src="/Shefon print/Shefon print 1.jpeg"
+                  alt={language === 'ar' ? 'مطبوع' : 'Printed'}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className={`${language === 'ar' ? 'arabic-text' : ''} font-bold text-lg`}>
+                {language === 'ar' ? 'مطبوع' : 'Printed'}
+              </span>
+              <span className="text-sm text-gray-600">
+                {language === 'ar' ? '62+ تصميم' : '62+ designs'}
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <div className="text-center mt-8">
+        {/* زر عرض جميع المنتجات */}
+        <div className="text-center">
           <Link 
             to="/products" 
-            className={`${language === 'ar' ? 'arabic-text' : ''} inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-bold hover:bg-primary-dark transition-colors`}
+            className={`${language === 'ar' ? 'arabic-text' : ''} inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-full font-bold hover:bg-primary-dark transition-all hover:scale-105 shadow-lg`}
           >
-            <span className="material-symbols-outlined transform rotate-180">arrow_back</span>
-            <span>{language === 'ar' ? 'عرض جميع المنتجات' : 'View All Products'}</span>
+            {language === 'ar' ? (
+              <>
+                <span>عرض جميع المنتجات</span>
+                <span className="material-symbols-outlined transform rotate-180">arrow_back</span>
+              </>
+            ) : (
+              <>
+                <span className="material-symbols-outlined">arrow_forward</span>
+                <span>View All Products</span>
+              </>
+            )}
           </Link>
         </div>
       </div>

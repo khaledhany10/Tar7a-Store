@@ -5,55 +5,123 @@ import { useLanguage } from '../context/LanguageContext';
 const products = [
   {
     id: 1,
-    name_ar: "شيفون كوارتز وردي",
-    name_en: "Quartz Pink Chiffon",
-    price: "٢٨٠ ج.م",
-    description_ar: "خفيف الوزن • جيد التهوية • شبه شفاف",
-    description_en: "Lightweight • Breathable • Semi-sheer",
-    image: "/img/1.jpeg",
+    name_ar: "كوارتز روز شيفون",
+    name_en: "Quartz Rose Chiffon",
+    price: "١٠٠ ج.م",
+    description_ar: "خفيف الوزن • منفوش • شبه شفاف",
+    description_en: "Lightweight • Airy • Semi-transparent",
+    image: "/Shefon Sada/Shefon Sada1.jpeg",
     tag: "جديد",
     bgColor: "bg-[#f3e9e5]",
-    colors: ["#e5d5d5", "#f4e7d3", "#d9e2e5"]
+    colors: ["#e5d5d5", "#f4e7d3", "#d9e2e5", "#e6d4f7"],
+    category: "سادة"
   },
   {
     id: 2,
-    name_ar: "جيرسي شوفان متميز",
+    name_ar: "شوفان جيرسي ممتاز",
     name_en: "Premium Oatmeal Jersey",
-    price: "٣٢٠ ج.م",
-    description_ar: "مرن • قابل للتنفس • غير قابل للانزلاق",
-    description_en: "Stretchy • Breathable • Non-slip",
-    image: "/img/2.jpeg",
+    price: "١٠٠ ج.م",
+    description_ar: "مطاط • قابل للتنفس • غير منزلق",
+    description_en: "Elastic • Breathable • Non-slip",
+    image: "/Shefon print/Shefon print 1.jpeg",
     bgColor: "bg-[#e9e4e0]",
-    colors: ["#d4c8be", "#5c5450"]
+    colors: ["#d4c8be", "#5c5450", "#8a7f70"],
+    category: "مطبوع"
   },
   {
     id: 3,
-    name_ar: "مودال رمادي أردوازي",
-    name_en: "Slate Grey Modal",
-    price: "٣٥٠ ج.م",
+    name_ar: "رمادي أردواز شيفون",
+    name_en: "Slate Gray Chiffon",
+    price: "١٠٠ ج.م",
     description_ar: "صديق للبيئة • ناعم • يتدلى بشكل جميل",
     description_en: "Eco-friendly • Soft • Drapes beautifully",
-    image: "/img/3.jpeg",
+    image: "/Shefon Sada/Shefon Sada2.jpeg",
+    tag: "جديد",
     bgColor: "bg-[#f0f0f0]",
-    colors: ["#7d8285", "#2d1a1e"]
+    colors: ["#7d8285", "#2d1a1e", "#a3b5c8"],
+    category: "سادة"
   },
   {
     id: 4,
-    name_ar: "وشاح حرير وردي",
-    name_en: "Pink Silk Scarf",
-    price: "٤٥٠ ج.م",
-    originalPrice: "٦٥٠ ج.م",
-    description_ar: "١٠٠٪ حرير نقي • بريق أنيق",
-    description_en: "100% Pure Silk • Elegant shine",
-    image: "/img/4.jpeg",
+    name_ar: "وشاح شيفون وردي خجول",
+    name_en: "Bashful Pink Chiffon Scarf",
+    price: "١٠٠ ج.م",
+    description_ar: "١٠٠٪ شيفون نقي • لمعان أنيق",
+    description_en: "100% Pure chiffon • Elegant shine",
+    image: "/Shefon print/Shefon print 2.jpeg",
     tag: "خصم",
     bgColor: "bg-[#fdf2f2]",
-    colors: ["#f9dbdb"]
+    colors: ["#f9dbdb", "#fffaf0", "#e6b8b2"],
+    category: "مطبوع"
+  },
+  {
+    id: 5,
+    name_ar: "حجاب شيفون زمردي",
+    name_en: "Emerald Chiffon Hijab",
+    price: "١٠٠ ج.م",
+    description_ar: "لا يحتاج كي • مناسب للسفر • سهل العناية",
+    description_en: "No ironing needed • Travel-friendly • Easy care",
+    image: "/Shefon Sada/Shefon Sada3.jpeg",
+    tag: "جديد",
+    bgColor: "bg-[#e8f5e9]",
+    colors: ["#50c878", "#008080", "#228B22"],
+    category: "سادة"
+  },
+  {
+    id: 6,
+    name_ar: "مزيج شيفون قطني",
+    name_en: "Cotton Chiffon Blend",
+    price: "١٠٠ ج.م",
+    description_ar: "قابل للتنفس • طبيعي • نسيج مجعد",
+    description_en: "Breathable • Natural • Crinkled fabric",
+    image: "/Shefon print/Shefon print 3.jpeg",
+    bgColor: "bg-[#f5f1e6]",
+    colors: ["#f5f1e6", "#e2725b", "#9caf88"],
+    category: "مطبوع"
+  },
+  {
+    id: 7,
+    name_ar: "حجاب شيفون شتوي",
+    name_en: "Winter Chiffon Hijab",
+    price: "١٠٠ ج.م",
+    description_ar: "دافئ • فاخر • أساسي شتوي",
+    description_en: "Warm • Luxurious • Winter essential",
+    image: "/Shefon Sada/Shefon Sada4.jpeg",
+    tag: "جديد",
+    bgColor: "bg-[#f8e8e8]",
+    colors: ["#800020", "#000080", "#046307"],
+    category: "سادة"
+  },
+  {
+    id: 8,
+    name_ar: "حجاب شيفون للمساء",
+    name_en: "Evening Chiffon Hijab",
+    price: "١٠٠ ج.م",
+    originalPrice: "١٥٠ ج.م",
+    description_ar: "أنيق • متدفق • للمناسبات المسائية",
+    description_en: "Elegant • Flowing • For evening occasions",
+    image: "/Shefon print/Shefon print 4.jpeg",
+    tag: "خصم",
+    bgColor: "bg-[#f9f3ff]",
+    colors: ["#ffd700", "#c0c0c0", "#ff007f"],
+    category: "مطبوع"
   }
 ];
 
 const NewArrivals = () => {
   const { language } = useLanguage();
+
+  // دالة للحصول على صورة عشوائية إضافية من نفس المجلد
+  const getRandomImage = (currentImage) => {
+    const isSada = currentImage.includes('Shefon Sada');
+    if (isSada) {
+      const randomNum = Math.floor(Math.random() * 6) + 1;
+      return `/img/Shefon Sada/Shefon Sada${randomNum}.jpeg`;
+    } else {
+      const randomNum = Math.floor(Math.random() * 62) + 1;
+      return `/img/Shefon print/Shefon print ${randomNum}.jpeg`;
+    }
+  };
 
   return (
     <section className="px-6 md:px-20 py-24">
@@ -71,7 +139,7 @@ const NewArrivals = () => {
             to="/products" 
             className={`${language === 'ar' ? 'arabic-text' : ''} text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary-dark hover:border-primary-dark transition-all`}
           >
-            {language === 'ar' ? 'عرض جميع الوصلات' : 'View All Arrivals'}
+            {language === 'ar' ? 'عرض جميع المنتجات' : 'View All Products'}
           </Link>
         </div>
         
@@ -85,6 +153,14 @@ const NewArrivals = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                     src={product.image}
                     loading="lazy"
+                    onMouseEnter={(e) => {
+                      // عند مرور الماوس، تغيير الصورة إلى صورة عشوائية من نفس المجلد
+                      e.target.src = getRandomImage(product.image);
+                    }}
+                    onMouseLeave={(e) => {
+                      // عند مغادرة الماوس، العودة للصورة الأصلية
+                      e.target.src = product.image;
+                    }}
                   />
                 </Link>
                 {product.tag && (
@@ -92,6 +168,10 @@ const NewArrivals = () => {
                     {language === 'ar' ? product.tag : (product.tag === 'خصم' ? 'Sale' : 'New')}
                   </div>
                 )}
+                {/* شارة السادة أو المطبوع */}
+                <div className={`${language === 'ar' ? 'arabic-text' : ''} absolute top-4 ${language === 'ar' ? 'left-4' : 'right-4'} bg-black/70 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm`}>
+                  {language === 'ar' ? product.category : (product.category === 'سادة' ? 'Plain' : 'Printed')}
+                </div>
                 <button className={`absolute bottom-6 ${language === 'ar' ? 'left-6' : 'right-6'} w-12 h-12 bg-white rounded-full flex items-center justify-center text-primary shadow-lg translate-y-20 group-hover:translate-y-0 transition-all duration-300 opacity-0 group-hover:opacity-100`}>
                   <span className="material-symbols-outlined">add_shopping_cart</span>
                 </button>

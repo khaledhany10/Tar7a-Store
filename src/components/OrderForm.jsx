@@ -10,7 +10,7 @@ const OrderForm = () => {
   const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScQdpH3BDWF9mjImvy0n3ZZU5D-jRUoqoBkQc4UPXIW2Blfjw/viewform?usp=pp_url';
   
   // إيميل استلام البيانات
-  const RECEIVING_EMAIL = 'hebaf3386@gmail.com';
+  const RECEIVING_EMAIL = 'hanykhaled153@gmail.com';
   const PHONE_NUMBER = '01066362979';
 
   useEffect(() => {
