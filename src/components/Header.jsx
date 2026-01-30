@@ -27,6 +27,14 @@ const Header = () => {
     setIsLanguageDropdownOpen(false);
   };
 
+  const navLinks = [
+    { to: "/", label: t('header.home', language) },
+    { to: "/products", label: t('header.allProducts', language) },
+    { to: "/achievements", label: t('header.achievements', language) },
+    { to: "/AboutUs", label: t('AboutUs', language) },
+    { to: "/customize-order", label: language === 'ar' ? 'طلب مخصص' : 'Custom Order' },
+  ];
+
   return (
     <header className="flex items-center justify-between border-b border-solid border-primary/10 px-6 md:px-20 py-5 bg-background-light/90 backdrop-blur-md sticky top-0 z-50 dark:bg-background-dark/90 dark:border-white/5">
       <Link to="/" className="flex items-center gap-2 text-primary">
@@ -50,24 +58,15 @@ const Header = () => {
       
       {/* التنقل لسطح المكتب */}
       <nav className="hidden lg:flex items-center gap-6">
-        <Link to="/" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-          {t('header.home', language)}
-        </Link>
-        <Link to="/products" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-          {t('header.allProducts', language)}
-        </Link>
-
-        
-        
-        <Link to="/achievements" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-          {t('header.achievements', language)}
-        </Link>
-        <Link to="/AboutUs" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-          {t('AboutUs', language)}
-        </Link> 
-        <Link to="/customize-order" className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}>
-          {language === 'ar' ? 'طلب مخصص' : 'Custom Order'}
-        </Link>
+        {navLinks.map((link, index) => (
+          <Link 
+            key={index}
+            to={link.to} 
+            className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors`}
+          >
+            {link.label}
+          </Link>
+        ))}
       </nav>
       
       {/* أدوات المستخدم */}
@@ -117,28 +116,22 @@ const Header = () => {
             </div>
           )}
         </div>
-        
       </div>
       
       {/* القائمة المتنقلة */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-lg">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-lg z-40">
           <div className="px-6 py-4 space-y-4">
-            <Link to="/" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-              {t('header.home', language)}
-            </Link>
-            <Link to="/products" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-              {t('header.allProducts', language)}
-            </Link>
-            <Link to="/achievements" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-              {t('header.achievements', language)}
-            </Link>
-            <Link to="/AboutUs" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors`} onClick={() => setIsMenuOpen(false)}>
-              {t('AboutUs', language)}
-            </Link>
-            <Link to="/products?category=Sale" className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 text-primary font-semibold`} onClick={() => setIsMenuOpen(false)}>
-              {t('header.sale', language)}
-            </Link>
+            {navLinks.map((link, index) => (
+              <Link 
+                key={index}
+                to={link.to} 
+                className={`${language === 'ar' ? 'arabic-text text-right' : ''} block py-2 hover:text-primary transition-colors text-[#2d1a1e] dark:text-gray-300 text-base font-medium`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
             
             {/* زر تبديل اللغة في القائمة المتنقلة */}
             <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -147,7 +140,7 @@ const Header = () => {
                   handleLanguageToggle();
                   setIsMenuOpen(false);
                 }}
-                className={`${language === 'ar' ? 'arabic-text text-right' : ''} w-full flex items-center justify-between py-2 hover:text-primary transition-colors`}
+                className={`${language === 'ar' ? 'arabic-text text-right' : ''} w-full flex items-center justify-between py-2 hover:text-primary transition-colors text-[#2d1a1e] dark:text-gray-300`}
               >
                 <span className="flex items-center gap-2">
                   <span className="material-symbols-outlined">translate</span>

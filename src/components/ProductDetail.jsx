@@ -187,14 +187,7 @@ const ProductDetail = () => {
               <div className="absolute bottom-6 right-6 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full p-3 shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <span className="material-symbols-outlined text-primary text-base">zoom_in</span>
               </div>
-              
-              {!product.inStock && (
-                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-                  <span className={`${language === 'ar' ? 'arabic-text' : ''} text-white text-2xl font-bold px-8 py-4 rounded-2xl bg-black/50`}>
-                    {language === 'ar' ? 'نفذت الكمية' : 'Out of Stock'}
-                  </span>
-                </div>
-              )}
+            
             </div>
             
             {/* Thumbnails */}
@@ -245,16 +238,6 @@ const ProductDetail = () => {
                   )}
                 </div>
                 
-                <div className={`px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider ${
-                  product.inStock 
-                    ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 dark:bg-gradient-to-r dark:from-green-900/30 dark:to-emerald-900/30 dark:text-green-400' 
-                    : 'bg-gradient-to-r from-red-100 to-rose-100 text-red-800 dark:bg-gradient-to-r dark:from-red-900/30 dark:to-rose-900/30 dark:text-red-400'
-                }`}>
-                  {product.inStock 
-                    ? (language === 'ar' ? '🟢 متوفر' : '🟢 In Stock') 
-                    : (language === 'ar' ? '🔴 نفذت الكمية' : '🔴 Out of Stock')
-                  }
-                </div>
               </div>
             </div>
 

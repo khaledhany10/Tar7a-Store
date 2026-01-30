@@ -3,9 +3,9 @@ import { useLanguage } from '../context/LanguageContext';
 import { useEffect, useState, useRef } from 'react';
 
 // استيراد الصور من المجلد العام
-import Image1 from "../../public/Shefon print/Shefon print 15.jpeg";
-import Image2 from "../../public/Shefon print/Shefon print 16.jpeg";
-import Image3 from "../../public/Shefon print/Shefon print 17.jpeg";
+import Image1 from "../../public/Shefon print/Shefon print 20.jpeg";
+import Image2 from "../../public/Shefon print/Shefon print 21.jpeg";
+import Image3 from "../../public/Shefon print/Shefon print 54.jpeg";
 
 const Hero = () => {
   const { language } = useLanguage();
@@ -22,15 +22,15 @@ const Hero = () => {
     },
     {
       image: Image2,
-      title_ar: "رفاهية بلمسة",
-      title_en: "Luxury in Touch",
+      title_ar: "طرحه لكل اطلاله",
+      title_en: "He presented it for every appearance",
       subtitle_ar: "نسيج حريري ناعم كالهواء",
       subtitle_en: "Silky Soft Airy Fabric"
     },
     {
       image: Image3,
-      title_ar: "جمال متواضع",
-      title_en: "Modest Beauty",
+      title_ar: "اقل تفاصيل اكثر جمالا",
+      title_en: "Less details more beauty",
       subtitle_ar: "تصميمات تناسب كل مناسبة",
       subtitle_en: "Designs for Every Occasion"
     }
