@@ -32,7 +32,7 @@ const OrderForm = () => {
               ? `${cartItems.length} منتجات في السلة`
               : `${cartItems.length} products in cart`,
             productPrice: cartItems.reduce((total, item) => total + (parseFloat(item.price.replace('EGP', '')) || 0), 0) + ' EGP',
-            productImage: cartItems[0]?.image || '/img/default.jpeg',
+            productImage: cartItems[0]?.image,
             cartItems: cartItems
           });
         }
@@ -168,7 +168,7 @@ const OrderForm = () => {
                         <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-xl">
                           <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
                             <img 
-                              src={item.image || '/img/default.jpeg'} 
+                              src={item.image} 
                               alt={item.name}
                               className="w-full h-full object-cover"
                             />

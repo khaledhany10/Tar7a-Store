@@ -7,7 +7,7 @@ const fabricData = [
     id: 1,
     name_ar: "شيفون سادة",
     name_en: "Plain Chiffon",
-    image: "/Shefon Sada/Shefon Sada1.jpeg",
+    image: "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg",
     category: "sada",
     count_ar: "6 تصاميم حصرية",
     count_en: "6 exclusive designs",
@@ -19,7 +19,7 @@ const fabricData = [
     id: 2,
     name_ar: "زهور كلاسيكية",
     name_en: "Classic Floral",
-    image: "/Shefon print/Shefon print 1.jpeg",
+    image: "/Img/Collections/02-Christian-Dior/02-Christian-Dior/Main.jpeg",
     category: "print",
     subCategory: "floral",
     count_ar: "18 تصميم مزهر",
@@ -32,7 +32,7 @@ const fabricData = [
     id: 3,
     name_ar: "هندسية عصرية",
     name_en: "Modern Geometric",
-    image: "/Shefon print/Shefon print 2.jpeg",
+    image: "/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg",
     category: "print",
     subCategory: "geometric",
     count_ar: "14 نمط هندسي",
@@ -45,7 +45,7 @@ const fabricData = [
     id: 4,
     name_ar: "خطوط أنيقة",
     name_en: "Elegant Stripes",
-    image: "/Shefon print/Shefon print 3.jpeg",
+    image: "/Img/Collections/04-Islamic-Scarf/01-Islamic-Scarf-Collection/01-Ramadan-Collection/Main.jpeg",
     category: "print",
     subCategory: "stripes",
     count_ar: "12 تصميم مخطط",
@@ -58,7 +58,7 @@ const fabricData = [
     id: 5,
     name_ar: "نقاط رشيقة",
     name_en: "Graceful Dots",
-    image: "/Shefon print/Shefon print 4.jpeg",
+    image: "/Img/Collections/05-Ramadan/01-Ramadan-Collection/Main.jpeg",
     category: "print",
     subCategory: "dots",
     count_ar: "9 تصميم منقط",
@@ -71,7 +71,7 @@ const fabricData = [
     id: 6,
     name_ar: "فانتازيا سحرية",
     name_en: "Magical Fantasy",
-    image: "/Shefon print/Shefon print 5.jpeg",
+    image: "/Img/Collections/06-Pattern/01-Pattern Collection/Main.jpeg",
     category: "print",
     subCategory: "fantasy",
     count_ar: "16 عالم خيالي",
@@ -84,7 +84,7 @@ const fabricData = [
     id: 7,
     name_ar: "أزهار ضخمة",
     name_en: "Giant Blooms",
-    image: "/Shefon print/Shefon print 6.jpeg",
+    image: "/Img/Collections/06-Pattern/01-Pattern Collection/01.jpeg",
     category: "print",
     subCategory: "large-floral",
     count_ar: "7 تصميم مذهل",
@@ -97,7 +97,7 @@ const fabricData = [
     id: 8,
     name_ar: "مجردات فنية",
     name_en: "Artistic Abstracts",
-    image: "/Shefon print/Shefon print 7.jpeg",
+    image: "/Img/Collections/06-Pattern/01-Pattern Collection/02.jpeg",
     category: "print",
     subCategory: "abstract",
     count_ar: "11 عمل فني",
@@ -273,7 +273,7 @@ const FabricTypes = () => {
                 
                 <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                   <img
-                    src="/Shefon Sada/Shefon Sada1.jpeg"
+                    src="/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg"
                     alt={language === 'ar' ? 'شيفون سادة' : 'Plain Chiffon'}
                     className="w-full h-full object-cover"
                   />
@@ -293,7 +293,7 @@ const FabricTypes = () => {
                   <>
                     <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                       <img
-                        src="/Shefon print/Shefon print 1.jpeg"
+                        src="/Img/Collections/02-Christian-Dior/02-Christian-Dior/Main.jpeg"
                         alt={language === 'ar' ? 'شيفون مطبوع' : 'Printed Chiffon'}
                         className="w-full h-full object-cover"
                       />
