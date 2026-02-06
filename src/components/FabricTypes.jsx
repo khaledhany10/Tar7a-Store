@@ -1,116 +1,78 @@
+// src/components/FabricTypes.jsx
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useState } from 'react';
+import { collections } from '../data/products';
 
-const fabricData = [
-  {
-    id: 1,
-    name_ar: "شيفون سادة",
-    name_en: "Plain Chiffon",
-    image: "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg",
-    category: "sada",
-    count_ar: "6 تصاميم حصرية",
-    count_en: "6 exclusive designs",
-    description_ar: "أناقة نقية بلون واحد",
-    description_en: "Pure elegance in single color",
-    gradient: "from-purple-500/20 via-pink-500/10 to-transparent"
-  },
-  {
-    id: 2,
-    name_ar: "زهور كلاسيكية",
-    name_en: "Classic Floral",
-    image: "/Img/Collections/02-Christian-Dior/02-Christian-Dior/Main.jpeg",
-    category: "print",
-    subCategory: "floral",
-    count_ar: "18 تصميم مزهر",
-    count_en: "18 floral designs",
-    description_ar: "طبيعة تزهر بأناقة",
-    description_en: "Blooming nature in elegance",
-    gradient: "from-green-500/20 via-emerald-500/10 to-transparent"
-  },
-  {
-    id: 3,
-    name_ar: "هندسية عصرية",
-    name_en: "Modern Geometric",
-    image: "/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg",
-    category: "print",
-    subCategory: "geometric",
-    count_ar: "14 نمط هندسي",
-    count_en: "14 geometric patterns",
-    description_ar: "أشكال رياضية معاصرة",
-    description_en: "Contemporary mathematical shapes",
-    gradient: "from-blue-500/20 via-indigo-500/10 to-transparent"
-  },
-  {
-    id: 4,
-    name_ar: "خطوط أنيقة",
-    name_en: "Elegant Stripes",
-    image: "/Img/Collections/04-Islamic-Scarf/01-Islamic-Scarf-Collection/01-Ramadan-Collection/Main.jpeg",
-    category: "print",
-    subCategory: "stripes",
-    count_ar: "12 تصميم مخطط",
-    count_en: "12 striped designs",
-    description_ar: "إيقاع بصري متناسق",
-    description_en: "Harmonious visual rhythm",
-    gradient: "from-orange-500/20 via-amber-500/10 to-transparent"
-  },
-  {
-    id: 5,
-    name_ar: "نقاط رشيقة",
-    name_en: "Graceful Dots",
-    image: "/Img/Collections/05-Ramadan/01-Ramadan-Collection/Main.jpeg",
-    category: "print",
-    subCategory: "dots",
-    count_ar: "9 تصميم منقط",
-    count_en: "9 dotted designs",
-    description_ar: "رشاقة في كل نقطة",
-    description_en: "Grace in every dot",
-    gradient: "from-red-500/20 via-rose-500/10 to-transparent"
-  },
-  {
-    id: 6,
-    name_ar: "فانتازيا سحرية",
-    name_en: "Magical Fantasy",
-    image: "/Img/Collections/06-Pattern/01-Pattern Collection/Main.jpeg",
-    category: "print",
-    subCategory: "fantasy",
-    count_ar: "16 عالم خيالي",
-    count_en: "16 fantasy worlds",
-    description_ar: "خيال يلامس الواقع",
-    description_en: "Fantasy meets reality",
-    gradient: "from-fuchsia-500/20 via-purple-500/10 to-transparent"
-  },
-  {
-    id: 7,
-    name_ar: "أزهار ضخمة",
-    name_en: "Giant Blooms",
-    image: "/Img/Collections/06-Pattern/01-Pattern Collection/01.jpeg",
-    category: "print",
-    subCategory: "large-floral",
-    count_ar: "7 تصميم مذهل",
-    count_en: "7 stunning designs",
-    description_ar: "جمال يتكلم بصوت عالٍ",
-    description_en: "Beauty that speaks loudly",
-    gradient: "from-teal-500/20 via-cyan-500/10 to-transparent"
-  },
-  {
-    id: 8,
-    name_ar: "مجردات فنية",
-    name_en: "Artistic Abstracts",
-    image: "/Img/Collections/06-Pattern/01-Pattern Collection/02.jpeg",
-    category: "print",
-    subCategory: "abstract",
-    count_ar: "11 عمل فني",
-    count_en: "11 art pieces",
-    description_ar: "فن على القماش",
-    description_en: "Art on fabric",
-    gradient: "from-violet-500/20 via-purple-500/10 to-transparent"
-  }
-];
+// تصحيح مسار الصور
+const correctImagePath = (imagePath) => {
+  if (!imagePath) return '/images/placeholder.jpg';
+  
+  let correctedPath = imagePath;
+  if (correctedPath.startsWith('/img/')) correctedPath = correctedPath.substring(4);
+  if (!correctedPath.startsWith('/')) correctedPath = '/' + correctedPath;
+  correctedPath = correctedPath.replace('//', '/');
+  
+  return correctedPath;
+};
 
 const FabricTypes = () => {
   const { language } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
+
+  // تحويل المجموعات إلى تنسيق Fabric Types
+  const fabricData = collections.map((collection, index) => {
+    let category = 'print';
+    let subCategory = 'islamic';
+    
+    // تعيين الفئة والتصنيف الفرعي بناءً على نوع المجموعة
+    if (collection.id === '01-Basic-Pinks') {
+      category = 'sada';
+    } else if (collection.id === '02-Christian-Dior') {
+      subCategory = 'floral';
+    } else if (collection.id === '03-Islamic-Ornaments') {
+      subCategory = 'geometric';
+    } else if (collection.id === '04-Islamic-Scarf') {
+      subCategory = 'islamic';
+    } else if (collection.id === '05-Ramadan') {
+      subCategory = 'ramadan';
+    } else if (collection.id === '06-Pattern') {
+      subCategory = 'pattern';
+    }
+    
+    return {
+      id: collection.id,
+      name_ar: collection.name,
+      name_en: collection.name,
+      image: `/images/${collection.id}/Main.jpg`, // مسار افتراضي
+      category: category,
+      subCategory: subCategory,
+      count_ar: `${collection.count} تصميم فاخر`,
+      count_en: `${collection.count} luxury designs`,
+      description_ar: collection.description,
+      description_en: collection.description,
+      gradient: 'from-purple-500/20 via-pink-500/10 to-transparent'
+    };
+  });
+
+  // الحصول على صورة للمجموعة (من أول منتج في المجموعة)
+  const getCollectionImage = (collectionId) => {
+    const collection = collections.find(c => c.id === collectionId);
+    if (collection && collection.id === '01-Basic-Pinks') {
+      return '/images/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg';
+    } else if (collection && collection.id === '02-Christian-Dior') {
+      return '/images/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg';
+    } else if (collection && collection.id === '03-Islamic-Ornaments') {
+      return '/images/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg';
+    } else if (collection && collection.id === '04-Islamic-Scarf') {
+      return '/images/04-Islamic-Scarf/01-Islamic-Scarf-Collection/Main.jpeg';
+    } else if (collection && collection.id === '05-Ramadan') {
+      return '/images/05-Ramadan/01-Ramadan-Collection/Main.jpeg';
+    } else if (collection && collection.id === '06-Pattern') {
+      return '/images/06-Pattern/01-Pattern-Collection/Main.jpeg';
+    }
+    return '/images/placeholder.jpg';
+  };
 
   return (
     <section className="relative overflow-hidden px-6 md:px-20 py-28 bg-gradient-to-b from-white via-peach-soft/10 to-primary/5 dark:from-background-dark dark:via-gray-900/50 dark:to-primary/10">
@@ -136,28 +98,27 @@ const FabricTypes = () => {
               <div className="w-2 h-2 rounded-full bg-pink-500 animate-pulse delay-200"></div>
             </div>
             <span className={`${language === 'ar' ? 'arabic-text' : ''} text-sm font-medium text-[#2d1a1e] dark:text-gray-300`}>
-              {language === 'ar' ? 'تصنيف الأقمشة' : 'Fabric Categories'}
+              {language === 'ar' ? 'تصنيف المجموعات' : 'Collection Categories'}
             </span>
           </div>
 
           <h2 className={`${language === 'ar' ? 'arabic-text' : ''} text-4xl md:text-5xl lg:text-6xl font-black text-[#2d1a1e] dark:text-white mb-6`}>
             <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              {language === 'ar' ? 'كنوز النسيج' : 'Fabric Treasures'}
+              {language === 'ar' ? 'مجموعات فاخرة' : 'Luxury Collections'}
             </span>
           </h2>
 
           <p className={`${language === 'ar' ? 'arabic-text' : ''} text-lg text-[#2d1a1e]/70 dark:text-gray-400 max-w-2xl mx-auto mb-8`}>
             {language === 'ar'
-              ? 'اكتشف مجموعة فاخرة من الأقمشة المختارة بعناية، كل نوع يحمل قصته الخاصة وجماله الفريد'
-              : 'Discover a luxurious collection of carefully selected fabrics, each type carries its own story and unique beauty'
+              ? 'اكتشف مجموعتنا الفاخرة من التصاميم الإسلامية المختارة بعناية، كل مجموعة تحمل قصتها الخاصة وجمالها الفريد'
+              : 'Discover our luxurious collection of carefully selected Islamic designs, each collection carries its own story and unique beauty'
             }
           </p>
-
         </div>
 
-        {/* Fabric Grid */}
+        {/* Collections Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {fabricData.map((fabric) => (
+          {fabricData.slice(0, 8).map((fabric) => (
             <Link
               key={fabric.id}
               to={`/products?category=${fabric.category}${fabric.subCategory ? `&sub=${fabric.subCategory}` : ''}`}
@@ -169,9 +130,13 @@ const FabricTypes = () => {
                   <div className={`absolute inset-0 bg-gradient-to-b ${fabric.gradient} z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                   
                   <img
-                    src={fabric.image}
+                    src={correctImagePath(getCollectionImage(fabric.id))}
                     alt={language === 'ar' ? fabric.name_ar : fabric.name_en}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/images/placeholder.jpg';
+                    }}
                   />
 
                   {/* Category Badge */}
@@ -243,21 +208,14 @@ const FabricTypes = () => {
               
               <div className="relative h-64 flex items-center justify-between p-8 z-10">
                 <div className={`${language === 'ar' ? 'text-right ml-12' : 'text-left mr-12'} flex-1`}>
-                  <div className="inline-flex items-center gap-3 mb-4">
-                    <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                    <span className={`${language === 'ar' ? 'arabic-text' : ''} text-purple-600 dark:text-purple-400 font-bold text-sm`}>
-                      {language === 'ar' ? 'تصنيف حصري' : 'Exclusive Category'}
-                    </span>
-                  </div>
-                  
                   <h4 className={`${language === 'ar' ? 'arabic-text' : ''} text-3xl font-bold text-[#2d1a1e] dark:text-white mb-3`}>
                     {language === 'ar' ? 'سادة نقية' : 'Pure Plain'}
                   </h4>
                   
                   <p className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e]/70 dark:text-gray-400 mb-6`}>
                     {language === 'ar'
-                      ? '6 تصاميم كلاسيكية تظهر جمال البساطة والأناقة الأبدية'
-                      : '6 classic designs showcasing the beauty of simplicity and eternal elegance'
+                      ? 'تصاميم كلاسيكية تظهر جمال البساطة والأناقة الأبدية'
+                      : 'Classic designs showcasing the beauty of simplicity and eternal elegance'
                     }
                   </p>
                   
@@ -273,9 +231,13 @@ const FabricTypes = () => {
                 
                 <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                   <img
-                    src="/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg"
+                    src={correctImagePath('/images/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg')}
                     alt={language === 'ar' ? 'شيفون سادة' : 'Plain Chiffon'}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/images/placeholder.jpg';
+                    }}
                   />
                 </div>
               </div>
@@ -293,9 +255,13 @@ const FabricTypes = () => {
                   <>
                     <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                       <img
-                        src="/Img/Collections/02-Christian-Dior/02-Christian-Dior/Main.jpeg"
+                        src={correctImagePath('/images/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg')}
                         alt={language === 'ar' ? 'شيفون مطبوع' : 'Printed Chiffon'}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/placeholder.jpg';
+                        }}
                       />
                     </div>
                     <div className="text-right mr-12 flex-1">
@@ -312,8 +278,8 @@ const FabricTypes = () => {
                       
                       <p className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e]/70 dark:text-gray-400 mb-6`}>
                         {language === 'ar'
-                          ? '62+ تصميم فني متنوع لكل ذوق ومناسبة'
-                          : '62+ diverse artistic designs for every taste and occasion'
+                          ? 'تصميمات فنية متنوعة لكل ذوق ومناسبة'
+                          : 'Diverse artistic designs for every taste and occasion'
                         }
                       </p>
                       
@@ -343,8 +309,8 @@ const FabricTypes = () => {
                       
                       <p className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e]/70 dark:text-gray-400 mb-6`}>
                         {language === 'ar'
-                          ? '62+ تصميم فني متنوع لكل ذوق ومناسبة'
-                          : '62+ diverse artistic designs for every taste and occasion'
+                          ? 'تصميمات فنية متنوعة لكل ذوق ومناسبة'
+                          : 'Diverse artistic designs for every taste and occasion'
                         }
                       </p>
                       
@@ -359,9 +325,13 @@ const FabricTypes = () => {
                     </div>
                     <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                       <img
-                        src="/Shefon print/Shefon print 1.jpeg"
+                        src={correctImagePath('/images/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg')}
                         alt={language === 'ar' ? 'شيفون مطبوع' : 'Printed Chiffon'}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/placeholder.jpg';
+                        }}
                       />
                     </div>
                   </>

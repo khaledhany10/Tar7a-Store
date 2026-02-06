@@ -1,0 +1,1150 @@
+{
+  "collections": [
+    {
+      "id": "01-Basic-Pinks",
+      "name": "Basic Pinks",
+      "description": "مجموعة تصميمات باللون الوردي الأساسي الفاتن، مثالية للمناسبات الرقيقة",
+      "price": "100 EGP",
+      "rating": 4.3,
+      "folders": [
+        {
+          "id": "01-Basic-Pinks-Grading-Colours",
+          "name": "Basic Pinks Grading Colours",
+          "files": [
+            {
+              "name": "02.jpeg",
+              "size": "84.1 kB",
+              "date": "Sun 01 Feb 2026 09:58:29 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/02.jpeg",
+              "description": "وردي غامق مع لمسات ذهبية",
+              "price": "100 EGP"
+            },
+            {
+              "name": "03.jpeg",
+              "size": "88.3 kB",
+              "date": "Sun 01 Feb 2026 09:59:19 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/03.jpeg",
+              "description": "تدرج وردي حريري ناعم",
+              "price": "100 EGP"
+            },
+            {
+              "name": "04.jpeg",
+              "size": "70.1 kB",
+              "date": "Sun 01 Feb 2026 09:59:34 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/04.jpeg",
+              "description": "وردي فاتح مع زخارف رقيقة",
+              "price": "100 EGP"
+            },
+            {
+              "name": "05.jpeg",
+              "size": "82.5 kB",
+              "date": "Sun 01 Feb 2026 09:58:49 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/05.jpeg",
+              "description": "وردي متوسط مع تموجات جميلة",
+              "price": "100 EGP"
+            },
+            {
+              "name": "06.jpeg",
+              "size": "75.1 kB",
+              "date": "Sun 01 Feb 2026 09:59:03 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/06.jpeg",
+              "description": "وردي غامق بتصميم كلاسيكي",
+              "price": "100 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "161.9 kB",
+              "date": "Wed 04 Feb 2026 04:59:48 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg",
+              "description": "تصميم رئيسي وردي بتدرجات مذهلة",
+              "price": "100 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "basic-pinks-folder-2",
+          "name": "Basic Pinks Folder 2",
+          "files": [
+            {
+              "name": "02.jpeg",
+              "size": "156.2 kB",
+              "date": "Wed 04 Feb 2026 04:53:35 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/02-Basic-Pinks-Grading-Colours/02.jpeg",
+              "description": "تصميم وردي مع زخارف ذهبية",
+              "price": "100 EGP"
+            },
+            {
+              "name": "03.jpeg",
+              "size": "187.4 kB",
+              "date": "Wed 04 Feb 2026 04:54:50 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/02-Basic-Pinks-Grading-Colours/03.jpeg",
+              "description": "وردي فاتح مع تموجات حريرية",
+              "price": "100 EGP"
+            },
+            {
+              "name": "04.jpeg",
+              "size": "120.1 kB",
+              "date": "Wed 04 Feb 2026 04:55:00 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/02-Basic-Pinks-Grading-Colours/04.jpeg",
+              "description": "وردي غامق بتصميم عصري",
+              "price": "100 EGP"
+            },
+              {
+              "name": "Main.jpeg",
+              "size": "120.1 kB",
+              "date": "Wed 04 Feb 2026 04:55:00 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/02-Basic-Pinks-Grading-Colours/Main.jpeg",
+              "description": "وردي غامق بتصميم عصري",
+              "price": "100 EGP"
+            }
+          ]
+        },
+        {
+          "id": "03-Basic-Pinks-Grading-Colours",
+          "name": "Basic Pinks Folder 3",
+          "files": [
+            {
+              "name": "02.jpeg",
+              "size": "172.4 kB",
+              "date": "Wed 04 Feb 2026 04:52:40 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/03-Basic-Pinks-Grading-Colours/02.jpeg",
+              "description": "تصميم وردي بتدرجات متعددة",
+              "price": "100 EGP"
+            },
+            {
+              "name": "03.jpeg",
+              "size": "243.6 kB",
+              "date": "Wed 04 Feb 2026 04:53:18 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/03-Basic-Pinks-Grading-Colours/03.jpeg",
+              "description": "وردي فاتح مع زخارف إسلامية",
+              "price": "100 EGP"
+            },
+            {
+              "name": "04.jpeg",
+              "size": "141.1 kB",
+              "date": "Wed 04 Feb 2026 04:53:13 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/03-Basic-Pinks-Grading-Colours/04.jpeg",
+              "description": "تصميم وردي كلاسيكي",
+              "price": "100 EGP"
+            },
+            {
+              "name": "05.jpeg",
+              "size": "232.1 kB",
+              "date": "Wed 04 Feb 2026 04:52:40 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/03-Basic-Pinks-Grading-Colours/05.jpeg",
+              "description": "وردي غامق بتصميم ملكي",
+              "price": "100 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "232.1 kB",
+              "date": "Wed 04 Feb 2026 04:52:40 PM",
+              "url": "/Img/Collections/01-Basic-Pinks/03-Basic-Pinks-Grading-Colours/Main.jpeg",
+              "description": "وردي غامق بتصميم ملكي",
+              "price": "100 EGP"
+            }
+          ]
+        }
+      ],
+      "totalItems": 10,
+      "freeSpace": "74.5 GB"
+    },
+    {
+      "id": "02-Christian-Dior",
+      "name": "Christian Dior",
+      "description": "مجموعة تصميمات كريستيان ديور الفاخرة بأناقة فرنسية",
+      "price": "130 EGP",
+      "rating": 4.7,
+      "folders": [
+        {
+          "id": "01-Christian-Dior-Collection",
+          "name": "Christian Dior Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "175.4 kB",
+              "date": "Sun 01 Feb 2026 10:21:46 PM",
+              "url": "/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/01.jpeg",
+              "description": "تصميم ديور كلاسيكي بأناقة فائقة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "267.3 kB",
+              "date": "Sun 01 Feb 2026 09:46:15 PM",
+              "url": "/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/02.jpeg",
+              "description": "ديور عصري مع لمسات ذهبية",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "269.0 kB",
+              "date": "Sun 01 Feb 2026 09:46:23 PM",
+              "url": "/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي لمجموعة ديور الفاخرة",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Christian-Dior-Collection",
+          "name": "Christian Dior Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "267.3 kB",
+              "date": "Sun 01 Feb 2026 09:46:03 PM",
+              "url": "/Img/Collections/02-Christian-Dior/02-Christian-Dior-Collection/01.jpeg",
+              "description": "تصميم ديور أنيق بتفاصيل دقيقة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "189.2 kB",
+              "date": "Sun 01 Feb 2026 09:47:22 PM",
+              "url": "/Img/Collections/02-Christian-Dior/02-Christian-Dior-Collection/02.jpeg",
+              "description": "ديور مطرز بتصميم رائع",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "118.6 kB",
+              "date": "Sun 01 Feb 2026 09:47:31 PM",
+              "url": "/Img/Collections/02-Christian-Dior/02-Christian-Dior-Collection/Main.jpeg",
+              "description": "التصميم النجمي لمجموعة ديور الثانية",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "03-Christian-Dior-Collection",
+          "name": "Christian Dior Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "148.3 kB",
+              "date": "Sun 01 Feb 2026 09:46:54 PM",
+              "url": "/Img/Collections/02-Christian-Dior/03-Christian-Dior-Collection/01.jpeg",
+              "description": "ديور بتصميم هندسي مذهل",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "217.6 kB",
+              "date": "Sun 01 Feb 2026 10:24:18 PM",
+              "url": "/Img/Collections/02-Christian-Dior/03-Christian-Dior-Collection/02.jpeg",
+              "description": "تصميم ديور مع ألوان متدرجة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "161.7 kB",
+              "date": "Sun 01 Feb 2026 09:48:03 PM",
+              "url": "/Img/Collections/02-Christian-Dior/03-Christian-Dior-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثالث لديور",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "04-Christian-Dior-Collection",
+          "name": "Christian Dior Collection 04",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "157.7 kB",
+              "date": "Sun 01 Feb 2026 09:48:30 PM",
+              "url": "/Img/Collections/02-Christian-Dior/04-Christian-Dior-Collection/01.jpeg",
+              "description": "ديور بتصميم زهري رائع",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "217.6 kB",
+              "date": "Sun 01 Feb 2026 09:48:39 PM",
+              "url": "/Img/Collections/02-Christian-Dior/04-Christian-Dior-Collection/02.jpeg",
+              "description": "تصميم ديور كلاسيكي معاصر",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "145.4 kB",
+              "date": "Sun 01 Feb 2026 09:48:21 PM",
+              "url": "/Img/Collections/02-Christian-Dior/04-Christian-Dior-Collection/Main.jpeg",
+              "description": "التصميم الأخير لمجموعة ديور",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "03-Islamic-Ornaments",
+      "name": "Islamic Ornaments",
+      "description": "مجموعة زخارف إسلامية بديعة مستوحاة من الفن الإسلامي",
+      "price": "130 EGP",
+      "rating": 4.5,
+      "folders": [
+        {
+          "id": "01-Islamic-Ornaments-Collection",
+          "name": "Islamic Ornaments Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "119.3 kB",
+              "date": "Sun 01 Feb 2026 10:45:15 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/01.jpeg",
+              "description": "زخرفة إسلامية بتصميم هندسي",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "87.1 kB",
+              "date": "Sun 01 Feb 2026 09:50:31 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/02.jpeg",
+              "description": "زخارف نباتية إسلامية",
+              "price": "130 EGP"
+            },
+            {
+              "name": "03.jpeg",
+              "size": "99.0 kB",
+              "date": "Sun 01 Feb 2026 09:48:52 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/03.jpeg",
+              "description": "تصميم إسلامي كلاسيكي",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "175.5 kB",
+              "date": "Sun 01 Feb 2026 09:50:17 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي للزخارف الإسلامية",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "03-Islamic-Ornaments-Collection",
+          "name": "Islamic Ornaments Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "90.1 kB",
+              "date": "Sun 01 Feb 2026 11:55:40 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/03-Islamic-Ornaments-Collection/01.jpeg",
+              "description": "زخرفة إسلامية بتفاصيل دقيقة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "211.9 kB",
+              "date": "Sun 01 Feb 2026 09:52:27 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/03-Islamic-Ornaments-Collection/02.jpeg",
+              "description": "تصميم إسلامي مذهل",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "116.0 kB",
+              "date": "Sun 01 Feb 2026 09:52:18 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/03-Islamic-Ornaments-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثالث للزخارف",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "04-Islamic-Ornaments-Collection",
+          "name": "Islamic Ornaments Collection 04",
+          "files": [
+                {
+              "name": "02.jpeg",
+              "size": "124.0 kB",
+              "date": "Sun 01 Feb 2026 09:53:08 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/04-Islamic-Ornaments-Collection/Main.jpeg",
+              "description": "تصميم إسلامي بتدرجات ذهبية",
+              "price": "130 EGP"
+            },
+            {
+              "name": "01.jpeg",
+              "size": "94.5 kB",
+              "date": "Sun 01 Feb 2026 11:55:44 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/04-Islamic-Ornaments-Collection/01.jpeg",
+              "description": "زخرفة إسلامية بسيطة وأنيقة",
+              "price": "130 EGP"
+            },
+              {
+              "name": "01.jpeg",
+              "size": "94.5 kB",
+              "date": "Sun 01 Feb 2026 11:55:44 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/04-Islamic-Ornaments-Collection/03.jpeg",
+              "description": "زخرفة إسلامية بسيطة وأنيقة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "124.0 kB",
+              "date": "Sun 01 Feb 2026 09:53:08 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/04-Islamic-Ornaments-Collection/04.jpeg",
+              "description": "تصميم إسلامي بتدرجات ذهبية",
+              "price": "130 EGP"
+            }
+          ]
+        },
+        {
+          "id": "05-Islamic-Ornaments-Collection",
+          "name": "Islamic Ornaments Collection 05",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "205.8 kB",
+              "date": "Sun 01 Feb 2026 09:53:21 PM EET",
+              "url": "/Img/Collections/03-Islamic-Ornaments/05-Islamic-Ornaments-Collection/01.jpeg",
+              "description": "زخرفة إسلامية فاخرة",
+              "price": "130 EGP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "04-Islamic-Scarf",
+      "name": "Islamic Scarf",
+      "description": "مجموعة تصميمات للحجاب الإسلامي بأنماط عصرية وكلاسيكية",
+      "price": "130 EGP",
+      "rating": 4.6,
+      "folders": [
+        {
+          "id": "01-Ramadan-Collection",
+          "name": "Ramadan Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "118.3 kB",
+              "date": "Sun 01 Feb 2026 09:49:42 PM",
+              "url": "/Img/Collections/04-Islamic-Scarf/01-Ramadan-Collection/01.jpeg",
+              "description": "حجاب رمضاني بتصميم خاص",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "175.3 kB",
+              "date": "Sun 01 Feb 2026 09:49:50 PM",
+              "url": "/Img/Collections/04-Islamic-Scarf/01-Ramadan-Collection/02.jpeg",
+              "description": "حجاب رمضان مع زخارف ذهبية",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "106.8 kB",
+              "date": "Sun 01 Feb 2026 09:49:33 PM",
+              "url": "/Img/Collections/04-Islamic-Scarf/01-Ramadan-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي للحجاب الرمضاني",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Ramadan-Collection",
+          "name": "Ramadan Collection 02",
+          "files": []
+        }
+      ],
+      "totalItems": 1,
+      "freeSpace": "74.5 GB"
+    },
+    {
+      "id": "05-Ramadan",
+      "name": "Ramadan",
+      "description": "مجموعة تصميمات رمضانية مميزة بزخارف احتفالية",
+      "price": "130 EGP",
+      "rating": 4.8,
+      "folders": [
+        {
+          "id": "01-Ramadan-Collection",
+          "name": "Ramadan Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "182.8 kB",
+              "date": "Sun 01 Feb 2026 09:55:55 PM",
+              "url": "/Img/Collections/05-Ramadan/01-Ramadan-Collection/01.jpeg",
+              "description": "تصميم رمضاني بزخارف الهلال",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "270.0 kB",
+              "date": "Sun 01 Feb 2026 09:55:59 PM",
+              "url": "/Img/Collections/05-Ramadan/01-Ramadan-Collection/02.jpeg",
+              "description": "زخارف رمضانية ذهبية",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "196.0 kB",
+              "date": "Sun 01 Feb 2026 09:55:48 PM",
+              "url": "/Img/Collections/05-Ramadan/01-Ramadan-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي للرمضان",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Ramadan-Collection",
+          "name": "Ramadan Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "136.9 kB",
+              "date": "Sun 01 Feb 2026 09:56:20 PM",
+              "url": "/Img/Collections/05-Ramadan/02-Ramadan-Collection/01.jpeg",
+              "description": "تصميم رمضاني كلاسيكي",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "119.3 kB",
+              "date": "Sun 01 Feb 2026 09:56:27 PM",
+              "url": "/Img/Collections/05-Ramadan/02-Ramadan-Collection/02.jpeg",
+              "description": "زخارف رمضان بتصميم عصري",
+              "price": "130 EGP"
+            }
+          ]
+        },
+        {
+          "id": "03-Ramadan-Collection",
+          "name": "Ramadan Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "125.7 kB",
+              "date": "Sun 01 Feb 2026 09:56:47 PM",
+              "url": "/Img/Collections/05-Ramadan/03-Ramadan-Collection/01.jpeg",
+              "description": "تصميم رمضاني أنيق",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "205.2 kB",
+              "date": "Sun 01 Feb 2026 09:57:01 PM",
+              "url": "/Img/Collections/05-Ramadan/03-Ramadan-Collection/02.jpeg",
+              "description": "زخارف رمضانية مطرزة",
+              "price": "130 EGP"
+            }
+          ]
+        },
+        {
+          "id": "04-Ramadan-Collection",
+          "name": "Ramadan Collection 04",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "141.8 kB",
+              "date": "Sun 01 Feb 2026 09:57:19 PM",
+              "url": "/Img/Collections/05-Ramadan/04-Ramadan-Collection/01.jpeg",
+              "description": "تصميم رمضاني فاخر",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "183.9 kB",
+              "date": "Sun 01 Feb 2026 09:57:26 PM",
+              "url": "/Img/Collections/05-Ramadan/04-Ramadan-Collection/02.jpeg",
+              "description": "زخارف رمضان مع النجوم",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "106.4 kB",
+              "date": "Sun 01 Feb 2026 09:57:11 PM",
+              "url": "/Img/Collections/05-Ramadan/04-Ramadan-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الرابع للرمضان",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        }
+      ],
+      "totalItems": 4,
+      "freeSpace": "74.5 GB"
+    },
+    {
+      "id": "06-Pattern",
+      "name": "Pattern",
+      "description": "مجموعة أنماط وتصميمات متنوعة بتقنيات مبتكرة",
+      "price": "130 EGP",
+      "rating": 4.4,
+      "folders": [
+        {
+          "id": "01-Pattern-Collection",
+          "name": "Pattern Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "304.5 kB",
+              "date": "Sun 01 Feb 2026 09:54:34 PM EET",
+              "url": "/Img/Collections/06-Pattern/01-Pattern-Collection/01.jpeg",
+              "description": "نمط هندسي بتصميم مذهل",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "116.9 kB",
+              "date": "Sun 01 Feb 2026 09:54:40 PM EET",
+              "url": "/Img/Collections/06-Pattern/01-Pattern-Collection/02.jpeg",
+              "description": "نمط زهري رقيق",
+              "price": "130 EGP"
+            },
+            {
+              "name": "03.jpeg",
+              "size": "287.1 kB",
+              "date": "Sun 01 Feb 2026 09:54:46 PM EET",
+              "url": "/Img/Collections/06-Pattern/01-Pattern-Collection/03.jpeg",
+              "description": "تصميم نمطي معاصر",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "110.7 kB",
+              "date": "Sun 01 Feb 2026 09:54:26 PM EET",
+              "url": "/Img/Collections/06-Pattern/01-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الأول للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Pattern-Collection",
+          "name": "Pattern Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "358.4 kB",
+              "date": "Sun 01 Feb 2026 09:55:05 PM EET",
+              "url": "/Img/Collections/06-Pattern/02-Pattern-Collection/01.jpeg",
+              "description": "نمط مطرز بتفاصيل دقيقة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "287.1 kB",
+              "date": "Sun 01 Feb 2026 09:55:17 PM EET",
+              "url": "/Img/Collections/06-Pattern/02-Pattern-Collection/02.jpeg",
+              "description": "تصميم نمطي كلاسيكي",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "141.6 kB",
+              "date": "Sun 01 Feb 2026 09:54:56 PM EET",
+              "url": "/Img/Collections/06-Pattern/02-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثاني للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "03-Pattern-Collection",
+          "name": "Pattern Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "123.0 kB",
+              "date": "Sun 01 Feb 2026 10:00:45 PM EET",
+              "url": "/Img/Collections/06-Pattern/03-Pattern-Collection/01.jpeg",
+              "description": "نمط بتصميم فني",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "178.7 kB",
+              "date": "Sun 01 Feb 2026 10:00:54 PM EET",
+              "url": "/Img/Collections/06-Pattern/03-Pattern-Collection/02.jpeg",
+              "description": "تصميم نمطي بتدرجات جميلة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "136.8 kB",
+              "date": "Sun 01 Feb 2026 10:00:28 PM EET",
+              "url": "/Img/Collections/06-Pattern/03-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثالث للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "04-Pattern-Collection",
+          "name": "Pattern Collection 04",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "145.3 kB",
+              "date": "Sun 01 Feb 2026 09:55:39 PM EET",
+              "url": "/Img/Collections/06-Pattern/04-Pattern-Collection/01.jpeg",
+              "description": "نمط بسيط وأنيق",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "100.4 kB",
+              "date": "Sun 01 Feb 2026 09:55:31 PM EET",
+              "url": "/Img/Collections/06-Pattern/04-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الرابع للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "05-Pattern-Collection",
+          "name": "Pattern Collection 05",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "288.4 kB",
+              "date": "Wed 04 Feb 2026 04:38:25 PM EET",
+              "url": "/Img/Collections/06-Pattern/05-Pattern-Collection/01.jpeg",
+              "description": "نمط بتصميم ثلاثي الأبعاد",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "255.0 kB",
+              "date": "Wed 04 Feb 2026 04:38:09 PM EET",
+              "url": "/Img/Collections/06-Pattern/05-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الخامس للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "06-Pattern-Collection",
+          "name": "Pattern Collection 06",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "114.1 kB",
+              "date": "Wed 04 Feb 2026 04:39:16 PM EET",
+              "url": "/Img/Collections/06-Pattern/06-Pattern-Collection/01.jpeg",
+              "description": "نمط بتصميم متموج",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "122.7 kB",
+              "date": "Wed 04 Feb 2026 04:39:40 PM EET",
+              "url": "/Img/Collections/06-Pattern/06-Pattern-Collection/02.jpeg",
+              "description": "تصميم نمطي هندسي",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "95.1 kB",
+              "date": "Wed 04 Feb 2026 04:38:52 PM EET",
+              "url": "/Img/Collections/06-Pattern/06-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي السادس للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "07-Pattern-Collection",
+          "name": "Pattern Collection 07",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "121.2 kB",
+              "date": "Wed 04 Feb 2026 04:46:46 PM EET",
+              "url": "/Img/Collections/06-Pattern/07-Pattern-Collection/01.jpeg",
+              "description": "نمط بتصميم فريد",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "94.9 kB",
+              "date": "Wed 04 Feb 2026 04:46:35 PM EET",
+              "url": "/Img/Collections/06-Pattern/07-Pattern-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي السابع للأنماط",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        }
+      ],
+      "totalItems": 7,
+      "freeSpace": "74.5 GB"
+    },
+    {
+      "id": "07-Itamine",
+      "name": "Itamine",
+      "description": "مجموعة تصميمات إيتامين الفريدة والإبداعية",
+      "price": "130 EGP",
+      "rating": 4.2,
+      "folders": [
+        {
+          "id": "01-Itamine-design-collection",
+          "name": "Itamine Design Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "294.1 kB",
+              "date": "Wed 04 Feb 2026 04:37:24 PM EET",
+              "url": "/Img/Collections/07-Itamine/01-Itamine-design-collection/01.jpeg",
+              "description": "تصميم إيتامين بتقنية مبتكرة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "252.5 kB",
+              "date": "Wed 04 Feb 2026 04:36:59 PM EET",
+              "url": "/Img/Collections/07-Itamine/01-Itamine-design-collection/Main.jpeg",
+              "description": "التصميم الرئيسي لإيتامين",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Itamine-design-collection",
+          "name": "Itamine Design Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "207.3 kB",
+              "date": "Wed 04 Feb 2026 04:43:08 PM EET",
+              "url": "/Img/Collections/07-Itamine/02-Itamine-design-collection/01.jpeg",
+              "description": "إيتامين بتصميم ثلاثي الأبعاد",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "228.2 kB",
+              "date": "Wed 04 Feb 2026 04:42:53 PM EET",
+              "url": "/Img/Collections/07-Itamine/02-Itamine-design-collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثاني لإيتامين",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "03-Itamine-design-collection",
+          "name": "Itamine Design Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "261.6 kB",
+              "date": "Wed 04 Feb 2026 04:43:26 PM EET",
+              "url": "/Img/Collections/07-Itamine/03-Itamine-design-collection/01.jpeg",
+              "description": "تصميم إيتامين فني",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "153.0 kB",
+              "date": "Wed 04 Feb 2026 04:43:30 PM EET",
+              "url": "/Img/Collections/07-Itamine/03-Itamine-design-collection/02.jpeg",
+              "description": "إيتامين بتصميم متموج",
+              "price": "130 EGP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "08-Colourfull-Limited",
+      "name": "Colourfull Limited",
+      "description": "مجموعة تصميمات ملونة محدودة بطابع فني متميز",
+      "price": "130 EGP",
+      "rating": 4.6,
+      "folders": [
+        {
+          "id": "01-Colourfull-Limited-Design-Collection",
+          "name": "Colourfull Limited Design Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "216.1 kB",
+              "date": "Wed 04 Feb 2026 04:41:05 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/01-Colourfull-Limited-Design-Collection/01.jpeg",
+              "description": "تصميم ملون محدود بنسخة خاصة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "141.5 kB",
+              "date": "Wed 04 Feb 2026 04:40:51 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/01-Colourfull-Limited-Design-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الملون المحدود",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Colourfull-Limited-Design-Collection",
+          "name": "Colourfull Limited Design Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "161.6 kB",
+              "date": "Wed 04 Feb 2026 04:41:47 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/02-Colourfull-Limited-Design-Collection/01.jpeg",
+              "description": "تصميم ملون بتدرجات رائعة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "103.9 kB",
+              "date": "Wed 04 Feb 2026 04:41:32 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/02-Colourfull-Limited-Design-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثاني الملون",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "03-Colourfull-Limited-Design-Collection",
+          "name": "Colourfull Limited Design Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "151.3 kB",
+              "date": "Wed 04 Feb 2026 04:42:16 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/03-Colourfull-Limited-Design-Collection/01.jpeg",
+              "description": "تصميم ملون محدود بنسخة فريدة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "116.5 kB",
+              "date": "Wed 04 Feb 2026 04:42:03 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/03-Colourfull-Limited-Design-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثالث الملون",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "04-Colourfull-Limited-Design-Collection",
+          "name": "Colourfull Limited Design Collection 04",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "208.4 kB",
+              "date": "Wed 04 Feb 2026 04:44:34 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/04-Colourfull-Limited-Design-Collection/01.jpeg",
+              "description": "تصميم ملون بتقنية متطورة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "145.9 kB",
+              "date": "Wed 04 Feb 2026 04:44:38 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/04-Colourfull-Limited-Design-Collection/02.jpeg",
+              "description": "تصميم ملون محدود خاص",
+              "price": "130 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "155.7 kB",
+              "date": "Wed 04 Feb 2026 04:44:21 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/04-Colourfull-Limited-Design-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الرابع الملون",
+              "price": "130 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "05-Colourfull-Limited-Design-Collection",
+          "name": "Colourfull Limited Design Collection 05",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "272.8 kB",
+              "date": "Wed 04 Feb 2026 04:45:19 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/05-Colourfull-Limited-Design-Collection/01.jpeg",
+              "description": "تصميم ملون بتدرجات مذهلة",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "287.0 kB",
+              "date": "Wed 04 Feb 2026 04:45:00 PM",
+              "url": "/Img/Collections/08-Colourfull-Limited/05-Colourfull-Limited-Design-Collection/02.jpeg",
+              "description": "تصميم ملون محدود نهائي",
+              "price": "130 EGP"
+            }
+          ]
+        }
+      ],
+      "totalItems": 5,
+      "freeSpace": "74.5 GB"
+    },
+    {
+      "id": "09-Melt-designs",
+      "name": "Melt designs",
+      "description": "مجموعة تصميمات ميلت الذائبة بتقنيات فنية فريدة",
+      "price": "130 EGP",
+      "rating": 4.1,
+      "folders": [
+        {
+          "id": "01-Melt-designs-Collection",
+          "name": "Melt designs Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "105.3 kB",
+              "date": "Wed 04 Feb 2026 04:47:35 PM",
+              "url": "/Img/Collections/09-Melt-designs/01-Melt-designs-Collection/01.jpeg",
+              "description": "تصميم ميلت ذائب بتقنية فنية",
+              "price": "130 EGP"
+            }
+          ]
+        },
+        {
+          "id": "02-Melt-designs-Collection",
+          "name": "Melt designs Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "103.1 kB",
+              "date": "Wed 04 Feb 2026 04:46:41 PM",
+              "url": "/Img/Collections/09-Melt-designs/02-Melt-designs-Collection/01.jpeg",
+              "description": "ميلت ذائب بتصميم مميز",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "104.4 kB",
+              "date": "Wed 04 Feb 2026 04:46:39 PM",
+              "url": "/Img/Collections/09-Melt-designs/02-Melt-designs-Collection/02.jpeg",
+              "description": "تصميم ميلت بتقنية متطورة",
+              "price": "130 EGP"
+            }
+          ]
+        },
+        {
+          "id": "03-Melt-designs-Collection",
+          "name": "Melt designs Collection 03",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "108.0 kB",
+              "date": "Wed 04 Feb 2026 04:45:44 PM",
+              "url": "/Img/Collections/09-Melt-designs/03-Melt-designs-Collection/01.jpeg",
+              "description": "تصميم ميلت كلاسيكي",
+              "price": "130 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "117.1 kB",
+              "date": "Wed 04 Feb 2026 04:48:46 PM",
+              "url": "/Img/Collections/09-Melt-designs/03-Melt-designs-Collection/02.jpeg",
+              "description": "ميلت ذائب بتصميم نهائي",
+              "price": "130 EGP"
+            }
+          ]
+        }
+      ],
+      "totalItems": 4,
+      "freeSpace": "74.5 GB"
+    },
+    {
+      "id": "10-Beige-Basic-grad",
+      "name": "Beige Basic grad",
+      "description": "مجموعة ألوان بيجية متدرجة بأناقة وهدوء",
+      "price": "100 EGP",
+      "rating": 4.0,
+      "folders": [
+        {
+          "id": "01-Beige-Basic-grad-Colours-Collection",
+          "name": "Beige Basic grad Colours Collection 01",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "56.5 kB",
+              "date": "Wed 04 Feb 2026 04:49:47 PM EET",
+              "url": "/Img/Collections/10-Beige-Basic-grad/01-Beige-Basic-grad-Colours-Collection/01.jpeg",
+              "description": "تدرج بيج فاتح وأنيق",
+              "price": "100 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "57.6 kB",
+              "date": "Wed 04 Feb 2026 04:49:38 PM EET",
+              "url": "/Img/Collections/10-Beige-Basic-grad/01-Beige-Basic-grad-Colours-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي للبيج المتدرج",
+              "price": "100 EGP",
+              "isMain": true
+            }
+          ]
+        },
+        {
+          "id": "02-Beige-Basic-grad-Colours-Collection",
+          "name": "Beige Basic grad Colours Collection 02",
+          "files": [
+            {
+              "name": "01.jpeg",
+              "size": "51.2 kB",
+              "date": "Wed 04 Feb 2026 04:50:01 PM EET",
+              "url": "/Img/Collections/10-Beige-Basic-grad/02-Beige-Basic-grad-Colours-Collection/01.jpeg",
+              "description": "بيج متوسط بتصميم بسيط",
+              "price": "100 EGP"
+            },
+            {
+              "name": "02.jpeg",
+              "size": "46.2 kB",
+              "date": "Wed 04 Feb 2026 04:50:08 PM EET",
+              "url": "/Img/Collections/10-Beige-Basic-grad/02-Beige-Basic-grad-Colours-Collection/02.jpeg",
+              "description": "تدرج بيج غامق",
+              "price": "100 EGP"
+            },
+            {
+              "name": "03.jpeg",
+              "size": "51.2 kB",
+              "date": "Wed 04 Feb 2026 04:50:14 PM EET",
+              "url": "/Img/Collections/10-Beige-Basic-grad/02-Beige-Basic-grad-Colours-Collection/03.jpeg",
+              "description": "بيج فاتح مع لمسات ذهبية",
+              "price": "100 EGP"
+            },
+            {
+              "name": "Main.jpeg",
+              "size": "39.3 kB",
+              "date": "Wed 04 Feb 2026 04:49:53 PM EET",
+              "url": "/Img/Collections/10-Beige-Basic-grad/02-Beige-Basic-grad-Colours-Collection/Main.jpeg",
+              "description": "التصميم الرئيسي الثاني للبيج",
+              "price": "100 EGP",
+              "isMain": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalCollections": 10,
+    "lastUpdated": "2026-02-04",
+    "version": "1.0.0",
+    "description": "مجموعة كاملة من التصميمات والمجموعات الفنية"
+  }
+}

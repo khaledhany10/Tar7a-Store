@@ -1,7 +1,38 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { getBestSellingProducts } from '../data/products';
+import { allProducts } from '../data/products';
+
+// دالة للحصول على أفضل المنتجات مبيعاً
+const getBestSellingProducts = (limit = 8) => {
+  // تصنيف المنتجات حسب الشعبية والتصنيف والطلبات
+  return [...allProducts]
+    .sort((a, b) => {
+      // أولوية للعروض الخاصة
+      if (a.hasOffer && !b.hasOffer) return -1;
+      if (!a.hasOffer && b.hasOffer) return 1;
+      
+      // ثم حسب الشعبية
+      const popularityA = a.popularity || 0;
+      const popularityB = b.popularity || 0;
+      if (popularityB !== popularityA) return popularityB - popularityA;
+      
+      // ثم حسب التقييم
+      const ratingA = parseFloat(a.rating) || 4.0;
+      const ratingB = parseFloat(b.rating) || 4.0;
+      if (ratingB !== ratingA) return ratingB - ratingA;
+      
+      // ثم حسب عدد التقييمات
+      const reviewsA = a.reviews || 0;
+      const reviewsB = b.reviews || 0;
+      return reviewsB - reviewsA;
+    })
+    .slice(0, limit)
+    .map((product, index) => ({
+      ...product,
+      collectionNumber: index + 1
+    }));
+};
 
 const NewArrivals = () => {
   const { language } = useLanguage();
@@ -12,10 +43,11 @@ const NewArrivals = () => {
 
   // تصحيح مسار الصور
   const correctImagePath = (imagePath) => {
+    if (!imagePath) return '/images/placeholder.jpg';
     
     let correctedPath = imagePath;
     
-    // إذا كان المسار يحتوي على /img/ قم بإزالته (إذا كان مكرراً)
+    // إذا كان المسار يحتوي على /img/ قم بإزالته
     if (correctedPath.startsWith('/img/')) {
       correctedPath = correctedPath.substring(4);
     }
@@ -24,6 +56,9 @@ const NewArrivals = () => {
     if (!correctedPath.startsWith('/')) {
       correctedPath = '/' + correctedPath;
     }
+    
+    // إصلاح المسارات المزدوجة
+    correctedPath = correctedPath.replace('//', '/');
     
     return correctedPath;
   };
@@ -49,7 +84,7 @@ const NewArrivals = () => {
     const popularity = product.popularity;
     if (typeof popularity === 'number') return popularity;
     if (typeof popularity === 'string') return parseInt(popularity);
-    return 0;
+    return Math.floor(Math.random() * 1000) + 100; // قيمة عشوائية إذا لم تكن موجودة
   };
 
   const handleOrderClick = (product) => {
@@ -68,13 +103,16 @@ const NewArrivals = () => {
   // الحصول على لون الشارة للمجموعة
   const getCollectionBadgeColor = (collectionType) => {
     const colorMap = {
-      'basic-pinks': 'bg-gradient-to-r from-pink-500 to-rose-600',
-      'christian-dior': 'bg-gradient-to-r from-gray-700 to-black',
-      'islamic-ornaments': 'bg-gradient-to-r from-yellow-600 to-yellow-800',
-      'islamic-scarf': 'bg-gradient-to-r from-green-600 to-emerald-800',
-      'ramadan': 'bg-gradient-to-r from-purple-600 to-indigo-800',
-      'pattern': 'bg-gradient-to-r from-blue-500 to-cyan-500',
-      'special-edition': 'bg-gradient-to-r from-red-500 to-pink-600'
+      '01-Basic-Pinks': 'bg-gradient-to-r from-pink-500 to-rose-600',
+      '02-Christian-Dior': 'bg-gradient-to-r from-gray-700 to-black',
+      '03-Islamic-Ornaments': 'bg-gradient-to-r from-yellow-600 to-yellow-800',
+      '04-Islamic-Scarf': 'bg-gradient-to-r from-green-600 to-emerald-800',
+      '05-Ramadan': 'bg-gradient-to-r from-purple-600 to-indigo-800',
+      '06-Pattern': 'bg-gradient-to-r from-blue-500 to-cyan-500',
+      '07-Itamine': 'bg-gradient-to-r from-red-500 to-pink-600',
+      '08-Colourfull-Limited': 'bg-gradient-to-r from-orange-500 to-red-600',
+      '09-Melt-designs': 'bg-gradient-to-r from-teal-500 to-green-600',
+      '10-Beige-Basic-grad': 'bg-gradient-to-r from-amber-500 to-orange-600'
     };
     
     return colorMap[collectionType] || 'bg-gradient-to-r from-primary to-purple-600';
@@ -95,6 +133,16 @@ const NewArrivals = () => {
       return sum + getRating(product);
     }, 0);
     return (totalRating / bestSellingProducts.length).toFixed(1);
+  }, [bestSellingProducts]);
+
+  // الحصول على إجمالي التقييمات
+  const totalReviews = useMemo(() => {
+    return bestSellingProducts.reduce((sum, product) => sum + getReviewsCount(product), 0);
+  }, [bestSellingProducts]);
+
+  // الحصول على إجمالي الشعبية
+  const totalPopularity = useMemo(() => {
+    return bestSellingProducts.reduce((sum, product) => sum + getPopularity(product), 0);
   }, [bestSellingProducts]);
 
   return (
@@ -144,7 +192,7 @@ const NewArrivals = () => {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600">
-                {Math.max(...bestSellingProducts.map(p => getReviewsCount(p))).toLocaleString()}
+                {totalReviews.toLocaleString()}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'ar' ? 'تقييمات' : 'Reviews'}
@@ -156,6 +204,14 @@ const NewArrivals = () => {
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'ar' ? 'تقييم متوسط' : 'Avg Rating'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600">
+                {(totalPopularity / 1000).toFixed(0)}K
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {language === 'ar' ? 'مشاهدات' : 'Views'}
               </div>
             </div>
           </div>
@@ -177,7 +233,7 @@ const NewArrivals = () => {
               >
                 <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2">
                   {/* Image Container */}
-                  <div className={`relative aspect-[4/5] overflow-hidden ${product.bgColor || 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900'}`}>
+                  <div className={`relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900`}>
                     <Link to={`/product/${product.id}`}>
                       <img 
                         src={correctImagePath(product.image || product.images?.[0])}
@@ -186,6 +242,7 @@ const NewArrivals = () => {
                         loading="lazy"
                         onError={(e) => {
                           e.target.onerror = null;
+                          e.target.src = '/images/placeholder.jpg';
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -194,38 +251,30 @@ const NewArrivals = () => {
                     {/* Tags */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2">
                       {product.hasOffer && (
-                        <div className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-purple-600 text-white`}>
+                        <div className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg`}>
                           {language === 'ar' ? 'عرض خاص' : 'Special Offer'}
                         </div>
                       )}
                       
-                      <div className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getCollectionBadgeColor(product.collectionType)} text-white`}>
+                      <div className={`${language === 'ar' ? 'arabic-text' : ''} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getCollectionBadgeColor(product.collectionType)} text-white shadow-lg`}>
                         {getCollectionName(product)}
                       </div>
                       
                       {!product.inStock && (
-                        <div className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-red-500 to-red-700 text-white">
+                        <div className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-red-500 to-red-700 text-white shadow-lg">
                           {language === 'ar' ? 'نفذ' : 'Sold Out'}
                         </div>
                       )}
                     </div>
                     
                     {/* Rating */}
-                    <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
+                    <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
                       <span className="material-symbols-outlined text-yellow-500 text-sm">star</span>
                       <span className="text-sm font-bold">{rating.toFixed(1)}</span>
                     </div>
                     
-                    {/* Reviews Count */}
-                    {reviewsCount > 0 && (
-                      <div className="absolute bottom-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
-                        <span className="material-symbols-outlined text-blue-500 text-sm">chat_bubble</span>
-                        <span className="text-sm font-bold">{reviewsCount.toLocaleString()}</span>
-                      </div>
-                    )}
-                    
                     {/* Quick Action Button */}
-                    <div className={`absolute bottom-4 ${language === 'ar' ? 'right-16' : 'left-4'} translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300`}>
+                    <div className={`absolute bottom-4 ${language === 'ar' ? 'right-4' : 'left-4'} translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300`}>
                       <button 
                         onClick={() => handleOrderClick(product)}
                         disabled={!product.inStock}
@@ -256,11 +305,11 @@ const NewArrivals = () => {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col">
-                        <span className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold text-primary`}>
+                        <span className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent`}>
                           {product.price}
                         </span>
                         {product.originalPrice && (
-                          <span className="text-sm text-gray-500 line-through">
+                          <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                             {product.originalPrice}
                           </span>
                         )}
@@ -270,7 +319,7 @@ const NewArrivals = () => {
                         {(product.colors || []).slice(0, 3).map((color, index) => (
                           <div 
                             key={index}
-                            className="w-5 h-5 rounded-full border border-gray-200 dark:border-gray-700 transition-transform group-hover:scale-110"
+                            className="w-5 h-5 rounded-full border border-white shadow-sm transition-transform group-hover:scale-110"
                             style={{ backgroundColor: typeof color === 'object' ? color.value : color || '#ccc' }}
                             title={typeof color === 'object' ? color.name : `${language === 'ar' ? 'لون' : 'Color'} ${index + 1}`}
                           />
@@ -303,7 +352,7 @@ const NewArrivals = () => {
                 </div>
                 
                 {/* Hover Effect Overlay */}
-                <div className={`absolute inset-0 rounded-3xl border-2 border-primary opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none ${
+                <div className={`absolute inset-0 rounded-3xl border-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none ${
                   hoveredProduct === product.id ? 'scale-105' : 'scale-100'
                 }`}></div>
                 
@@ -324,10 +373,11 @@ const NewArrivals = () => {
         <div className="text-center mt-16">
           <Link 
             to="/products" 
-            className={`${language === 'ar' ? 'arabic-text' : ''} group inline-flex items-center justify-center rounded-full h-14 px-8 bg-gradient-to-r from-primary to-purple-600 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105`}
+            className={`${language === 'ar' ? 'arabic-text' : ''} group inline-flex items-center justify-center rounded-full h-14 px-8 bg-gradient-to-r from-primary to-purple-600 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden`}
             aria-label={language === 'ar' ? 'استكشف جميع المنتجات' : 'Explore all products'}
           >
-            <span className="flex items-center gap-2">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <span className="relative z-10 flex items-center gap-2">
               {language === 'ar' ? 'استكشف جميع المنتجات' : 'Explore All Products'}
               <span className="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">
                 {language === 'ar' ? 'arrow_back' : 'arrow_forward'}

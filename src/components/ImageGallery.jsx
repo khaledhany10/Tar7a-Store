@@ -1,3 +1,4 @@
+// src/components/ImageGallery.jsx
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
@@ -8,10 +9,11 @@ import {
 
 // تصحيح مسار الصور
 const correctImagePath = (imagePath) => {
+  if (!imagePath) return '/images/placeholder.jpg';
   
   let correctedPath = imagePath;
   
-  // إذا كان المسار يحتوي على /img/ قم بإزالته (إذا كان مكرراً)
+  // إصلاح المسارات
   if (correctedPath.startsWith('/img/')) {
     correctedPath = correctedPath.substring(4);
   }
@@ -20,6 +22,9 @@ const correctImagePath = (imagePath) => {
   if (!correctedPath.startsWith('/')) {
     correctedPath = '/' + correctedPath;
   }
+  
+  // إصلاح المسارات المزدوجة
+  correctedPath = correctedPath.replace('//', '/');
   
   return correctedPath;
 };
@@ -57,6 +62,7 @@ const Thumbnail = memo(({ img, isActive, onClick }) => {
         loading="lazy"
         onError={(e) => {
           e.target.onerror = null;
+          e.target.src = '/images/placeholder.jpg';
         }}
       />
       <div className="absolute bottom-1 right-1 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded">
@@ -70,13 +76,16 @@ const CollectionCard = memo(({ collection, language, onClick }) => {
   // الحصول على لون الشارة للمجموعة
   const getCollectionBadgeColor = (collectionType) => {
     const colorMap = {
-      'basic-pinks': 'from-pink-500 to-rose-600',
-      'christian-dior': 'from-gray-700 to-black',
-      'islamic-ornaments': 'from-yellow-600 to-yellow-800',
-      'islamic-scarf': 'from-green-600 to-emerald-800',
-      'ramadan': 'from-purple-600 to-indigo-800',
-      'pattern': 'from-blue-500 to-cyan-500',
-      'special-edition': 'from-red-500 to-pink-600'
+      '01-Basic-Pinks': 'from-pink-500 to-rose-600',
+      '02-Christian-Dior': 'from-gray-700 to-black',
+      '03-Islamic-Ornaments': 'from-yellow-600 to-yellow-800',
+      '04-Islamic-Scarf': 'from-green-600 to-emerald-800',
+      '05-Ramadan': 'from-purple-600 to-indigo-800',
+      '06-Pattern': 'from-blue-500 to-cyan-500',
+      '07-Itamine': 'from-red-500 to-pink-600',
+      '08-Colourfull-Limited': 'from-orange-500 to-red-600',
+      '09-Melt-designs': 'from-teal-500 to-green-600',
+      '10-Beige-Basic-grad': 'from-amber-500 to-orange-600'
     };
     
     return colorMap[collectionType] || 'from-primary to-purple-600';
@@ -84,6 +93,15 @@ const CollectionCard = memo(({ collection, language, onClick }) => {
 
   const collectionName = language === 'ar' ? collection.name : collection.nameEn;
   
+  // الحصول على صورة للمجموعة (أول منتج في المجموعة)
+  const getCollectionImage = () => {
+    const collectionProducts = getProductsByCollection(collection.id);
+    if (collectionProducts.length > 0) {
+      return collectionProducts[0].image || collectionProducts[0].images?.[0];
+    }
+    return '/images/placeholder.jpg';
+  };
+
   return (
     <div 
       onClick={() => onClick(collection.id)}
@@ -91,12 +109,13 @@ const CollectionCard = memo(({ collection, language, onClick }) => {
     >
       <div className="relative w-20 h-20 mb-4 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
         <img 
-          src={correctImagePath(collection.image)}
+          src={correctImagePath(getCollectionImage())}
           alt={collectionName}
           className="w-full h-full object-cover"
           loading="lazy"
           onError={(e) => {
             e.target.onerror = null;
+            e.target.src = '/images/placeholder.jpg';
           }}
         />
         <div className={`absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-r ${getCollectionBadgeColor(collection.id)} flex items-center justify-center`}>
@@ -114,7 +133,7 @@ const CollectionCard = memo(({ collection, language, onClick }) => {
       
       <div className="mt-auto">
         <span className="text-primary font-bold text-lg">
-          {collection.price}
+          {collection.price || '100 EGP'}
         </span>
         <div className="text-xs text-gray-500 mt-1">
           {language === 'ar' ? 'تبدأ من' : 'Starting from'}
@@ -168,17 +187,19 @@ const ImageGallery = () => {
       } catch (error) {
         console.error('Error loading images:', error);
         
-        // في حالة الخطأ، إضافة صور افتراضية
-        setFeaturedImages([
-          {
-            alt: 'Islamic Design',
+        // في حالة الخطأ، إضافة صور افتراضية من المجموعة الأولى
+        if (allProducts.length > 0) {
+          const defaultImages = allProducts.slice(0, 12).map((product, index) => ({
+            url: product.image || product.images?.[0],
+            alt: product.name,
             type: language === 'ar' ? 'تصميم إسلامي' : 'Islamic Design',
-            collectionId: 'islamic-ornaments',
-            productId: 1,
-            productName: language === 'ar' ? 'زخارف إسلامية ذهبية' : 'Golden Islamic Ornaments',
-            description: language === 'ar' ? 'تصميم إسلامي فاخر' : 'Luxury Islamic Design'
-          }
-        ]);
+            collectionId: product.collectionType,
+            productId: product.id,
+            productName: product.name,
+            description: product.description
+          }));
+          setFeaturedImages(defaultImages);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -332,6 +353,7 @@ const ImageGallery = () => {
                 loading="eager"
                 onError={(e) => {
                   e.target.onerror = null;
+                  e.target.src = '/images/placeholder.jpg';
                 }}
               />
               
