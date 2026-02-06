@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useEffect, useState, useRef } from 'react';
 
 // استيراد الصور من المجلد العام
-import Image1 from "../../public/Img/Collections/06-Pattern/01-Pattern Collection/01.jpeg";
+import Image1 from "../../public/Img/Collections/06-Pattern/01-Pattern-Collection/01.jpeg";
 import Image2 from "../../public/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg";
 import Image3 from "../../public/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg";
 

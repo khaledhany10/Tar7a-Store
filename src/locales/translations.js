@@ -1,7 +1,7 @@
-// translations.js
+// src/translations/translations.js
 export const translations = {
   ar: {
-    // Common
+    // ========== Common ==========
     "common.readMore": "عرض التفاصيل",
     "common.showDetails": "عرض التفاصيل",
     "common.addToCart": "إضافة إلى السلة",
@@ -11,8 +11,28 @@ export const translations = {
     "common.subscribe": "اشتراك",
     "common.success": "تم بنجاح",
     "common.loading": "جاري التحميل...",
+    "common.new": "جديد",
+    "common.sale": "خصم",
+    "common.bestseller": "الأكثر مبيعاً",
+    "common.viewAll": "عرض الكل",
+    "common.price": "ج.م",
+    "common.categories": "الفئات",
+    "common.sortBy": "ترتيب حسب",
+    "common.search": "بحث...",
+    "common.filter": "فلتر",
+    "common.clearAll": "مسح الكل",
+    "common.previous": "السابق",
+    "common.next": "التالي",
+    "common.close": "إغلاق",
+    "common.save": "حفظ",
+    "common.cancel": "إلغاء",
+    "common.confirm": "تأكيد",
+    "common.delete": "حذف",
+    "common.edit": "تعديل",
+    "common.view": "عرض",
+    "common.details": "التفاصيل",
     
-    // Header
+    // ========== Header ==========
     "header.home": "الرئيسية",
     "header.allProducts": "جميع المنتجات",
     "header.fabrics": "الأقمشة",
@@ -26,23 +46,32 @@ export const translations = {
     "header.search": "بحث",
     "header.cart": "سلة التسوق",
     "header.switchLanguage": "تبديل اللغة",
+    "header.profile": "الملف الشخصي",
+    "header.logout": "تسجيل الخروج",
+    "header.login": "تسجيل الدخول",
+    "header.register": "تسجيل حساب",
+    "header.wishlist": "المفضلة",
+    "header.orders": "طلباتي",
     
-    // Hero
+    // ========== Hero ==========
     "hero.title": "الحياء و <span class='text-primary italic'>الجمال</span>",
     "hero.subtitle": "إعادة تعريف الحجاب العصري. اكتشف مجموعتنا الجديدة من الأقمشة المميزة، المصممة للأناقة اليومية والرقي المحتشم.",
     "hero.shopCollection": "تسوق المجموعة",
     "hero.ourFabrics": "أقمشتنا",
     "hero.newSeason": "موسم جديد",
     "hero.silkCollection": "مجموعة الحرير",
+    "hero.discover": "اكتشف المجموعة",
+    "hero.bestsellers": "الأكثر مبيعاً",
     
-    // NewArrivals
-    "newArrivals.title": "الوصلات الجديدة",
-    "newArrivals.subtitle": "تصاميم حديثة وصلت حديثًا لخزانتك.",
-    "newArrivals.viewAll": "عرض جميع الوصلات",
+    // ========== New Arrivals ==========
+    "newArrivals.title": "المنتجات الجديدة",
+    "newArrivals.subtitle": "تصاميم حديثة وصلت حديثًا لمجموعتنا.",
+    "newArrivals.viewAll": "عرض جميع المنتجات الجديدة",
     "newArrivals.new": "جديد",
     "newArrivals.sale": "خصم",
+    "newArrivals.bestseller": "الأكثر مبيعاً",
     
-    // FabricTypes
+    // ========== Fabric Types ==========
     "fabrics.title": "تسوق حسب نوع القماش",
     "fabrics.basicChiffon": "شيفون أساسي",
     "fabrics.premiumJersey": "جيرسي متميز",
@@ -54,7 +83,7 @@ export const translations = {
     "fabrics.elegantGeorgette": "جرجيت أنيق",
     "fabrics.viewAll": "عرض جميع الفئات",
     
-    // Experience
+    // ========== Experience ==========
     "experience.title": "تجربة متجر طرحة",
     "experience.premiumFabrics": "أقمشة مميزة",
     "experience.premiumFabricsDesc": "نختار فقط أعلى جودة من الأقمشة القابلة للتنفس التي تشعر بالراحة مثل مظهرها الرائع.",
@@ -63,7 +92,7 @@ export const translations = {
     "experience.globalShipping": "شحن عالمي",
     "experience.globalShippingDesc": "شحن سريع وموثوق للأخوات في جميع أنحاء العالم، يتم التعامل معه بعناية فائقة.",
     
-    // Testimonials
+    // ========== Testimonials ==========
     "testimonials.title": "محبوب من مجتمع متجر طرحة",
     "testimonials.subtitle": "اقرأ ما تقوله أخواتنا عن تجربتهم مع متجر طرحة.",
     "testimonials.trustedCustomer": "عميل موثوق",
@@ -73,20 +102,22 @@ export const translations = {
     "testimonials.averageRating": "متوسط التقييم",
     "testimonials.shippingCountries": "دولة يتم الشحن لها",
     
-    // ImageGallery
+    // ========== Gallery ==========
     "gallery.title": "تصفح مجموعتنا",
     "gallery.subtitle": "استكشف معرضنا الكامل لأنماط الحجاب. انقر للتصفح ورؤية جميع التصاميم الجميلة.",
     "gallery.viewAllProducts": "عرض جميع المنتجات",
+    "gallery.browse": "تصفح المجموعة",
     
-    // Newsletter
+    // ========== Newsletter ==========
     "newsletter.title": "انضمي إلى مجتمعنا",
     "newsletter.subtitle": "اشتركي واحصلي على خصم ١٠٪ على أول طلب لك، نصائح تنسيق حصرية، ووصول مبكر للمجموعات الجديدة.",
     "newsletter.emailPlaceholder": "عنوان بريدك الإلكتروني",
     "newsletter.subscribing": "جاري الاشتراك...",
     "newsletter.weekly": "نشرة إخبارية أسبوعية • يمكنك إلغاء الاشتراك في أي وقت",
     "newsletter.success": "شكرًا لك! تم الاشتراك بنجاح.",
+    "newsletter.join": "انضم إلينا",
     
-    // Contact
+    // ========== Contact ==========
     "contact.title": "تواصل معنا",
     "contact.subtitle": "لديك أسئلة؟ نحن هنا لمساعدتك! تواصل مع فريقنا لأي استفسارات حول المنتجات أو الطلبات أو الشراكات.",
     "contact.contactInfo": "معلومات الاتصال",
@@ -118,8 +149,9 @@ export const translations = {
     "contact.stayUpdated": "ابقَ على اطلاع",
     "contact.stayUpdatedDesc": "اشترك في نشرتنا الإخبارية للحصول على الوصول المبكر للمنتجات الجديدة، نصائح التنسيق، والعروض الحصرية.",
     "contact.enterEmail": "أدخل بريدك الإلكتروني",
+    "contact.getInTouch": "تواصل معنا",
     
-    // Footer
+    // ========== Footer ==========
     "footer.empowering": "تمكين المرأة المسلمة العصرية من خلال تصميمات مدروسة وحجابات عالية الجودة تحترم التقاليد والأناقة.",
     "footer.shopping": "التسوق",
     "footer.allProducts": "جميع المنتجات",
@@ -135,8 +167,11 @@ export const translations = {
     "footer.fabricCare": "دليل العناية بالأقمشة",
     "footer.faqs": "الأسئلة الشائعة",
     "footer.copyright": "© ٢٠٢٤ متجر طرحة. جميع الحقوق محفوظة. تمكين المرأة من خلال الموضة المحتشمة.",
+    "footer.privacy": "سياسة الخصوصية",
+    "footer.terms": "الشروط والأحكام",
+    "footer.social": "تابعنا",
     
-    // ProductDetail
+    // ========== Product Detail ==========
     "productDetail.home": "الرئيسية",
     "productDetail.shop": "التسوق",
     "productDetail.notFound": "المنتج غير موجود",
@@ -150,9 +185,45 @@ export const translations = {
     "productDetail.material": "النسيج",
     "productDetail.care": "تعليمات العناية",
     "productDetail.category": "الفئة",
-    "productDetail.reviews": "تقييم",
+    "productDetail.reviews": "التقييمات",
+    "productDetail.shipping": "الشحن",
+    "productDetail.returnPolicy": "سياسة الإرجاع",
+    "productDetail.relatedProducts": "منتجات ذات صلة",
+    "productDetail.features": "المميزات",
+    "productDetail.specifications": "المواصفات",
+    "productDetail.support247": "دعم 24/7",
+"productDetail.customerService": "خدمة عملاء",
+"productDetail.discoverMoreProducts": "اكتشف المزيد من المنتجات",
+"productDetail.discoverMore": "اكتشف {count} تصميمات أخرى من مجموعة {collection}",
+"productDetail.views": "المشاهدات",
+"productDetail.collection": "المجموعة",
+"productDetail.products": "منتجات",
+"productDetail.chooseColor": "اختر اللون",
+"productDetail.chooseSize": "اختر المقاس",
+"productDetail.decreaseQuantity": "تقليل الكمية",
+"productDetail.increaseQuantity": "زيادة الكمية",
+"productDetail.productDetails": "تفاصيل المنتج",
+"productDetail.dimensions": "الأبعاد",
+"productDetail.weight": "الوزن",
+"productDetail.shippingSupport": "الشحن والدعم",
+"productDetail.fastShipping": "شحن سريع",
+"productDetail.freeReturns": "إرجاع مجاني",
+"productDetail.withinDays": "خلال {days} يوم",
+"productDetail.relatedProducts": "منتجات أخرى من نفس المجموعة",
+"productDetail.noRelatedProducts": "لا توجد منتجات أخرى في هذه المجموعة",
+"productDetail.uniqueProduct": "هذا المنتج فريد من نوعه في مجموعته",
+"productDetail.browseAllProducts": "تصفح جميع المنتجات",
+"productDetail.quantity": "الكمية",
+"productDetail.material": "الخامة",
+"productDetail.care": "العناية",
+"productDetail.oneSize": "مقاس واحد",
+"productDetail.deliveryTime": "3-5 أيام عمل",
+"productDetail.productView": "منظر المنتج",
+"productDetail.loadError": "فشل تحميل المنتج",
+"productDetail.productNotFoundMessage": "لم نتمكن من العثور على المنتج الذي تبحث عنه. حاول تصفح متجرنا.",
+"productDetail.backToProducts": "العودة للمنتجات",
     
-    // Achievements
+    // ========== Achievements ==========
     "achievements.title": "إنجازاتنا",
     "achievements.subtitle": "رحلة نجاحنا في تمكين المرأة المسلمة من خلال الموضة المحتشمة",
     "achievements.ctaTitle": "انضم إلى رحلتنا",
@@ -173,7 +244,7 @@ export const translations = {
     "achievement.launch2021": "إطلاق متجر طرحة",
     "achievement.launch2021Desc": "بداية رحلتنا مع أول مجموعة من حجابات الشيفون",
     
-    // Milestones
+    // ========== Milestones ==========
     "milestones.uniqueDesigns": "تصاميم فريدة",
     "milestones.fiveStarReviews": "تقييم 5 نجوم",
     "milestones.countriesServed": "دولة نخدمها",
@@ -181,7 +252,7 @@ export const translations = {
     "milestones.fabricTypes": "نوع قماش",
     "milestones.customerSupport": "دعم العملاء",
     
-    // Team
+    // ========== Team ==========
     "team.title": "فريقنا المتميز",
     "team.subtitle": "فريق متخصص من المصممين والمهنيين الملتزمين بجودة المنتج ورضا العملاء",
     "team.sara": "سارة أحمد",
@@ -194,15 +265,77 @@ export const translations = {
     "team.amenaRole": "خبيرة الجودة",
     "team.amenaDesc": "تضمن أن كل منتج يلبي أعلى معايير الجودة والراحة",
     
-    // Mission & Vision
+    // ========== Mission & Vision ==========
     "mission.title": "مهمتنا",
     "mission.text": "تمكين المرأة المسلمة من خلال توفير حجابات عالية الجودة تجمع بين الأناقة والراحة والاحتشام، مع الالتزام بالاستدامة ورضا العملاء",
     "vision.title": "رؤيتنا",
-    "vision.text": "أن نكون الوجهة الأولى عالميًا للموضة المحتشمة، ونصبح علامة تجارية معترف بها للجودة والابتكار في تصميم الحجابات"
+    "vision.text": "أن نكون الوجهة الأولى عالميًا للموضة المحتشمة، ونصبح علامة تجارية معترف بها للجودة والابتكار في تصميم الحجابات",
+    
+    // ========== Products Page ==========
+    "products.title": "جميع المنتجات",
+    "products.subtitle": "اكتشف مجموعتنا الكاملة من التصاميم الإسلامية المميزة",
+    "products.filterBy": "تصفية حسب",
+    "products.sortBy": "ترتيب حسب",
+    "products.priceRange": "نطاق السعر",
+    "products.availability": "التوفر",
+    "products.collections": "المجموعات",
+    "products.rating": "التقييم",
+    "products.showing": "عرض",
+    "products.of": "من",
+    "products.results": "نتيجة",
+    "products.noResults": "لم يتم العثور على منتجات",
+    "products.clearFilters": "مسح الفلاتر",
+    "products.apply": "تطبيق",
+    
+    // ========== Cart ==========
+    "cart.title": "سلة التسوق",
+    "cart.empty": "سلة التسوق فارغة",
+    "cart.continueShopping": "مواصلة التسوق",
+    "cart.subtotal": "المجموع الفرعي",
+    "cart.shipping": "الشحن",
+    "cart.total": "المجموع الكلي",
+    "cart.checkout": "الدفع",
+    "cart.remove": "إزالة",
+    "cart.update": "تحديث",
+    "cart.quantity": "الكمية",
+    
+    // ========== Checkout ==========
+    "checkout.title": "الدفع",
+    "checkout.billing": "معلومات الفواتير",
+    "checkout.shipping": "معلومات الشحن",
+    "checkout.payment": "طريقة الدفع",
+    "checkout.review": "مراجعة الطلب",
+    "checkout.firstName": "الاسم الأول",
+    "checkout.lastName": "اسم العائلة",
+    "checkout.email": "البريد الإلكتروني",
+    "checkout.phone": "رقم الهاتف",
+    "checkout.address": "العنوان",
+    "checkout.city": "المدينة",
+    "checkout.country": "الدولة",
+    "checkout.zip": "الرمز البريدي",
+    "checkout.notes": "ملاحظات",
+    "checkout.placeOrder": "تأكيد الطلب",
+    "checkout.secure": "دفع آمن",
+    
+    // ========== Authentication ==========
+    "auth.login": "تسجيل الدخول",
+    "auth.register": "تسجيل حساب",
+    "auth.logout": "تسجيل الخروج",
+    "auth.email": "البريد الإلكتروني",
+    "auth.password": "كلمة المرور",
+    "auth.confirmPassword": "تأكيد كلمة المرور",
+    "auth.rememberMe": "تذكرني",
+    "auth.forgotPassword": "نسيت كلمة المرور؟",
+    "auth.noAccount": "ليس لديك حساب؟",
+    "auth.haveAccount": "لديك حساب بالفعل؟",
+    "auth.createAccount": "إنشاء حساب",
+    "auth.signIn": "تسجيل الدخول",
+    "auth.welcome": "مرحباً بعودتك",
+    "auth.joinNow": "انضم إلينا الآن"
   },
   
   en: {
-    // Common
+    // ========== Common ==========
     "common.readMore": "Read More",
     "common.showDetails": "View Details",
     "common.addToCart": "Add to Cart",
@@ -212,9 +345,28 @@ export const translations = {
     "common.subscribe": "Subscribe",
     "common.success": "Success",
     "common.loading": "Loading...",
+    "common.new": "New",
+    "common.sale": "Sale",
+    "common.bestseller": "Bestseller",
+    "common.viewAll": "View All",
+    "common.price": "EGP",
+    "common.categories": "Categories",
+    "common.sortBy": "Sort By",
+    "common.search": "Search...",
+    "common.filter": "Filter",
+    "common.clearAll": "Clear All",
+    "common.previous": "Previous",
+    "common.next": "Next",
+    "common.close": "Close",
+    "common.save": "Save",
+    "common.cancel": "Cancel",
+    "common.confirm": "Confirm",
+    "common.delete": "Delete",
+    "common.edit": "Edit",
+    "common.view": "View",
+    "common.details": "Details",
     
-    // Header
-    "header.shop": "Tar7a Store",
+    // ========== Header ==========
     "header.home": "Home",
     "header.allProducts": "All Products",
     "header.fabrics": "Fabrics",
@@ -228,23 +380,32 @@ export const translations = {
     "header.search": "Search",
     "header.cart": "Cart",
     "header.switchLanguage": "Switch Language",
+    "header.profile": "Profile",
+    "header.logout": "Logout",
+    "header.login": "Login",
+    "header.register": "Register",
+    "header.wishlist": "Wishlist",
+    "header.orders": "My Orders",
     
-    // Hero
+    // ========== Hero ==========
     "hero.title": "Modesty & <span class='text-primary italic'>Beauty</span>",
     "hero.subtitle": "Redefining modern hijab. Discover our new collection of premium fabrics, designed for everyday elegance and modest sophistication.",
     "hero.shopCollection": "Shop Collection",
     "hero.ourFabrics": "Our Fabrics",
     "hero.newSeason": "New Season",
     "hero.silkCollection": "Silk Collection",
+    "hero.discover": "Discover Collection",
+    "hero.bestsellers": "Bestsellers",
     
-    // NewArrivals
+    // ========== New Arrivals ==========
     "newArrivals.title": "New Arrivals",
     "newArrivals.subtitle": "Fresh designs that just arrived for your wardrobe.",
-    "newArrivals.viewAll": "View All Arrivals",
+    "newArrivals.viewAll": "View All New Arrivals",
     "newArrivals.new": "New",
     "newArrivals.sale": "Sale",
+    "newArrivals.bestseller": "Bestseller",
     
-    // FabricTypes
+    // ========== Fabric Types ==========
     "fabrics.title": "Shop By Fabric Type",
     "fabrics.basicChiffon": "Basic Chiffon",
     "fabrics.premiumJersey": "Premium Jersey",
@@ -256,7 +417,7 @@ export const translations = {
     "fabrics.elegantGeorgette": "Elegant Georgette",
     "fabrics.viewAll": "View All Categories",
     
-    // Experience
+    // ========== Experience ==========
     "experience.title": "Tar7a Store Experience",
     "experience.premiumFabrics": "Premium Fabrics",
     "experience.premiumFabricsDesc": "We select only the highest quality, breathable fabrics that feel as good as they look.",
@@ -265,7 +426,7 @@ export const translations = {
     "experience.globalShipping": "Global Shipping",
     "experience.globalShippingDesc": "Fast and reliable shipping for sisters worldwide, handled with utmost care.",
     
-    // Testimonials
+    // ========== Testimonials ==========
     "testimonials.title": "Loved By Tar7a Store Community",
     "testimonials.subtitle": "Read what our sisters say about their Tar7a Store experience.",
     "testimonials.trustedCustomer": "Trusted Customer",
@@ -275,20 +436,22 @@ export const translations = {
     "testimonials.averageRating": "Average Rating",
     "testimonials.shippingCountries": "Shipping Countries",
     
-    // ImageGallery
+    // ========== Gallery ==========
     "gallery.title": "Browse Our Collection",
     "gallery.subtitle": "Explore our complete gallery of hijab styles. Click to browse and see all the beautiful designs.",
     "gallery.viewAllProducts": "View All Products",
+    "gallery.browse": "Browse Collection",
     
-    // Newsletter
+    // ========== Newsletter ==========
     "newsletter.title": "Join Our Community",
     "newsletter.subtitle": "Subscribe and get 10% off your first order, exclusive styling tips, and early access to new collections.",
     "newsletter.emailPlaceholder": "Your email address",
     "newsletter.subscribing": "Subscribing...",
     "newsletter.weekly": "Weekly newsletter • Unsubscribe anytime",
     "newsletter.success": "Thank you! Successfully subscribed.",
+    "newsletter.join": "Join Us",
     
-    // Contact
+    // ========== Contact ==========
     "contact.title": "Contact Us",
     "contact.subtitle": "Got questions? We're here to help! Reach out to our team for any inquiries about products, orders, or partnerships.",
     "contact.contactInfo": "Contact Information",
@@ -320,8 +483,9 @@ export const translations = {
     "contact.stayUpdated": "Stay Updated",
     "contact.stayUpdatedDesc": "Subscribe to our newsletter for early access to new products, styling tips, and exclusive offers.",
     "contact.enterEmail": "Enter your email",
+    "contact.getInTouch": "Get in Touch",
     
-    // Footer
+    // ========== Footer ==========
     "footer.empowering": "Empowering the modern Muslim woman through thoughtful designs and high-quality hijabs that honor tradition and elegance.",
     "footer.shopping": "Shopping",
     "footer.allProducts": "All Products",
@@ -337,8 +501,11 @@ export const translations = {
     "footer.fabricCare": "Fabric Care Guide",
     "footer.faqs": "FAQs",
     "footer.copyright": "© 2024 Tar7a Store. All rights reserved. Empowering women through modest fashion.",
+    "footer.privacy": "Privacy Policy",
+    "footer.terms": "Terms & Conditions",
+    "footer.social": "Follow Us",
     
-    // ProductDetail
+    // ========== Product Detail ==========
     "productDetail.home": "Home",
     "productDetail.shop": "Shop",
     "productDetail.notFound": "Product Not Found",
@@ -353,8 +520,44 @@ export const translations = {
     "productDetail.care": "Care Instructions",
     "productDetail.category": "Category",
     "productDetail.reviews": "Reviews",
+    "productDetail.shipping": "Shipping",
+    "productDetail.returnPolicy": "Return Policy",
+    "productDetail.relatedProducts": "Related Products",
+    "productDetail.features": "Features",
+    "productDetail.specifications": "Specifications",
+    "productDetail.support247": "24/7 Support",
+"productDetail.customerService": "Customer Service",
+"productDetail.discoverMoreProducts": "Discover More Products",
+"productDetail.discoverMore": "Discover {count} more designs from {collection} collection",
+"productDetail.views": "Views",
+"productDetail.collection": "Collection",
+"productDetail.products": "products",
+"productDetail.chooseColor": "Choose Color",
+"productDetail.chooseSize": "Choose Size",
+"productDetail.decreaseQuantity": "Decrease quantity",
+"productDetail.increaseQuantity": "Increase quantity",
+"productDetail.productDetails": "Product Details",
+"productDetail.dimensions": "Dimensions",
+"productDetail.weight": "Weight",
+"productDetail.shippingSupport": "Shipping & Support",
+"productDetail.fastShipping": "Fast Shipping",
+"productDetail.freeReturns": "Free Returns",
+"productDetail.withinDays": "Within {days} days",
+"productDetail.relatedProducts": "More from this collection",
+"productDetail.noRelatedProducts": "No other products in this collection",
+"productDetail.uniqueProduct": "This product is unique in its collection",
+"productDetail.browseAllProducts": "Browse all products",
+"productDetail.quantity": "Quantity",
+"productDetail.material": "Material",
+"productDetail.care": "Care",
+"productDetail.oneSize": "One Size",
+"productDetail.deliveryTime": "3-5 business days",
+"productDetail.productView": "Product view",
+"productDetail.loadError": "Failed to load product",
+"productDetail.productNotFoundMessage": "We couldn't find the product you're looking for. Try browsing our store.",
+"productDetail.backToProducts": "Back to Products",
     
-    // Achievements
+    // ========== Achievements ==========
     "achievements.title": "Our Achievements",
     "achievements.subtitle": "Our journey of success in empowering Muslim women through modest fashion",
     "achievements.ctaTitle": "Join Our Journey",
@@ -375,7 +578,7 @@ export const translations = {
     "achievement.launch2021": "Tar7a Store Launch",
     "achievement.launch2021Desc": "The beginning of our journey with the first chiffon hijab collection",
     
-    // Milestones
+    // ========== Milestones ==========
     "milestones.uniqueDesigns": "Unique Designs",
     "milestones.fiveStarReviews": "5-Star Reviews",
     "milestones.countriesServed": "Countries Served",
@@ -383,7 +586,7 @@ export const translations = {
     "milestones.fabricTypes": "Fabric Types",
     "milestones.customerSupport": "Customer Support",
     
-    // Team
+    // ========== Team ==========
     "team.title": "Our Distinguished Team",
     "team.subtitle": "A dedicated team of designers and professionals committed to product quality and customer satisfaction",
     "team.sara": "Sara Ahmed",
@@ -396,11 +599,73 @@ export const translations = {
     "team.amenaRole": "Quality Expert",
     "team.amenaDesc": "Ensures every product meets the highest standards of quality and comfort",
     
-    // Mission & Vision
+    // ========== Mission & Vision ==========
     "mission.title": "Our Mission",
     "mission.text": "Empowering Muslim women by providing high-quality hijabs that combine elegance, comfort, and modesty, while committing to sustainability and customer satisfaction",
     "vision.title": "Our Vision",
-    "vision.text": "To become the leading global destination for modest fashion, recognized as a brand of quality and innovation in hijab design"
+    "vision.text": "To become the leading global destination for modest fashion, recognized as a brand of quality and innovation in hijab design",
+    
+    // ========== Products Page ==========
+    "products.title": "All Products",
+    "products.subtitle": "Discover our complete collection of premium Islamic designs",
+    "products.filterBy": "Filter By",
+    "products.sortBy": "Sort By",
+    "products.priceRange": "Price Range",
+    "products.availability": "Availability",
+    "products.collections": "Collections",
+    "products.rating": "Rating",
+    "products.showing": "Showing",
+    "products.of": "of",
+    "products.results": "results",
+    "products.noResults": "No products found",
+    "products.clearFilters": "Clear Filters",
+    "products.apply": "Apply",
+    
+    // ========== Cart ==========
+    "cart.title": "Shopping Cart",
+    "cart.empty": "Your cart is empty",
+    "cart.continueShopping": "Continue Shopping",
+    "cart.subtotal": "Subtotal",
+    "cart.shipping": "Shipping",
+    "cart.total": "Total",
+    "cart.checkout": "Checkout",
+    "cart.remove": "Remove",
+    "cart.update": "Update",
+    "cart.quantity": "Quantity",
+    
+    // ========== Checkout ==========
+    "checkout.title": "Checkout",
+    "checkout.billing": "Billing Information",
+    "checkout.shipping": "Shipping Information",
+    "checkout.payment": "Payment Method",
+    "checkout.review": "Order Review",
+    "checkout.firstName": "First Name",
+    "checkout.lastName": "Last Name",
+    "checkout.email": "Email",
+    "checkout.phone": "Phone Number",
+    "checkout.address": "Address",
+    "checkout.city": "City",
+    "checkout.country": "Country",
+    "checkout.zip": "ZIP Code",
+    "checkout.notes": "Order Notes",
+    "checkout.placeOrder": "Place Order",
+    "checkout.secure": "Secure Payment",
+    
+    // ========== Authentication ==========
+    "auth.login": "Login",
+    "auth.register": "Register",
+    "auth.logout": "Logout",
+    "auth.email": "Email",
+    "auth.password": "Password",
+    "auth.confirmPassword": "Confirm Password",
+    "auth.rememberMe": "Remember Me",
+    "auth.forgotPassword": "Forgot Password?",
+    "auth.noAccount": "Don't have an account?",
+    "auth.haveAccount": "Already have an account?",
+    "auth.createAccount": "Create Account",
+    "auth.signIn": "Sign In",
+    "auth.welcome": "Welcome Back",
+    "auth.joinNow": "Join Now"
   }
 };
 

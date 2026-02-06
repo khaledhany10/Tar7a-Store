@@ -96,48 +96,51 @@ img {
 
 
 /* RTL/LTR Support */
-[dir="rtl"] {
-  text-align: right;
+language-ar {
+  font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-[dir="ltr"] {
-  text-align: left;
+.language-ar .text-right {
+  text-align: left !important;
 }
 
-/* Arabic font support */
-.arabic-text {
-  font-family: 'Noto Sans Arabic', sans-serif;
+.language-ar .text-left {
+  text-align: right !important;
 }
 
-/* Smooth language transition */
-.transition-language {
-  transition: all 0.3s ease;
+.language-ar .ml-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
 }
 
-
-.font-arabic-heading {
-  font-weight: 700;
-  letter-spacing: -0.025em;
+.language-ar .mr-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
 }
 
-.font-english-heading {
-  font-weight: 700;
-  letter-spacing: -0.025em;
+/* تحسينات للـ RTL */
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
 }
 
-.font-arabic-body {
-  line-height: 1.8;
+[dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
 }
 
-.font-english-body {
-  line-height: 1.6;
+[dir="rtl"] .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
 }
 
-/* تحسين قرائية النصوص العربية */
-[lang="ar"] {
-  text-align: right;
+/* إصلاح للأيقونات في RTL */
+[dir="rtl"] .material-symbols-outlined {
+  transform: scaleX(-1);
 }
 
-[lang="en"] {
-  text-align: left;
+/* إصلاح للـ flex في RTL */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row;
+}
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
 }

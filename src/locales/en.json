@@ -3,21 +3,29 @@
     "home": "Home",
     "allProducts": "All Products",
     "fabrics": "Fabrics",
+    "chiffon": "Chiffon",
+    "silk": "Silk",
+    "jersey": "Jersey",
+    "modal": "Modal",
     "achievements": "Achievements",
     "contact": "Contact",
     "sale": "Sale",
     "search": "Search",
     "cart": "Cart",
-    "chiffon": "Chiffon",
-    "silk": "Silk",
-    "jersey": "Jersey",
-    "modal": "Modal"
+    "switchLanguage": "Switch Language",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
   },
   "hero": {
     "title": "Modesty & Beauty",
-    "description": "Redefining the modern headscarf. Discover our new collection of premium fabrics, crafted for everyday elegance and modest sophistication.",
+    "description": "Redefining modern hijab. Discover our new collection of premium fabrics, designed for everyday elegance and modest sophistication.",
     "shopCollection": "Shop Collection",
-    "ourFabrics": "Our Fabrics"
+    "ourFabrics": "Our Fabrics",
+    "newSeason": "New Season",
+    "silkCollection": "Silk Collection",
+    "discover": "Discover"
   },
   "common": {
     "new": "New",
@@ -31,6 +39,61 @@
     "sortBy": "Sort By",
     "search": "Search...",
     "filter": "Filter",
-    "clearAll": "Clear All"
+    "clearAll": "Clear All",
+    "readMore": "Read More",
+    "showDetails": "View Details",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error"
+  },
+  "products": {
+    "title": "All Products",
+    "subtitle": "Discover our premium collection",
+    "filter": "Filter Products",
+    "sort": {
+      "newest": "Newest",
+      "popular": "Most Popular",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "rating": "Highest Rated"
+    },
+    "categories": "Categories",
+    "priceRange": "Price Range",
+    "availability": "Availability",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "collections": "Collections",
+    "tags": "Tags"
+  },
+  "filters": {
+    "apply": "Apply Filters",
+    "clear": "Clear All",
+    "price": "Price",
+    "category": "Category",
+    "collection": "Collection",
+    "color": "Color",
+    "size": "Size",
+    "rating": "Rating"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "items": "items",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "checkout": "Checkout",
+    "continue": "Continue Shopping"
+  },
+  "footer": {
+    "about": "About Tar7a Store",
+    "contact": "Contact Us",
+    "shipping": "Shipping Policy",
+    "returns": "Returns",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "newsletter": "Subscribe to Newsletter",
+    "social": "Follow Us",
+    "copyright": "© 2024 Tar7a Store. All rights reserved."
   }
 }

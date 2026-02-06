@@ -3,21 +3,29 @@
     "home": "الرئيسية",
     "allProducts": "جميع المنتجات",
     "fabrics": "الأقمشة",
+    "chiffon": "شيفون",
+    "silk": "حرير",
+    "jersey": "جيرسي",
+    "modal": "مودال",
     "achievements": "إنجازاتنا",
     "contact": "اتصل بنا",
     "sale": "خصومات",
     "search": "بحث",
     "cart": "سلة التسوق",
-    "chiffon": "شيفون",
-    "silk": "حرير",
-    "jersey": "جيرسي",
-    "modal": "مودال"
+    "switchLanguage": "تبديل اللغة",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل حساب"
   },
   "hero": {
     "title": "الحياء و الجمال",
     "description": "إعادة تعريف الحجاب العصري. اكتشف مجموعتنا الجديدة من الأقمشة المميزة، المصممة للأناقة اليومية والرقي المحتشم.",
     "shopCollection": "تسوق المجموعة",
-    "ourFabrics": "أقمشتنا"
+    "ourFabrics": "أقمشتنا",
+    "newSeason": "موسم جديد",
+    "silkCollection": "مجموعة الحرير",
+    "discover": "اكتشف"
   },
   "common": {
     "new": "جديد",
@@ -31,6 +39,61 @@
     "sortBy": "ترتيب حسب",
     "search": "بحث...",
     "filter": "فلتر",
-    "clearAll": "مسح الكل"
+    "clearAll": "مسح الكل",
+    "readMore": "عرض التفاصيل",
+    "showDetails": "عرض التفاصيل",
+    "loading": "جاري التحميل...",
+    "success": "تم بنجاح",
+    "error": "حدث خطأ"
+  },
+  "products": {
+    "title": "جميع المنتجات",
+    "subtitle": "اكتشف مجموعتنا المميزة",
+    "filter": "تصفية المنتجات",
+    "sort": {
+      "newest": "الأحدث",
+      "popular": "الأكثر شعبية",
+      "priceLow": "السعر: من الأقل للأعلى",
+      "priceHigh": "السعر: من الأعلى للأقل",
+      "rating": "الأعلى تقييماً"
+    },
+    "categories": "الفئات",
+    "priceRange": "نطاق السعر",
+    "availability": "التوفر",
+    "inStock": "متوفر",
+    "outOfStock": "نفذ",
+    "collections": "المجموعات",
+    "tags": "العلامات"
+  },
+  "filters": {
+    "apply": "تطبيق الفلاتر",
+    "clear": "مسح الكل",
+    "price": "السعر",
+    "category": "الفئة",
+    "collection": "المجموعة",
+    "color": "اللون",
+    "size": "المقاس",
+    "rating": "التقييم"
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "empty": "سلة التسوق فارغة",
+    "items": "منتج",
+    "subtotal": "المجموع الفرعي",
+    "shipping": "الشحن",
+    "total": "المجموع الكلي",
+    "checkout": "الدفع",
+    "continue": "مواصلة التسوق"
+  },
+  "footer": {
+    "about": "عن متجر طرحة",
+    "contact": "اتصل بنا",
+    "shipping": "سياسة الشحن",
+    "returns": "سياسة الإرجاع",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "newsletter": "اشترك في النشرة البريدية",
+    "social": "تابعنا",
+    "copyright": "© ٢٠٢٤ متجر طرحة. جميع الحقوق محفوظة."
   }
 }

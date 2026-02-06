@@ -67,7 +67,7 @@ const getDefaultImage = (collectionType) => {
 };
 
 // ميمو للمكونات الفرعية
-// ProductCardGrid المعدل
+// ProductCardGrid المعدل مع إضافة الاسم والتقييم والوصف
 const ProductCardGrid = memo(({ product, language, onOrderClick, hoveredProduct, setHoveredProduct }) => {
   // الحصول على مسار الصورة بشكل مباشر
   const imageSrc = useMemo(() => {
@@ -96,8 +96,8 @@ const ProductCardGrid = memo(({ product, language, onOrderClick, hoveredProduct,
       onMouseEnter={() => setHoveredProduct(product.id)}
       onMouseLeave={() => setHoveredProduct(null)}
     >
-      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group-hover:-translate-y-1">
-        <Link to={`/product/${product.id}`}>
+      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group-hover:-translate-y-1 h-full flex flex-col">
+        <Link to={`/product/${product.id}`} className="flex-shrink-0">
           <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
             <img 
               src={imageSrc}
@@ -119,11 +119,93 @@ const ProductCardGrid = memo(({ product, language, onOrderClick, hoveredProduct,
               }}
             />
             
-            {/* باقي الكود كما هو */}
+            {/* Badges */}
+            <div className="absolute top-4 left-4 flex flex-col gap-2">
+              {product.hasOffer && (
+                <div className="px-3 py-1 rounded-full bg-gradient-to-r from-primary to-purple-600 text-white text-xs font-bold uppercase tracking-wider shadow-lg">
+                  {language === 'ar' ? 'عرض خاص' : 'Special Offer'}
+                </div>
+              )}
+            </div>
           </div>
         </Link>
         
-        {/* باقي الكود */}
+        {/* Product Info */}
+        <div className="flex-1 p-4 flex flex-col">
+  {/* Collection Tag */}
+  <div className="mb-3">
+    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+      product.collectionType === '03-Islamic-Ornaments' 
+        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
+        : product.collectionType === '04-Islamic-Scarf'
+        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+        : product.collectionType === '05-Ramadan'
+        ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
+        : product.collectionType === '01-Basic-Pinks'
+        ? 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300'
+        : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
+    }`}>
+      {language === 'ar' ? product.collectionName || product.category : product.collectionType}
+    </span>
+  </div>
+  
+  {/* Product Name */}
+  <Link to={`/product/${product.id}`} className="flex-1 mb-3">
+    <h3 className="text-base font-bold mb-2 dark:text-white text-gray-800 hover:text-primary transition-colors line-clamp-2 leading-snug">
+      {product.name}
+    </h3>
+  </Link>
+  
+  {/* Simple Description */}
+  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+    {product.description || 'منتج إسلامي مميز بجودة عالية'}
+  </p>
+  
+  {/* Rating */}
+  <div className="flex items-center gap-2 mb-4">
+    <div className="flex items-center gap-1">
+      {[...Array(5)].map((_, i) => (
+        <span 
+          key={i} 
+          className="material-symbols-outlined text-sm"
+          style={{ 
+            color: i < Math.floor(product.rating || 4.5) ? '#F59E0B' : '#D1D5DB' 
+          }}
+        >
+          star
+        </span>
+      ))}
+    </div>
+    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+      {product.rating || '4.5'}
+    </span>
+    <span className="text-xs text-gray-500">({product.reviews || 0})</span>
+  </div>
+  
+  {/* Price and Action Button */}
+  <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+    <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col">
+        <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          {product.price || '150 EGP'}
+        </span>
+        {product.originalPrice && (
+          <span className="text-sm text-gray-500 line-through">
+            {product.originalPrice}
+          </span>
+        )}
+      </div>
+    </div>
+    
+    <button 
+      onClick={() => onOrderClick(product)}
+      className="w-full py-3 bg-gradient-to-r from-primary to-purple-600 text-white font-semibold rounded-lg hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 hover:from-purple-600 hover:to-primary"
+    >
+      <span className="material-symbols-outlined text-sm">shopping_cart</span>
+      {language === 'ar' ? 'أطلب الآن' : 'Order Now'}
+    </button>
+  </div>
+</div>
       </div>
     </div>
   );
@@ -152,11 +234,6 @@ const ProductCardList = memo(({ product, language, onOrderClick, hoveredProduct,
                   {language === 'ar' ? 'عرض خاص' : 'Special Offer'}
                 </div>
               )}
-              {!product.inStock && (
-                <div className="px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold uppercase tracking-wider shadow-lg">
-                  {language === 'ar' ? 'نفذ' : 'Sold Out'}
-                </div>
-              )}
             </div>
           </div>
         </Link>
@@ -166,14 +243,19 @@ const ProductCardList = memo(({ product, language, onOrderClick, hoveredProduct,
             <div className="flex-1">
               <div className="flex flex-col md:flex-row md:items-start justify-between mb-3">
                 <div className="flex-1 mb-4 md:mb-0">
+                  {/* Product Name */}
                   <Link to={`/product/${product.id}`}>
                     <h3 className="text-xl font-bold mb-2 dark:text-white group-hover:text-primary transition-colors">
                       {product.name}
                     </h3>
                   </Link>
+                  
+                  {/* Simple Description */}
                   <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                    {product.description}
+                    {product.description || 'منتج إسلامي مميز بجودة عالية'}
                   </p>
+                  
+                  {/* Collection Tag */}
                   <div className="flex flex-wrap items-center gap-2 mb-3">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                       product.collectionType === '03-Islamic-Ornaments' 
@@ -196,9 +278,10 @@ const ProductCardList = memo(({ product, language, onOrderClick, hoveredProduct,
                   </div>
                 </div>
                 <div className="flex flex-col items-start md:items-end">
-                  <div className="flex flex-col items-end">
+                  {/* Price */}
+                  <div className="flex flex-col items-end mb-3">
                     <span className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                      {product.price}
+                      {product.price || '150 EGP'}
                     </span>
                     {product.originalPrice && (
                       <span className="text-sm text-gray-500 line-through">
@@ -206,8 +289,22 @@ const ProductCardList = memo(({ product, language, onOrderClick, hoveredProduct,
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 mt-3">
-                    <span className="material-symbols-outlined text-yellow-500">star</span>
+                  
+                  {/* Rating */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <span 
+                          key={i} 
+                          className="material-symbols-outlined text-sm"
+                          style={{ 
+                            color: i < Math.floor(product.rating || 4.5) ? '#F59E0B' : '#D1D5DB' 
+                          }}
+                        >
+                          {i < (product.rating || 4.5) ? 'star' : 'star'}
+                        </span>
+                      ))}
+                    </div>
                     <span className="text-sm font-bold">{product.rating || '4.5'}</span>
                     <span className="text-xs text-gray-500">({product.reviews || 0})</span>
                   </div>
@@ -246,7 +343,7 @@ const ProductCardList = memo(({ product, language, onOrderClick, hoveredProduct,
                     <span className={`text-sm font-bold ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
                       {product.inStock 
                         ? (language === 'ar' ? 'متوفر' : 'In Stock') 
-                        : (language === 'ar' ? 'نفذ' : 'Out of Stock')}
+                        : (language === 'ar' ? 'متوفر' : 'In Stock')}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -276,7 +373,7 @@ const ProductCardList = memo(({ product, language, onOrderClick, hoveredProduct,
                 <span className="material-symbols-outlined text-sm">shopping_cart</span>
                 {product.inStock 
                   ? (language === 'ar' ? 'أطلب الآن' : 'Order Now')
-                  : (language === 'ar' ? 'نفذ من المخزون' : 'Out of Stock')
+                  : (language === 'ar' ? 'أطلب الآن' : 'Order Now')
                 }
               </button>
               
@@ -402,10 +499,9 @@ const SkeletonLoader = memo(({ viewMode, productsPerPage }) => (
   </div>
 ));
 
+// FilterSidebar المعدل - تم إزالة قسم الفئات
 const FilterSidebar = memo(({ 
-  categories, 
-  collections, 
-  selectedCategory, 
+  collectionsList, 
   selectedCollection,
   priceRange,
   filters,
@@ -414,38 +510,28 @@ const FilterSidebar = memo(({
 }) => {
   return (
     <div className="space-y-6">
-      {/* Categories */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-lg mb-4 dark:text-white">
-          <span className="material-symbols-outlined text-primary mr-2">category</span>
-          {language === 'ar' ? 'الفئات' : 'Categories'}
-        </h3>
-        <div className="space-y-2">
-          {categories.map(category => (
-            <button
-              key={category.id}
-              onClick={() => onFilterChange('category', category.id)}
-              className={`w-full text-right px-4 py-3 rounded-xl transition-all duration-300 flex justify-between items-center ${
-                selectedCategory === category.id
-                  ? 'bg-primary/10 text-primary font-semibold'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
-              }`}
-            >
-              <span className="text-sm text-gray-500 dark:text-gray-400">{category.count}</span>
-              <span>{language === 'ar' ? category.name : category.nameEn}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Collections */}
+      {/* Collections Only - تم إزالة قسم الفئات */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
         <h3 className="font-bold text-lg mb-4 dark:text-white">
           <span className="material-symbols-outlined text-primary mr-2">collections</span>
           {language === 'ar' ? 'المجموعات' : 'Collections'}
         </h3>
         <div className="space-y-2">
-          {collections.map(collection => (
+          {/* خيار عرض الكل */}
+          <button
+            key="all"
+            onClick={() => onFilterChange('collection', 'all')}
+            className={`w-full text-right px-4 py-3 rounded-xl transition-all duration-300 flex justify-between items-center ${
+              selectedCollection === 'all'
+                ? 'bg-primary/10 text-primary font-semibold'
+                : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            <span className="text-sm text-gray-500 dark:text-gray-400">{allProducts.length}</span>
+            <span>{language === 'ar' ? 'كل المجموعات' : 'All Collections'}</span>
+          </button>
+          
+          {collectionsList.filter(c => c.id !== 'all').map(collection => (
             <button
               key={collection.id}
               onClick={() => onFilterChange('collection', collection.id)}
@@ -486,37 +572,6 @@ const FilterSidebar = memo(({
         </div>
       </div>
 
-      {/* Stock Filter */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-lg mb-4 dark:text-white">
-          <span className="material-symbols-outlined text-primary mr-2">inventory</span>
-          {language === 'ar' ? 'التوفر' : 'Availability'}
-        </h3>
-        <div className="space-y-3">
-          <label className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={filters.inStock || false}
-              onChange={(e) => onFilterChange('inStock', e.target.checked)}
-              className="w-5 h-5 text-primary rounded focus:ring-primary/20"
-            />
-            <span className="text-gray-700 dark:text-gray-300">
-              {language === 'ar' ? 'المنتجات المتوفرة فقط' : 'Available products only'}
-            </span>
-          </label>
-          <label className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={filters.hasOffer || false}
-              onChange={(e) => onFilterChange('hasOffer', e.target.checked)}
-              className="w-5 h-5 text-primary rounded focus:ring-primary/20"
-            />
-            <span className="text-gray-700 dark:text-gray-300">
-              {language === 'ar' ? 'العروض الخاصة فقط' : 'Special offers only'}
-            </span>
-          </label>
-        </div>
-      </div>
     </div>
   );
 });
@@ -545,23 +600,24 @@ const AllProducts = () => {
   // الحصول على الإحصائيات
   const stats = useMemo(() => getDynamicStats(), []);
   
-  // الفئات والمجموعات من النظام الجديد
-  const categories = useMemo(() => [
+  // إعداد المجموعات فقط (تم إزالة الفئات)
+  // استخدام اسم مختلف للمجموعات المحولة
+  const collectionsList = useMemo(() => [
     { 
       id: 'all', 
-      name: language === 'ar' ? 'جميع المنتجات' : 'All Products', 
-      nameEn: 'All Products',
-      count: allProducts.length, 
-      icon: 'grid_view' 
+      name: language === 'ar' ? 'كل المجموعات' : 'All Collections', 
+      nameEn: 'All Collections',
+      count: allProducts.length,
+      icon: 'collections' 
     },
-    ...dynamicCategories.map(cat => ({
-      id: cat.id,
-      name: cat.name,
-      nameEn: cat.name,
-      count: cat.count,
-      icon: 'category'
+    ...collections.filter(c => c.id !== 'all').map(col => ({
+      id: col.id,
+      name: col.name,
+      nameEn: col.nameEn || col.name,
+      count: col.count,
+      icon: 'collections_bookmark'
     }))
-  ], [language]);
+  ], [language, collections]);
 
   const sortOptions = useMemo(() => [
     { value: 'newest', label_ar: 'الأحدث أولاً', label_en: 'Newest First', icon: 'new_releases' },
@@ -576,10 +632,12 @@ const AllProducts = () => {
     const categoryParam = params.get('category');
     const searchParam = params.get('search');
     
+    // معالجة معلمات URL للمجموعات فقط
     if (categoryParam) {
-      const validCategories = ['all', ...dynamicCategories.map(c => c.id)];
-      if (validCategories.includes(categoryParam)) {
-        setSelectedCategory(categoryParam);
+      const validCollections = ['all', ...collectionsList.map(c => c.id)];
+      if (validCollections.includes(categoryParam)) {
+        setSelectedCollection(categoryParam);
+        setSelectedCategory('all'); // إلغاء اختيار الفئة تلقائياً
       }
     }
     
@@ -588,7 +646,7 @@ const AllProducts = () => {
     }
     
     setCurrentPage(1);
-  }, [location.search]);
+  }, [location.search, collectionsList]);
 
   // تصحيح مسار الصور - مكرر هنا للمكون الرئيسي
   const correctImagePath = useCallback((imagePath) => {
@@ -609,7 +667,7 @@ const AllProducts = () => {
   // البحث والفلترة باستخدام النظام الجديد
   const filteredProducts = useMemo(() => {
     return searchAllProducts(searchQuery, {
-      category: selectedCategory !== 'all' ? selectedCategory : null,
+      category: null, // تم إلغاء الفئات
       collection: selectedCollection !== 'all' ? selectedCollection : null,
       minPrice: filters.minPrice,
       maxPrice: filters.maxPrice,
@@ -617,7 +675,7 @@ const AllProducts = () => {
       hasOffer: filters.hasOffer,
       sortBy: sortBy
     });
-  }, [searchQuery, selectedCategory, selectedCollection, filters, sortBy]);
+  }, [searchQuery, selectedCollection, filters, sortBy]);
 
   // ترتيب المنتجات
   const sortedProducts = useMemo(() => {
@@ -649,16 +707,9 @@ const AllProducts = () => {
     window.location.href = '/order-form';
   }, [correctImagePath]);
 
-  const handleCategoryChange = useCallback((categoryId) => {
-    setSelectedCategory(categoryId);
-    setSelectedCollection('all');
-    setCurrentPage(1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
   const handleCollectionChange = useCallback((collectionId) => {
     setSelectedCollection(collectionId);
-    setSelectedCategory('all');
+    setSelectedCategory('all'); // التأكد من أن الفئة غير مختارة
     setCurrentPage(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
@@ -674,6 +725,11 @@ const AllProducts = () => {
   }, []);
 
   const handleFilterChange = useCallback((filterName, value) => {
+    if (filterName === 'collection') {
+      setSelectedCollection(value);
+      setSelectedCategory('all'); // عند اختيار مجموعة، إلغاء اختيار الفئة
+    }
+    
     setFilters(prev => ({
       ...prev,
       [filterName]: value
@@ -767,7 +823,7 @@ const AllProducts = () => {
             </div>
             <div className="text-center p-4 rounded-xl bg-gradient-to-r from-yellow-500/5 to-amber-600/5">
               <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-amber-600 bg-clip-text text-transparent">
-                {collections.length}
+                {collectionsList.length - 1} {/* ناقص 1 لأن "الكل" ليس مجموعة حقيقية */}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'ar' ? 'مجموعة مميزة' : 'Luxury Collections'}
@@ -805,9 +861,7 @@ const AllProducts = () => {
               </div>
               
               <FilterSidebar
-                categories={categories}
-                collections={collections}
-                selectedCategory={selectedCategory}
+                collectionsList={collectionsList}
                 selectedCollection={selectedCollection}
                 priceRange={stats.priceRange}
                 filters={filters}
@@ -824,11 +878,9 @@ const AllProducts = () => {
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-[#2d1a1e] dark:text-white mb-2">
-                    {selectedCategory === 'all' && selectedCollection === 'all'
+                    {selectedCollection === 'all'
                       ? (language === 'ar' ? 'جميع المنتجات' : 'All Products')
-                      : selectedCategory !== 'all'
-                      ? categories.find(c => c.id === selectedCategory)?.name
-                      : collections.find(c => c.id === selectedCollection)?.name}
+                      : collectionsList.find(c => c.id === selectedCollection)?.name}
                   </h2>
                   <p className="text-gray-600 dark:text-gray-400">
                     {sortedProducts.length} {language === 'ar' ? 'منتج متميز' : 'premium products'} {searchQuery && `• "${searchQuery}"`}
@@ -902,8 +954,8 @@ const AllProducts = () => {
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
                   {language === 'ar' 
-                    ? 'حاول البحث بكلمات مختلفة أو استكشف فئاتنا الأخرى'
-                    : 'Try different search terms or explore our other categories'
+                    ? 'حاول البحث بكلمات مختلفة أو استكشف مجموعاتنا الأخرى'
+                    : 'Try different search terms or explore our other collections'
                   }
                 </p>
                 <button

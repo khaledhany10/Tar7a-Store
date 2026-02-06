@@ -6,12 +6,28 @@ import { collections } from '../data/products';
 
 // تصحيح مسار الصور
 const correctImagePath = (imagePath) => {
-  if (!imagePath) return '/images/placeholder.jpg';
+  if (!imagePath) return '';
   
   let correctedPath = imagePath;
-  if (correctedPath.startsWith('/img/')) correctedPath = correctedPath.substring(4);
-  if (!correctedPath.startsWith('/')) correctedPath = '/' + correctedPath;
-  correctedPath = correctedPath.replace('//', '/');
+  
+  // إصلاح المسارات المزدوجة والشرطة المائلة العكسية
+  correctedPath = correctedPath.replace(/\\/g, '/');
+  correctedPath = correctedPath.replace(/\/+/g, '/');
+  
+  // إزالة أي /img/ في البداية
+  if (correctedPath.startsWith('/Img/')) {
+    correctedPath = correctedPath.substring(4);
+  }
+  
+  // إذا كان المسار يبدأ بـ /images/ اتركه كما هو
+  if (correctedPath.startsWith('/Img/')) {
+    return correctedPath;
+  }
+  
+  // إضافة /images/ في المقدمة إذا لم يكن موجوداً
+  if (!correctedPath.startsWith('/Img') && !correctedPath.startsWith('http')) {
+    correctedPath = '/Img' + (correctedPath.startsWith('/') ? correctedPath : '/' + correctedPath);
+  }
   
   return correctedPath;
 };
@@ -44,7 +60,6 @@ const FabricTypes = () => {
       id: collection.id,
       name_ar: collection.name,
       name_en: collection.name,
-      image: `/images/${collection.id}/Main.jpg`, // مسار افتراضي
       category: category,
       subCategory: subCategory,
       count_ar: `${collection.count} تصميم فاخر`,
@@ -55,23 +70,36 @@ const FabricTypes = () => {
     };
   });
 
-  // الحصول على صورة للمجموعة (من أول منتج في المجموعة)
+  // الحصول على صورة للمجموعة
   const getCollectionImage = (collectionId) => {
-    const collection = collections.find(c => c.id === collectionId);
-    if (collection && collection.id === '01-Basic-Pinks') {
-      return '/images/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg';
-    } else if (collection && collection.id === '02-Christian-Dior') {
-      return '/images/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg';
-    } else if (collection && collection.id === '03-Islamic-Ornaments') {
-      return '/images/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg';
-    } else if (collection && collection.id === '04-Islamic-Scarf') {
-      return '/images/04-Islamic-Scarf/01-Islamic-Scarf-Collection/Main.jpeg';
-    } else if (collection && collection.id === '05-Ramadan') {
-      return '/images/05-Ramadan/01-Ramadan-Collection/Main.jpeg';
-    } else if (collection && collection.id === '06-Pattern') {
-      return '/images/06-Pattern/01-Pattern-Collection/Main.jpeg';
-    }
-    return '/images/placeholder.jpg';
+    const collectionImages = {
+      '01-Basic-Pinks': '/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg',
+      '02-Christian-Dior': '/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg',
+      '03-Islamic-Ornaments': '/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg',
+      '04-Islamic-Scarf': '/Img/Collections/04-Islamic-Scarf/01-Ramadan-Collection/Main.jpeg',
+      '05-Ramadan': '/Img/Collections/05-Ramadan/01-Ramadan-Collection/Main.jpeg',
+      '06-Pattern': '/Img/Collections/06-Pattern/01-Pattern-Collection/Main.jpeg',
+      '07-Itamine': '/Img/Collections/07-Itamine/01-Itamine-design-collection/Main.jpeg',
+      '08-Colourfull-Limited': '/Img/Collections/08-Colourfull-Limited/01-Colourfull-Limited-Design-Collection/Main.jpeg',
+      '09-Melt-designs': '/Img/Collections/09-Melt-designs/01-Melt-designs-Collection/01.jpeg',
+      '10-Beige-Basic-grad': '/Img/Collections/10-Beige-Basic-grad/01-Beige-Basic-grad-Colours-Collection/Main.jpeg'
+    };
+    
+    return collectionImages[collectionId] || '';
+  };
+
+  // معالج أخطاء الصور
+  const handleImageError = (e, collectionName) => {
+    e.target.onerror = null;
+    e.target.style.display = 'none';
+    const parent = e.target.parentElement;
+    const fallback = document.createElement('div');
+    fallback.className = 'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex flex-col items-center justify-center rounded-t-3xl';
+    fallback.innerHTML = `
+      <span class="material-symbols-outlined text-gray-400 text-4xl mb-2">collections</span>
+      <span class="text-gray-500 text-sm text-center px-2">${collectionName}</span>
+    `;
+    parent.appendChild(fallback);
   };
 
   return (
@@ -118,78 +146,79 @@ const FabricTypes = () => {
 
         {/* Collections Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {fabricData.slice(0, 8).map((fabric) => (
-            <Link
-              key={fabric.id}
-              to={`/products?category=${fabric.category}${fabric.subCategory ? `&sub=${fabric.subCategory}` : ''}`}
-              className="group relative"
-            >
-              <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2">
-                {/* Image Container */}
-                <div className="relative aspect-[4/5] overflow-hidden rounded-t-3xl">
-                  <div className={`absolute inset-0 bg-gradient-to-b ${fabric.gradient} z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-                  
-                  <img
-                    src={correctImagePath(getCollectionImage(fabric.id))}
-                    alt={language === 'ar' ? fabric.name_ar : fabric.name_en}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/images/placeholder.jpg';
-                    }}
-                  />
+          {fabricData.slice(0, 8).map((fabric) => {
+            const imageSrc = correctImagePath(getCollectionImage(fabric.id));
+            return (
+              <Link
+                key={fabric.id}
+                to={`/products?category=${fabric.category}${fabric.subCategory ? `&sub=${fabric.subCategory}` : ''}`}
+                className="group relative"
+              >
+                <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2">
+                  {/* Image Container */}
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-t-3xl">
+                    <div className={`absolute inset-0 bg-gradient-to-b ${fabric.gradient} z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                    
+                    <img
+                      src={imageSrc}
+                      alt={language === 'ar' ? fabric.name_ar : fabric.name_en}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      onError={(e) => handleImageError(e, fabric.name_ar)}
+                      crossOrigin="anonymous"
+                    />
 
-                  {/* Category Badge */}
-                  <div className={`absolute top-4 left-4 z-20 ${
-                    fabric.category === 'sada'
-                      ? 'bg-purple-500/90 text-white'
-                      : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white'
-                  } backdrop-blur-sm px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg`}>
-                    {language === 'ar' ?
-                      (fabric.category === 'sada' ? 'سادة' : 'مطبوع')
-                      : (fabric.category === 'sada' ? 'Plain' : 'Printed')
-                    }
-                  </div>
+                    {/* Category Badge */}
+                    <div className={`absolute top-4 left-4 z-20 ${
+                      fabric.category === 'sada'
+                        ? 'bg-purple-500/90 text-white'
+                        : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white'
+                    } backdrop-blur-sm px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg`}>
+                      {language === 'ar' ?
+                        (fabric.category === 'sada' ? 'سادة' : 'مطبوع')
+                        : (fabric.category === 'sada' ? 'Plain' : 'Printed')
+                      }
+                    </div>
 
-                  {/* Count Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-20">
-                    <div className="text-center">
-                      <div className={`${language === 'ar' ? 'arabic-text' : ''} text-white text-2xl font-bold mb-1`}>
-                        {language === 'ar' ? fabric.count_ar.split(' ')[0] : fabric.count_en.split(' ')[0]}
-                      </div>
-                      <div className={`${language === 'ar' ? 'arabic-text' : ''} text-white/80 text-sm`}>
-                        {language === 'ar' ? fabric.count_ar.split(' ').slice(1).join(' ') : fabric.count_en.split(' ').slice(1).join(' ')}
+                    {/* Count Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-20">
+                      <div className="text-center">
+                        <div className={`${language === 'ar' ? 'arabic-text' : ''} text-white text-2xl font-bold mb-1`}>
+                          {language === 'ar' ? fabric.count_ar.split(' ')[0] : fabric.count_en.split(' ')[0]}
+                        </div>
+                        <div className={`${language === 'ar' ? 'arabic-text' : ''} text-white/80 text-sm`}>
+                          {language === 'ar' ? fabric.count_ar.split(' ').slice(1).join(' ') : fabric.count_en.split(' ').slice(1).join(' ')}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold text-[#2d1a1e] dark:text-white mb-2 line-clamp-1`}>
-                    {language === 'ar' ? fabric.name_ar : fabric.name_en}
-                  </h3>
-                  
-                  <p className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e]/60 dark:text-gray-400 text-sm mb-4 line-clamp-2`}>
-                    {language === 'ar' ? fabric.description_ar : fabric.description_en}
-                  </p>
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className={`${language === 'ar' ? 'arabic-text' : ''} text-xl font-bold text-[#2d1a1e] dark:text-white mb-2 line-clamp-1`}>
+                      {language === 'ar' ? fabric.name_ar : fabric.name_en}
+                    </h3>
+                    
+                    <p className={`${language === 'ar' ? 'arabic-text' : ''} text-[#2d1a1e]/60 dark:text-gray-400 text-sm mb-4 line-clamp-2`}>
+                      {language === 'ar' ? fabric.description_ar : fabric.description_en}
+                    </p>
 
-                  {/* Explore Button */}
-                  <div className="flex items-center justify-between">
-                    <span className={`${language === 'ar' ? 'arabic-text' : ''} text-primary font-bold text-sm`}>
-                      {language === 'ar' ? 'استكشف التصميمات' : 'Explore Designs'}
-                    </span>
-                    <span className="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform duration-300">
-                      {language === 'ar' ? 'arrow_back' : 'arrow_forward'}
-                    </span>
+                    {/* Explore Button */}
+                    <div className="flex items-center justify-between">
+                      <span className={`${language === 'ar' ? 'arabic-text' : ''} text-primary font-bold text-sm`}>
+                        {language === 'ar' ? 'استكشف التصميمات' : 'Explore Designs'}
+                      </span>
+                      <span className="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform duration-300">
+                        {language === 'ar' ? 'arrow_back' : 'arrow_forward'}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Hover Effect */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/30 rounded-3xl transition-all duration-500 pointer-events-none"></div>
-              </div>
-            </Link>
-          ))}
+                  {/* Hover Effect */}
+                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/30 rounded-3xl transition-all duration-500 pointer-events-none"></div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Main Categories Showcase */}
@@ -231,13 +260,19 @@ const FabricTypes = () => {
                 
                 <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                   <img
-                    src={correctImagePath('/images/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg')}
+                    src={correctImagePath('/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg')}
                     alt={language === 'ar' ? 'شيفون سادة' : 'Plain Chiffon'}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/images/placeholder.jpg';
+                      e.target.style.display = 'none';
+                      const parent = e.target.parentElement;
+                      const fallback = document.createElement('div');
+                      fallback.className = 'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center';
+                      fallback.innerHTML = '<span class="material-symbols-outlined text-gray-400 text-4xl">collections</span>';
+                      parent.appendChild(fallback);
                     }}
+                    crossOrigin="anonymous"
                   />
                 </div>
               </div>
@@ -255,13 +290,19 @@ const FabricTypes = () => {
                   <>
                     <div className="w-48 h-48 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl group-hover:scale-110 transition-transform duration-500">
                       <img
-                        src={correctImagePath('/images/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg')}
+                        src={correctImagePath('/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg')}
                         alt={language === 'ar' ? 'شيفون مطبوع' : 'Printed Chiffon'}
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = '/images/placeholder.jpg';
+                          e.target.style.display = 'none';
+                          const parent = e.target.parentElement;
+                          const fallback = document.createElement('div');
+                          fallback.className = 'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center';
+                          fallback.innerHTML = '<span class="material-symbols-outlined text-gray-400 text-4xl">collections</span>';
+                          parent.appendChild(fallback);
                         }}
+                        crossOrigin="anonymous"
                       />
                     </div>
                     <div className="text-right mr-12 flex-1">
@@ -330,8 +371,14 @@ const FabricTypes = () => {
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = '/images/placeholder.jpg';
+                          e.target.style.display = 'none';
+                          const parent = e.target.parentElement;
+                          const fallback = document.createElement('div');
+                          fallback.className = 'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center';
+                          fallback.innerHTML = '<span class="material-symbols-outlined text-gray-400 text-4xl">collections</span>';
+                          parent.appendChild(fallback);
                         }}
+                        crossOrigin="anonymous"
                       />
                     </div>
                   </>
