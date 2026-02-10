@@ -1,27 +1,80 @@
 import React, { useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { t } from '../locales/translations';
 import { Link } from 'react-router-dom';
 
 const Achievements = () => {
   const { language } = useLanguage();
   const cardsRef = useRef([]);
-  const timelineRef = useRef(null);
   
   // دالة لإصلاح مسار الصور
   const correctImagePath = (imagePath) => {
-    if (!imagePath) return '/default.jpeg';
+    if (!imagePath) return '';
     
     let correctedPath = imagePath;
-    if (correctedPath.startsWith('/img/')) {
-      correctedPath = correctedPath.substring(5);
+    
+    // تحسين إصلاح المسارات
+    if (correctedPath.includes('\\')) correctedPath = correctedPath.replace(/\\/g, '/');
+    
+    // إذا كان المسار يبدأ بـ /Img/ أو /images/ أو http اتركه كما هو
+    if (correctedPath.startsWith('/Img/') || correctedPath.startsWith('/images/') || correctedPath.startsWith('http')) {
+      return correctedPath;
     }
     
-    if (!correctedPath.startsWith('/')) {
-      correctedPath = '/' + correctedPath;
+    // إذا كان المسار يبدأ بـ / فقط وأول حرف ليس I أو i
+    if (correctedPath.startsWith('/') && !correctedPath.startsWith('/I') && !correctedPath.startsWith('/i')) {
+      correctedPath = '/Img' + correctedPath;
     }
+    
+    // إذا لم يبدأ بـ / إطلاقاً
+    if (!correctedPath.startsWith('/') && !correctedPath.startsWith('http')) {
+      correctedPath = '/Img/' + correctedPath;
+    }
+    
+    correctedPath = correctedPath.replace('//', '/');
     
     return correctedPath;
+  };
+
+  // معالج أخطاء الصور
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    
+    // محاولة استخدام مسار بديل
+    const imgSrc = e.target.src;
+    
+    if (imgSrc.includes('Main.jpeg')) {
+      const basePath = imgSrc.substring(0, imgSrc.lastIndexOf('/'));
+      e.target.src = correctImagePath(basePath + '/01.jpeg');
+    } else if (imgSrc.includes('01.jpeg')) {
+      const basePath = imgSrc.substring(0, imgSrc.lastIndexOf('/'));
+      e.target.src = correctImagePath(basePath + '/02.jpeg');
+    } else {
+      // عرض أيقونة بدلاً من الصورة
+      e.target.style.display = 'none';
+      const parent = e.target.parentElement;
+      const fallback = document.createElement('div');
+      fallback.className = 'absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center rounded-lg';
+      fallback.innerHTML = `<span class="material-symbols-outlined text-gray-400 text-4xl">image</span>`;
+      parent.appendChild(fallback);
+    }
+  };
+
+  // الحصول على صورة افتراضية بناءً على المجموعة
+  const getDefaultImage = (collectionType) => {
+    const collectionImages = {
+      '01-Basic-Pinks': '/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg',
+      '02-Christian-Dior': '/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg',
+      '03-Islamic-Ornaments': '/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg',
+      '04-Islamic-Scarf': '/Img/Collections/04-Islamic-Scarf/01-Islamic-Scarf-Collection/Main.jpeg',
+      '05-Ramadan': '/Img/Collections/05-Ramadan/01-Ramadan-Collection/Main.jpeg',
+      '06-Pattern': '/Img/Collections/06-Pattern/01-Pattern-Collection/Main.jpeg',
+      '07-Itamine': '/Img/Collections/07-Itamine/01-Itamine-design-collection/Main.jpeg',
+      '08-Colourfull-Limited': '/Img/Collections/08-Colourfull-Limited/01-Colourfull-Limited-Design-Collection/Main.jpeg',
+      '09-Melt-designs': '/Img/Collections/09-Melt-designs/01-Melt-designs-Collection/01.jpeg',
+      '10-Beige-Basic-grad': '/Img/Collections/10-Beige-Basic-grad/01-Beige-Basic-grad-Colours-Collection/Main.jpeg'
+    };
+    
+    return collectionImages[collectionType] || '/Img/placeholder.jpg';
   };
 
   const milestones = [
@@ -62,7 +115,7 @@ const Achievements = () => {
       title: language === 'ar' ? "التوسع المصري" : "Egyptian Expansion",
       description: language === 'ar' ? "نمو مبيعات بنسبة 500% وتوسع في المحافظات المصرية بجودة صناعة مصرية" : "500% sales growth and expansion across Egyptian governorates with Egyptian manufacturing quality",
       icon: "storefront",
-      image: correctImagePath("/Shefon print/Shefon print 9.jpeg"),
+      image: correctImagePath("Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg"),
       stats: "+500%",
       statsLabel: language === 'ar' ? "نمو المبيعات" : "Sales Growth",
       color: "from-primary to-purple-600"
@@ -73,7 +126,7 @@ const Achievements = () => {
       title: language === 'ar' ? "الجودة المصرية" : "Egyptian Quality",
       description: language === 'ar' ? "تحقيق أعلى معايير الجودة والحصول على شهادات الجودة المصرية والعالمية" : "Achieving highest quality standards and obtaining Egyptian and international quality certificates",
       icon: "workspace_premium",
-      image: correctImagePath("/Shefon print/Shefon print 3.jpeg"),
+      image: correctImagePath("Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg"),
       stats: "99.8%",
       statsLabel: language === 'ar' ? "رضا العملاء" : "Customer Satisfaction",
       color: "from-green-500 to-emerald-600"
@@ -84,7 +137,7 @@ const Achievements = () => {
       title: language === 'ar' ? "التميز في التصميم" : "Design Excellence",
       description: language === 'ar' ? "تصميم 50+ موديل جديد مستوحى من التراث المصري مع الحفاظ على الهوية المحتشمة" : "Designing 50+ new models inspired by Egyptian heritage while maintaining modest identity",
       icon: "design_services",
-      image: correctImagePath("/Shefon print/Shefon print 4.jpeg"),
+      image: correctImagePath("Collections/06-Pattern/01-Pattern-Collection/Main.jpeg"),
       stats: "+50",
       statsLabel: language === 'ar' ? "تصميم جديد" : "New Designs",
       color: "from-pink-500 to-rose-500"
@@ -95,7 +148,7 @@ const Achievements = () => {
       title: language === 'ar' ? "التراث المصري" : "Egyptian Heritage",
       description: language === 'ar' ? "دمج التراث المصري في تصاميم الحجاب مع استخدام أفضل خامات القطن المصري" : "Integrating Egyptian heritage into hijab designs using the finest Egyptian cotton materials",
       icon: "history_edu",
-      image: correctImagePath("/Shefon print/Shefon print 25.jpeg"),
+      image: correctImagePath("Collections/07-Itamine/01-Itamine-design-collection/Main.jpeg"),
       stats: "100%",
       statsLabel: language === 'ar' ? "قطن مصري" : "Egyptian Cotton",
       color: "from-yellow-500 to-orange-500"
@@ -106,7 +159,7 @@ const Achievements = () => {
       title: language === 'ar' ? "البداية المصرية" : "Egyptian Beginning",
       description: language === 'ar' ? "انطلاق علامتنا المصرية بأول مجموعة حجاب من الشيفون المصري عالي الجودة" : "Launching our Egyptian brand with the first hijab collection of high-quality Egyptian chiffon",
       icon: "rocket_launch",
-      image: correctImagePath("/Shefon print/Shefon print 6.jpeg"),
+      image: correctImagePath("Collections/08-Colourfull-Limited/01-Colourfull-Limited-Design-Collection/Main.jpeg"),
       stats: "🌟",
       statsLabel: language === 'ar' ? "الانطلاق" : "The Launch",
       color: "from-blue-500 to-cyan-500"
@@ -147,12 +200,18 @@ const Achievements = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-fadeIn');
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
     );
 
+    // تأكد من أن cardsRef.current مصفوفة
+    cardsRef.current = cardsRef.current.slice(0, achievements.length + values.length + milestones.length);
     cardsRef.current.forEach((card) => {
       if (card) observer.observe(card);
     });
@@ -164,17 +223,24 @@ const Achievements = () => {
     };
   }, []);
 
+  // دالة لإضافة ref بشكل صحيح
+  const addToRefs = (el, index) => {
+    if (el && !cardsRef.current.includes(el)) {
+      cardsRef.current[index] = el;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-peach-soft/5 to-white dark:from-background-dark dark:via-gray-900/50 dark:to-gray-900 overflow-hidden relative">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-primary/10 blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/4 left-10 w-6 h-6 rounded-full bg-primary/20 animate-bounce"></div>
         <div className="absolute bottom-1/3 right-10 w-8 h-8 rounded-full bg-purple-500/20 animate-bounce delay-300"></div>
       </div>
 
-      {/* Hero Section - Redesigned */}
+      {/* Hero Section */}
       <section className="relative py-24 md:py-32 px-4 md:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="text-center relative z-10">
@@ -210,7 +276,7 @@ const Achievements = () => {
               {milestones.map((milestone, index) => (
                 <div 
                   key={index}
-                  ref={el => cardsRef.current[index] = el}
+                  ref={el => addToRefs(el, index)}
                   className="bg-white dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
                 >
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${milestone.color} flex items-center justify-center mb-4 mx-auto`}>
@@ -249,7 +315,7 @@ const Achievements = () => {
             {values.map((value, index) => (
               <div 
                 key={index}
-                ref={el => cardsRef.current[4 + index] = el}
+                ref={el => addToRefs(el, milestones.length + index)}
                 className="group relative"
               >
                 <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-3 overflow-hidden">
@@ -297,7 +363,7 @@ const Achievements = () => {
               {achievements.map((achievement, index) => (
                 <div 
                   key={achievement.id}
-                  ref={el => cardsRef.current[8 + index] = el}
+                  ref={el => addToRefs(el, milestones.length + values.length + index)}
                   className={`flex flex-col md:flex-row items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} gap-8`}
                 >
                   <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
@@ -307,7 +373,8 @@ const Achievements = () => {
                           src={achievement.image} 
                           alt={achievement.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          onError={(e) => e.target.src = '/default.jpeg'}
+                          onError={handleImageError}
+                          loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         
@@ -412,8 +479,8 @@ const Achievements = () => {
         </div>
       </section>
 
-      {/* Add Animations */}
-      <style jsx>{`
+      {/* Add CSS Animations */}
+      <style jsx global>{`
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -443,9 +510,17 @@ const Achievements = () => {
           }
         }
         
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        
         .animate-fadeIn {
           animation: fadeIn 0.8s ease-out forwards;
-          opacity: 0;
         }
         
         .animate-gradient {

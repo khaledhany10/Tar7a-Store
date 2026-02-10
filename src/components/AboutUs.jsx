@@ -1,5 +1,9 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import first from "../../public/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg"
+import second from "../../public/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg"
+import third from "../../public/Img/Collections/03-Islamic-Ornaments/01-Islamic-Ornaments-Collection/Main.jpeg"
+import forth from "../../public/Img/Collections/06-Pattern/01-Pattern-Collection/Main.jpeg"
 
 const AboutUs = () => {
   const { language } = useLanguage();
@@ -13,7 +17,7 @@ const AboutUs = () => {
       role_en: "Founder & Design Director",
       bio_ar: "مصممة أزياء بخبرة 10 سنوات في صناعة الأزياء الإسلامية. حاصلة على درجة الماجستير في تصميم الأزياء من كلية لندن للأزياء.",
       bio_en: "Fashion designer with 10 years experience in Islamic fashion industry. Holds a Master's degree in Fashion Design from London College of Fashion.",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b786d4d1?w=400&h=400&fit=crop&crop=face",
+      image: first,
       color: "bg-purple-100"
     },
     {
@@ -24,7 +28,7 @@ const AboutUs = () => {
       role_en: "Operations Manager",
       bio_ar: "متخصصة في إدارة سلاسل التوريد والخدمات اللوجستية بخبرة 8 سنوات في تجارة الأزياء الإلكترونية.",
       bio_en: "Supply chain and logistics specialist with 8 years experience in e-commerce fashion trade.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+      image: second,
       color: "bg-blue-100"
     },
     {
@@ -35,7 +39,7 @@ const AboutUs = () => {
       role_en: "Marketing Director",
       bio_ar: "خبيرة في التسويق الرقمي وبناء العلامات التجارية، حاصلة على شهادة Google في التسويق الرقمي.",
       bio_en: "Digital marketing and brand building expert, certified by Google in Digital Marketing.",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w-400&h=400&fit=crop&crop=face",
+      image: third,
       color: "bg-pink-100"
     },
     {
@@ -46,7 +50,7 @@ const AboutUs = () => {
       role_en: "Style Consultant",
       bio_ar: "مستشارة أناقة معتمدة، تساعد العملاء في اختيار المظهر المناسب لكل مناسبة.",
       bio_en: "Certified style consultant, helping clients choose the perfect look for every occasion.",
-      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face",
+      image: forth,
       color: "bg-green-100"
     }
   ];
