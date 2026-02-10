@@ -8,7 +8,7 @@ const testimonials = [
     name_en: "Amani R.",
     role_ar: "عميل موثوق",
     role_en: "Trusted Customer",
-    image: "/img/1.jpeg",
+    image: "/Img/Collections/01-Basic-Pinks/01-Basic-Pinks-Grading-Colours/Main.jpeg",
     quote_ar: "مجموعة المودال غيرت قواعد اللعبة. تظل في مكانها طوال اليوم دون الحاجة إلى آلاف الدبابيس. مذهلة تمامًا!",
     quote_en: "The Modal collection changed the game. Stays in place all day without needing a thousand pins. Absolutely amazing!",
     rating: 5
@@ -19,7 +19,7 @@ const testimonials = [
     name_en: "Layla K.",
     role_ar: "عميل موثوق",
     role_en: "Trusted Customer",
-    image: "/img/2.jpeg",
+    image: "/Img/Collections/02-Christian-Dior/01-Christian-Dior-Collection/Main.jpeg",
     quote_ar: "تغليف متجر طرحة جميل جدًا، شعرت أنني أفتح هدية فاخرة. جودة الشيفون لا مثيل لها في أي ماركة أخرى.",
     quote_en: "Tar7a Store packaging is so beautiful, felt like opening a luxury gift. The chiffon quality is unmatched by any other brand.",
     rating: 5
@@ -30,7 +30,7 @@ const testimonials = [
     name_en: "Mariam J.",
     role_ar: "عميل موثوق",
     role_en: "Trusted Customer",
-    image: "/img/3.jpeg",
+    image: "/Img/Collections/03-Itamine/01-Itamine-design-collection/Main.jpeg",
     quote_ar: "وجدت أخيرًا مصدرًا موثوقًا للاحتياجات اليومية. حجابات الجيرسي ناعمة جدًا والألوان مثالية وهادئة.",
     quote_en: "Finally found a reliable source for daily essentials. The jersey hijabs are so soft and the colors are perfect and muted.",
     rating: 5
@@ -41,7 +41,7 @@ const testimonials = [
     name_en: "Fatima A.",
     role_ar: "عميل VIP",
     role_en: "VIP Customer",
-    image: "/img/4.jpeg",
+    image: "/Img/Collections/06-Pattern/01-Pattern-Collection/Main.jpeg",
     quote_ar: "مجموعة الحرير تستحق كل قرش أنفقته. أحصل على إعجاب في كل مرة أرتديها. خدمة العملاء ممتازة أيضًا!",
     quote_en: "The silk collection is worth every penny. Get compliments every time I wear them. Customer service is excellent too!",
     rating: 5
@@ -214,9 +214,6 @@ const Testimonials = () => {
                               src={testimonial.image}
                               alt={language === 'ar' ? testimonial.name_ar : testimonial.name_en}
                               className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.target.src = 'https://via.placeholder.com/100x100/f3e9e5/2d1a1e?text=👤';
-                              }}
                             />
                           </div>
                           <div className="absolute -bottom-1 -right-1 w-4 h-4 lg:w-6 lg:h-6 rounded-full bg-primary flex items-center justify-center">

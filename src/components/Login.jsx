@@ -24,7 +24,6 @@ const Login = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
     
-    // Clear error for this field
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -60,23 +59,23 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // In real app, you would make an API call here
-      console.log('Login attempt:', formData);
-      
-      // Store login state
       localStorage.setItem('tar7a_user', JSON.stringify({
         email: formData.email,
         loggedIn: true,
         timestamp: new Date().toISOString()
       }));
       
-      // Show success message
-      alert(language === 'ar' ? 'تم تسجيل الدخول بنجاح!' : 'Login successful!');
+      // Use toast notification instead of alert
+      const event = new CustomEvent('show-toast', {
+        detail: {
+          message: language === 'ar' ? 'تم تسجيل الدخول بنجاح!' : 'Login successful!',
+          type: 'success'
+        }
+      });
+      window.dispatchEvent(event);
       
-      // Redirect to home or previous page
       navigate('/');
       
     } catch (error) {
@@ -92,282 +91,355 @@ const Login = () => {
   };
 
   const handleSocialLogin = (provider) => {
-    // Simulate social login
     console.log(`Social login with ${provider}`);
-    alert(`${provider} login would be implemented here`);
+    const event = new CustomEvent('show-toast', {
+      detail: {
+        message: `${provider} login would be implemented here`,
+        type: 'info'
+      }
+    });
+    window.dispatchEvent(event);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/10">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary/5 dark:from-gray-900 dark:via-gray-800 dark:to-primary/10">
       <div className="relative overflow-hidden">
-        {/* Background decoration */}
+        {/* Enhanced Background */}
         <div className="absolute inset-0">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/10 to-purple-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-pink-500/10 to-yellow-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-yellow-500/10 via-orange-500/10 to-red-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/3 left-1/4 w-12 h-12 rounded-full bg-primary/30 animate-bounce"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-8 h-8 rounded-full bg-purple-500/30 animate-bounce delay-300"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
-            {/* Left side - Branding */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+            {/* Left side - Enhanced Branding */}
             <div className="lg:w-1/2 text-center lg:text-right">
               <div className="max-w-lg mx-auto lg:mx-0 lg:ml-auto">
-                <Link to="/" className="inline-block mb-8">
-                  <div className="flex items-center justify-center lg:justify-end gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-white text-2xl">
-                        diamond
-                      </span>
+                <Link to="/" className="inline-block mb-10 group">
+                  <div className="flex items-center justify-center lg:justify-end gap-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-500 group-hover:scale-110">
+                        <span className="material-symbols-outlined text-white text-3xl">
+                          diamond
+                        </span>
+                      </div>
+                      <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-purple-600/30 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                      Tar7a Store
-                    </h1>
+                    <div>
+                      <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent animate-gradient">
+                        Tar7a Store
+                      </h1>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        {language === 'ar' ? 'فاخر • إسلامي • راقي' : 'Luxury • Islamic • Elegant'}
+                      </p>
+                    </div>
                   </div>
                 </Link>
                 
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                  <span className="block">
-                    {language === 'ar' ? 'مرحباً بعودتك!' : 'Welcome Back!'}
-                  </span>
-                  <span className="text-primary">
-                    {language === 'ar' ? 'للعالم الإسلامي الفاخر' : 'To Luxury Islamic World'}
-                  </span>
-                </h2>
-                
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                  {language === 'ar' 
-                    ? 'تسوق أحدث تشكيلات الطرح الجديدة'
-                    : 'Shop the latest collection of luxurious Islamic ornaments and spiritual jewelry'
-                  }
-                </p>
-                
-                {/* Features */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-center lg:justify-end gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-green-600 dark:text-green-400">
-                        verified
-                      </span>
-                    </div>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      {language === 'ar' ? 'جودة فاخرة مضمونة' : 'Premium Quality Guaranteed'}
+                <div className="mb-10">
+                  <h2 className="text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
+                    <span className="block">
+                      {language === 'ar' ? 'مرحباً بعودتك!' : 'Welcome Back!'}
                     </span>
+                    <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                      {language === 'ar' ? 'إلى عالمنا الفاخر' : 'To Our Luxury World'}
+                    </span>
+                  </h2>
+                  
+                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                    {language === 'ar' 
+                      ? 'استمتع بتجربة تسوق استثنائية لأرقى تشكيلات الطرحة الإسلامية والعقود الروحانية'
+                      : 'Experience exceptional shopping for the finest Islamic veils and spiritual necklaces'
+                    }
+                  </p>
+                </div>
+                
+                {/* Enhanced Features */}
+                <div className="space-y-6">
+                  <div className="flex items-center justify-center lg:justify-end gap-4 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-lg transition-all duration-300">
+                    <div className="relative">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
+                        <span className="material-symbols-outlined text-white text-xl">
+                          verified
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl blur-sm"></div>
+                    </div>
+                    <div className="text-right flex-1">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        {language === 'ar' ? 'جودة فاخرة مضمونة' : 'Premium Quality Guaranteed'}
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {language === 'ar' ? 'ضمان الجودة لمدة 3 سنوات' : '3-year quality guarantee'}
+                      </p>
+                    </div>
                   </div>
                   
-                  <div className="flex items-center justify-center lg:justify-end gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-blue-600 dark:text-blue-400">
-                        local_shipping
-                      </span>
+                  <div className="flex items-center justify-center lg:justify-end gap-4 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-lg transition-all duration-300">
+                    <div className="relative">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg">
+                        <span className="material-symbols-outlined text-white text-xl">
+                          local_shipping
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/20 to-cyan-600/20 rounded-xl blur-sm"></div>
                     </div>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      {language === 'ar' ? 'شحن سريع وآمن' : 'Fast & Secure Shipping'}
-                    </span>
+                    <div className="text-right flex-1">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        {language === 'ar' ? 'شحن سريع وآمن' : 'Fast & Secure Shipping'}
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {language === 'ar' ? 'توصيل خلال 2-5 أيام عمل' : 'Delivery in 2-5 working days'}
+                      </p>
+                    </div>
                   </div>
                   
-                  <div className="flex items-center justify-center lg:justify-end gap-3">
-                    <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-purple-600 dark:text-purple-400">
-                        support_agent
-                      </span>
+                  <div className="flex items-center justify-center lg:justify-end gap-4 p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-lg transition-all duration-300">
+                    <div className="relative">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
+                        <span className="material-symbols-outlined text-white text-xl">
+                          support_agent
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-xl blur-sm"></div>
                     </div>
-                    <span className="text-gray-700 dark:text-gray-300">
-                      {language === 'ar' ? 'دعم فني 24/7' : '24/7 Customer Support'}
-                    </span>
+                    <div className="text-right flex-1">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        {language === 'ar' ? 'دعم فني 24/7' : '24/7 Customer Support'}
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {language === 'ar' ? 'متاح على مدار الساعة' : 'Available around the clock'}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right side - Login Form */}
+            {/* Right side - Enhanced Login Form */}
             <div className="lg:w-1/2">
               <div className="max-w-md mx-auto">
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-10">
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                      {language === 'ar' ? 'تسجيل الدخول' : 'Sign In'}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {language === 'ar' 
-                        ? 'أدخل بياناتك للوصول إلى حسابك'
-                        : 'Enter your details to access your account'
-                      }
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Email */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-right">
-                        {language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'}
-                      </label>
-                      <div className="relative">
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">mail</span>
-                        </div>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.email 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? 'example@email.com' : 'you@example.com'}
-                        />
-                      </div>
-                      {errors.email && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.email}</p>
-                      )}
-                    </div>
-
-                    {/* Password */}
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-right">
-                          {language === 'ar' ? 'كلمة المرور' : 'Password'}
-                        </label>
-                        <Link 
-                          to="/forgot-password" 
-                          className="text-sm text-primary hover:text-purple-600 transition-colors"
-                        >
-                          {language === 'ar' ? 'نسيت كلمة المرور؟' : 'Forgot password?'}
-                        </Link>
-                      </div>
-                      <div className="relative">
-                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">lock</span>
-                        </div>
-                        <input
-                          type={showPassword ? "text" : "password"}
-                          name="password"
-                          value={formData.password}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-24 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.password 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? '••••••••' : '••••••••'}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                        >
-                          <span className="material-symbols-outlined text-sm">
-                            {showPassword ? 'visibility_off' : 'visibility'}
-                          </span>
-                        </button>
-                      </div>
-                      {errors.password && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.password}</p>
-                      )}
-                    </div>
-
-                    {/* Remember Me & Submit */}
-                    <div className="flex items-center justify-between">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          name="rememberMe"
-                          checked={formData.rememberMe}
-                          onChange={handleChange}
-                          className="w-4 h-4 text-primary rounded focus:ring-primary"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                          {language === 'ar' ? 'تذكرني' : 'Remember me'}
-                        </span>
-                      </label>
-                    </div>
-
-                    {errors.submit && (
-                      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-                        <p className="text-red-600 dark:text-red-400 text-sm text-center">
-                          {errors.submit}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full bg-gradient-to-r from-primary to-purple-600 text-white py-3.5 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {isLoading ? (
-                        <>
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                          {language === 'ar' ? 'جاري تسجيل الدخول...' : 'Signing in...'}
-                        </>
-                      ) : (
-                        <>
-                          <span className="material-symbols-outlined">login</span>
-                          {language === 'ar' ? 'تسجيل الدخول' : 'Sign In'}
-                        </>
-                      )}
-                    </button>
-
-                    {/* Divider */}
-                    <div className="relative">
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
-                      </div>
-                      <div className="relative flex justify-center text-sm">
-                        <span className="px-4 bg-white dark:bg-gray-800 text-gray-500">
-                          {language === 'ar' ? 'أو سجل الدخول باستخدام' : 'Or continue with'}
+                <div className="relative group">
+                  {/* Form glow effect */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-3xl blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+                  
+                  <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-10 overflow-hidden border border-white/20 dark:border-gray-700/20">
+                    {/* Form header with gradient */}
+                    <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-purple-500 to-pink-500"></div>
+                    
+                    <div className="text-center mb-10">
+                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 mb-6">
+                        <span className="material-symbols-outlined text-primary text-3xl">
+                          login
                         </span>
                       </div>
-                    </div>
-
-                    {/* Social Login */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <button
-                        type="button"
-                        onClick={() => handleSocialLogin('Google')}
-                        className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24">
-                          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        <span className="text-sm font-medium">Google</span>
-                      </button>
-                      
-                      <button
-                        type="button"
-                        onClick={() => handleSocialLogin('Facebook')}
-                        className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                          <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"/>
-                        </svg>
-                        <span className="text-sm font-medium">Facebook</span>
-                      </button>
-                    </div>
-
-                    {/* Register Link */}
-                    <div className="text-center pt-4">
+                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                        {language === 'ar' ? 'تسجيل الدخول' : 'Sign In'}
+                      </h3>
                       <p className="text-gray-600 dark:text-gray-400">
-                        {language === 'ar' ? 'ليس لديك حساب؟' : "Don't have an account?"}
-                        <Link 
-                          to="/register" 
-                          className="text-primary font-semibold hover:text-purple-600 transition-colors mr-1"
-                        >
-                          {language === 'ar' ? ' سجل الآن' : ' Sign up now'}
-                        </Link>
+                        {language === 'ar' 
+                          ? 'أدخل بياناتك للوصول إلى حسابك الشخصي'
+                          : 'Enter your details to access your personal account'
+                        }
                       </p>
                     </div>
-                  </form>
+
+                    <form onSubmit={handleSubmit} className="space-y-7">
+                      {/* Email Field */}
+                      <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-right">
+                          {language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'}
+                        </label>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">mail</span>
+                          </div>
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-12 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.email 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? 'example@email.com' : 'you@example.com'}
+                          />
+                        </div>
+                        {errors.email && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.email}</p>
+                        )}
+                      </div>
+
+                      {/* Password Field */}
+                      <div className="group">
+                        <div className="flex justify-between items-center mb-3">
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 text-right">
+                            {language === 'ar' ? 'كلمة المرور' : 'Password'}
+                          </label>
+                          <Link 
+                            to="/forgot-password" 
+                            className="text-sm text-primary hover:text-purple-600 transition-colors hover:underline"
+                          >
+                            {language === 'ar' ? 'نسيت كلمة المرور؟' : 'Forgot password?'}
+                          </Link>
+                        </div>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">lock</span>
+                          </div>
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-24 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.password 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? '••••••••' : '••••••••'}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-xl">
+                              {showPassword ? 'visibility_off' : 'visibility'}
+                            </span>
+                          </button>
+                        </div>
+                        {errors.password && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.password}</p>
+                        )}
+                      </div>
+
+                      {/* Remember Me */}
+                      <div className="flex items-center justify-between">
+                        <label className="flex items-center gap-3 cursor-pointer group">
+                          <div className="relative">
+                            <input
+                              type="checkbox"
+                              name="rememberMe"
+                              checked={formData.rememberMe}
+                              onChange={handleChange}
+                              className="peer sr-only"
+                            />
+                            <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 peer-checked:border-primary peer-checked:bg-primary transition-all duration-200 flex items-center justify-center">
+                              {formData.rememberMe && (
+                                <span className="material-symbols-outlined text-white text-sm">check</span>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 select-none group-hover:text-primary transition-colors">
+                            {language === 'ar' ? 'تذكرني على هذا الجهاز' : 'Remember me on this device'}
+                          </span>
+                        </label>
+                      </div>
+
+                      {errors.submit && (
+                        <div className="bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/10 border border-red-200 dark:border-red-800 rounded-2xl p-4 animate-fadeIn">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                              <span className="material-symbols-outlined text-red-600 dark:text-red-400 text-sm">
+                                error
+                              </span>
+                            </div>
+                            <p className="text-red-600 dark:text-red-400 text-sm flex-1 text-right">
+                              {errors.submit}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Submit Button */}
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full group relative bg-gradient-to-r from-primary to-purple-600 text-white py-4 rounded-2xl font-semibold hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none overflow-hidden"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                        <div className="relative flex items-center justify-center gap-3">
+                          {isLoading ? (
+                            <>
+                              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                              {language === 'ar' ? 'جاري تسجيل الدخول...' : 'Signing in...'}
+                            </>
+                          ) : (
+                            <>
+                              <span className="material-symbols-outlined text-xl">arrow_forward</span>
+                              {language === 'ar' ? 'تسجيل الدخول' : 'Sign In'}
+                            </>
+                          )}
+                        </div>
+                      </button>
+
+                      {/* Divider */}
+                      <div className="relative my-8">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+                        </div>
+                      </div>
+
+                      {/* Register Link */}
+                      <div className="text-center pt-6">
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {language === 'ar' ? 'ليس لديك حساب؟' : "Don't have an account?"}
+                          <Link 
+                            to="/register" 
+                            className="group relative text-primary font-semibold hover:text-purple-600 transition-colors mr-1 inline-flex items-center gap-1"
+                          >
+                            {language === 'ar' ? ' سجل الآن' : ' Sign up now'}
+                            <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+                              arrow_forward
+                            </span>
+                          </Link>
+                        </p>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Add animations */}
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes gradient {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+      `}</style>
     </div>
   );
 };

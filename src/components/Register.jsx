@@ -29,7 +29,6 @@ const Register = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
     
-    // Clear error for this field
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -91,13 +90,8 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // In real app, you would make an API call here
-      console.log('Registration attempt:', formData);
-      
-      // Store user data
       const userData = {
         fullName: formData.fullName,
         email: formData.email,
@@ -111,13 +105,16 @@ const Register = () => {
         loggedIn: true
       }));
       
-      // Show success message
-      alert(language === 'ar' 
-        ? '🎉 تم إنشاء حسابك بنجاح! مرحباً بك في Tar7a Store.' 
-        : '🎉 Account created successfully! Welcome to Tar7a Store.'
-      );
+      const event = new CustomEvent('show-toast', {
+        detail: {
+          message: language === 'ar' 
+            ? '🎉 تم إنشاء حسابك بنجاح! مرحباً بك في Tar7a Store.' 
+            : '🎉 Account created successfully! Welcome to Tar7a Store.',
+          type: 'success'
+        }
+      });
+      window.dispatchEvent(event);
       
-      // Redirect to home
       navigate('/');
       
     } catch (error) {
@@ -133,9 +130,14 @@ const Register = () => {
   };
 
   const handleSocialRegister = (provider) => {
-    // Simulate social registration
     console.log(`Social register with ${provider}`);
-    alert(`${provider} registration would be implemented here`);
+    const event = new CustomEvent('show-toast', {
+      detail: {
+        message: `${provider} registration would be implemented here`,
+        type: 'info'
+      }
+    });
+    window.dispatchEvent(event);
   };
 
   const passwordStrength = () => {
@@ -149,448 +151,126 @@ const Register = () => {
     if (/\d/.test(password)) score += 1;
     if (/[!@#$%^&*]/.test(password)) score += 1;
     
-    if (score <= 2) return { score, text: language === 'ar' ? 'ضعيفة' : 'Weak', color: 'red' };
-    if (score === 3) return { score, text: language === 'ar' ? 'متوسطة' : 'Medium', color: 'yellow' };
-    return { score, text: language === 'ar' ? 'قوية' : 'Strong', color: 'green' };
+    if (score <= 2) return { score, text: language === 'ar' ? 'ضعيفة' : 'Weak', color: 'red-500' };
+    if (score === 3) return { score, text: language === 'ar' ? 'متوسطة' : 'Medium', color: 'yellow-500' };
+    return { score, text: language === 'ar' ? 'قوية' : 'Strong', color: 'green-500' };
   };
 
   const strength = passwordStrength();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/10">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-primary/5 dark:from-gray-900 dark:via-gray-800 dark:to-primary/10">
       <div className="relative overflow-hidden">
-        {/* Background decoration */}
+        {/* Enhanced Background */}
         <div className="absolute inset-0">
-          <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-primary/10 to-pink-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-gradient-to-tr from-yellow-500/10 to-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-primary/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-gradient-to-tr from-yellow-500/10 via-orange-500/10 to-red-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-purple-500/30 animate-bounce"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-8 h-8 rounded-full bg-primary/30 animate-bounce delay-300"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-12">
-            {/* Left side - Form */}
-            <div className="lg:w-1/2">
-              <div className="max-w-lg mx-auto">
-                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-10">
-                  <div className="text-center mb-8">
-                    <Link to="/" className="inline-block mb-4">
-                      <div className="flex items-center justify-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-white text-2xl">
-                            diamond
-                          </span>
-                        </div>
-                        <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                          Tar7a Store
-                        </h1>
-                      </div>
-                    </Link>
-                    
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                      {language === 'ar' ? 'أنشئ حسابك الآن' : 'Create Your Account'}
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {language === 'ar' 
-                        ? 'انضم إلى مجتمعنا الفاخر واستمتع بتجربة تسوق استثنائية'
-                        : 'Join our luxury community and enjoy an exceptional shopping experience'
-                      }
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Full Name */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-right">
-                        {language === 'ar' ? 'الاسم الكامل' : 'Full Name'} *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">person</span>
-                        </div>
-                        <input
-                          type="text"
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.fullName 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? 'أحمد محمد' : 'John Doe'}
-                        />
-                      </div>
-                      {errors.fullName && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.fullName}</p>
-                      )}
-                    </div>
-
-                    {/* Email */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-right">
-                        {language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'} *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">mail</span>
-                        </div>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.email 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? 'example@email.com' : 'you@example.com'}
-                        />
-                      </div>
-                      {errors.email && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.email}</p>
-                      )}
-                    </div>
-
-                    {/* Phone */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-right">
-                        {language === 'ar' ? 'رقم الهاتف' : 'Phone Number'} *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">call</span>
-                        </div>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-12 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.phone 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? '+20 123 456 7890' : '+1 234 567 8900'}
-                        />
-                      </div>
-                      {errors.phone && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.phone}</p>
-                      )}
-                    </div>
-
-                    {/* Password */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-right">
-                        {language === 'ar' ? 'كلمة المرور' : 'Password'} *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">lock</span>
-                        </div>
-                        <input
-                          type={showPassword ? "text" : "password"}
-                          name="password"
-                          value={formData.password}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-24 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.password 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? '••••••••' : '••••••••'}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                        >
-                          <span className="material-symbols-outlined text-sm">
-                            {showPassword ? 'visibility_off' : 'visibility'}
-                          </span>
-                        </button>
-                      </div>
-                      
-                      {/* Password Strength */}
-                      {formData.password && (
-                        <div className="mt-2">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs text-gray-500">
-                              {language === 'ar' ? 'قوة كلمة المرور:' : 'Password strength:'}
-                            </span>
-                            <span className={`text-xs font-medium text-${strength.color}-600`}>
-                              {strength.text}
-                            </span>
-                          </div>
-                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                            <div 
-                              className={`h-1.5 rounded-full ${
-                                strength.color === 'red' ? 'bg-red-500' :
-                                strength.color === 'yellow' ? 'bg-yellow-500' : 'bg-green-500'
-                              }`}
-                              style={{ width: `${(strength.score / 5) * 100}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {errors.password && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.password}</p>
-                      )}
-                    </div>
-
-                    {/* Confirm Password */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-right">
-                        {language === 'ar' ? 'تأكيد كلمة المرور' : 'Confirm Password'} *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <span className="material-symbols-outlined">lock_reset</span>
-                        </div>
-                        <input
-                          type={showConfirmPassword ? "text" : "password"}
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 pr-24 border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-300 ${
-                            errors.confirmPassword 
-                              ? 'border-red-500 dark:border-red-500' 
-                              : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700'
-                          }`}
-                          placeholder={language === 'ar' ? '••••••••' : '••••••••'}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                        >
-                          <span className="material-symbols-outlined text-sm">
-                            {showConfirmPassword ? 'visibility_off' : 'visibility'}
-                          </span>
-                        </button>
-                      </div>
-                      {errors.confirmPassword && (
-                        <p className="mt-2 text-sm text-red-600 text-right">{errors.confirmPassword}</p>
-                      )}
-                    </div>
-
-                    {/* Checkboxes */}
-                    <div className="space-y-4">
-                      <label className="flex items-start gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          name="agreeToTerms"
-                          checked={formData.agreeToTerms}
-                          onChange={handleChange}
-                          className="w-4 h-4 text-primary rounded focus:ring-primary mt-1"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                          {language === 'ar' 
-                            ? 'أوافق على '
-                            : 'I agree to the '
-                          }
-                          <Link to="/terms" className="text-primary hover:text-purple-600">
-                            {language === 'ar' ? 'الشروط والأحكام' : 'Terms and Conditions'}
-                          </Link>
-                          {language === 'ar' ? ' و ' : ' and '}
-                          <Link to="/privacy" className="text-primary hover:text-purple-600">
-                            {language === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}
-                          </Link>
-                          *
-                        </span>
-                      </label>
-                      
-                      <label className="flex items-start gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          name="newsletter"
-                          checked={formData.newsletter}
-                          onChange={handleChange}
-                          className="w-4 h-4 text-primary rounded focus:ring-primary mt-1"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                          {language === 'ar' 
-                            ? 'أرغب في تلقي عروض حصرية وأحدث التحديثات عبر البريد الإلكتروني'
-                            : 'I want to receive exclusive offers and latest updates via email'
-                          }
-                        </span>
-                      </label>
-                    </div>
-
-                    {errors.agreeToTerms && (
-                      <p className="text-sm text-red-600 text-right">{errors.agreeToTerms}</p>
-                    )}
-
-                    {errors.submit && (
-                      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-                        <p className="text-red-600 dark:text-red-400 text-sm text-center">
-                          {errors.submit}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full bg-gradient-to-r from-primary to-purple-600 text-white py-3.5 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {isLoading ? (
-                        <>
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                          {language === 'ar' ? 'جاري إنشاء الحساب...' : 'Creating account...'}
-                        </>
-                      ) : (
-                        <>
-                          <span className="material-symbols-outlined">person_add</span>
-                          {language === 'ar' ? 'إنشاء حساب' : 'Create Account'}
-                        </>
-                      )}
-                    </button>
-
-                    {/* Divider */}
-                    <div className="relative">
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
-                      </div>
-                      <div className="relative flex justify-center text-sm">
-                        <span className="px-4 bg-white dark:bg-gray-800 text-gray-500">
-                          {language === 'ar' ? 'أو سجل باستخدام' : 'Or sign up with'}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Social Register */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <button
-                        type="button"
-                        onClick={() => handleSocialRegister('Google')}
-                        className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24">
-                          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        <span className="text-sm font-medium">Google</span>
-                      </button>
-                      
-                      <button
-                        type="button"
-                        onClick={() => handleSocialRegister('Facebook')}
-                        className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                      >
-                        <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                          <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"/>
-                        </svg>
-                        <span className="text-sm font-medium">Facebook</span>
-                      </button>
-                    </div>
-
-                    {/* Login Link */}
-                    <div className="text-center pt-4">
-                      <p className="text-gray-600 dark:text-gray-400">
-                        {language === 'ar' ? 'هل لديك حساب بالفعل؟' : 'Already have an account?'}
-                        <Link 
-                          to="/login" 
-                          className="text-primary font-semibold hover:text-purple-600 transition-colors mr-1"
-                        >
-                          {language === 'ar' ? ' سجل الدخول' : ' Sign in'}
-                        </Link>
-                      </p>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side - Benefits */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+            {/* Left side - Enhanced Benefits */}
             <div className="lg:w-1/2 text-center lg:text-left">
               <div className="max-w-lg mx-auto lg:mx-0">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                  <span className="block">
-                    {language === 'ar' ? 'انضم إلى' : 'Join'}
-                  </span>
-                  <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                    {language === 'ar' ? 'مجتمعنا الفاخر' : 'Our Luxury Community'}
-                  </span>
-                </h2>
+                <div className="mb-10">
+                  <h2 className="text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
+                    <span className="block">
+                      {language === 'ar' ? 'انضم إلى' : 'Join'}
+                    </span>
+                    <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent animate-gradient">
+                      {language === 'ar' ? 'مجتمعنا الفاخر' : 'Our Luxury Community'}
+                    </span>
+                  </h2>
+                  
+                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                    {language === 'ar' 
+                      ? 'استمتع بتجربة تسوق استثنائية واحصل على مميزات حصرية لأعضاء مجتمعنا فقط'
+                      : 'Enjoy an exceptional shopping experience and get exclusive benefits for community members only'
+                    }
+                  </p>
+                </div>
                 
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                  {language === 'ar' 
-                    ? 'استمتع بمزايا حصرية عندما تنضم إلى Tar7a Store'
-                    : 'Enjoy exclusive benefits when you join Tar7a Store'
-                  }
-                </p>
-                
-                {/* Benefits */}
+                {/* Enhanced Benefits */}
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-primary text-2xl">
-                        discount
-                      </span>
+                  <div className="group flex items-start gap-5 p-5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-xl transition-all duration-300">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span className="material-symbols-outlined text-white text-2xl">
+                          discount
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white mb-2">
+                    <div className="text-right flex-1">
+                      <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
                         {language === 'ar' ? 'خصومات حصرية' : 'Exclusive Discounts'}
                       </h4>
                       <p className="text-gray-600 dark:text-gray-400">
                         {language === 'ar' 
-                          ? 'احصل على عروض خاصة وتخفيضات لأعضاء مجتمعنا فقط'
-                          : 'Get special offers and discounts for community members only'
+                          ? 'عروض خاصة وتخفيضات تصل إلى 40% لأعضاء مجتمعنا فقط'
+                          : 'Special offers and discounts up to 40% for community members only'
                         }
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-500/5 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-purple-600 dark:text-purple-400 text-2xl">
-                        local_shipping
-                      </span>
+                  <div className="group flex items-start gap-5 p-5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-xl transition-all duration-300">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span className="material-symbols-outlined text-white text-2xl">
+                          local_shipping
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white mb-2">
+                    <div className="text-right flex-1">
+                      <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 transition-colors">
                         {language === 'ar' ? 'شحن مجاني' : 'Free Shipping'}
                       </h4>
                       <p className="text-gray-600 dark:text-gray-400">
                         {language === 'ar' 
-                          ? 'شحن مجاني على جميع الطلبات فوق 500 جنيه'
+                          ? 'شحن مجاني على جميع الطلبات فوق 500 جنيه مصري'
                           : 'Free shipping on all orders above 500 EGP'
                         }
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500/10 to-pink-500/5 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-pink-600 dark:text-pink-400 text-2xl">
-                        priority
-                      </span>
+                  <div className="group flex items-start gap-5 p-5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-xl transition-all duration-300">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span className="material-symbols-outlined text-white text-2xl">
+                          priority
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-pink-500/20 to-rose-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white mb-2">
+                    <div className="text-right flex-1">
+                      <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover:text-pink-600 transition-colors">
                         {language === 'ar' ? 'معالجة سريعة' : 'Priority Processing'}
                       </h4>
                       <p className="text-gray-600 dark:text-gray-400">
                         {language === 'ar' 
-                          ? 'طلباتك تعالج بشكل أسرع من العملاء العاديين'
-                          : 'Your orders are processed faster than regular customers'
+                          ? 'طلباتك تعالج بشكل أسرع مع دعم متميز'
+                          : 'Your orders are processed faster with premium support'
                         }
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/10 to-green-500/5 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">
-                        star
-                      </span>
+                  <div className="group flex items-start gap-5 p-5 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 hover:shadow-xl transition-all duration-300">
+                    <div className="relative flex-shrink-0">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span className="material-symbols-outlined text-white text-2xl">
+                          star
+                        </span>
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white mb-2">
+                    <div className="text-right flex-1">
+                      <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover:text-green-600 transition-colors">
                         {language === 'ar' ? 'برنامج الولاء' : 'Loyalty Program'}
                       </h4>
                       <p className="text-gray-600 dark:text-gray-400">
@@ -603,25 +283,397 @@ const Register = () => {
                   </div>
                 </div>
                 
-                {/* Security Badge */}
-                <div className="mt-10 p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl">
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-3xl">
-                        shield
-                      </span>
+                {/* Enhanced Security Badge */}
+                <div className="mt-10 relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-teal-500/10 rounded-3xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-green-200 dark:border-green-800/50">
+                    <div className="flex items-center justify-center lg:justify-start gap-5">
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
+                          <span className="material-symbols-outlined text-white text-3xl">
+                            shield
+                          </span>
+                        </div>
+                        <div className="absolute -inset-2 bg-gradient-to-br from-green-500/20 to-emerald-600/20 rounded-full blur-md"></div>
+                      </div>
+                      <div className="text-right">
+                        <h4 className="font-bold text-xl text-gray-900 dark:text-white">
+                          {language === 'ar' ? 'آمن 100%' : '100% Secure'}
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {language === 'ar' 
+                            ? 'بياناتك محمية باستخدام أحدث تقنيات التشفير المتقدمة'
+                            : 'Your data is protected with latest advanced encryption technologies'
+                          }
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <h4 className="font-bold text-gray-900 dark:text-white">
-                        {language === 'ar' ? 'آمن 100%' : '100% Secure'}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right side - Enhanced Form */}
+            <div className="lg:w-1/2">
+              <div className="max-w-md mx-auto">
+                <div className="relative group">
+                  {/* Form glow effect */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-purple-500/30 to-pink-500/30 rounded-3xl blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500"></div>
+                  
+                  <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-10 overflow-hidden border border-white/20 dark:border-gray-700/20">
+                    {/* Form header with gradient */}
+                    <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-purple-500 to-pink-500"></div>
+                    
+                    <div className="text-center mb-10">
+                      <Link to="/" className="inline-block mb-6 group">
+                        <div className="flex items-center justify-center gap-3">
+                          <div className="relative">
+                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-500 group-hover:scale-110">
+                              <span className="material-symbols-outlined text-white text-2xl">
+                                diamond
+                              </span>
+                            </div>
+                            <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-purple-600/30 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          </div>
+                          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent animate-gradient">
+                            Tar7a Store
+                          </h1>
+                        </div>
+                      </Link>
+                      
+                      <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 mb-6">
+                        <span className="material-symbols-outlined text-primary text-3xl">
+                          person_add
+                        </span>
+                      </div>
+                      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                        {language === 'ar' ? 'أنشئ حسابك الآن' : 'Create Your Account'}
+                      </h2>
+                      <p className="text-gray-600 dark:text-gray-400">
                         {language === 'ar' 
-                          ? 'بياناتك محمية باستخدام أحدث تقنيات التشفير'
-                          : 'Your data is protected with latest encryption technologies'
+                          ? 'سجل الآن وابدأ رحلة التسوق الاستثنائية'
+                          : 'Register now and start your exceptional shopping journey'
                         }
                       </p>
                     </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-7">
+                      {/* Full Name */}
+                      <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-right">
+                          {language === 'ar' ? 'الاسم الكامل' : 'Full Name'} *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">person</span>
+                          </div>
+                          <input
+                            type="text"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-12 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.fullName 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? 'أحمد محمد' : 'John Doe'}
+                          />
+                        </div>
+                        {errors.fullName && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.fullName}</p>
+                        )}
+                      </div>
+
+                      {/* Email */}
+                      <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-right">
+                          {language === 'ar' ? 'البريد الإلكتروني' : 'Email Address'} *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">mail</span>
+                          </div>
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-12 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.email 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? 'example@email.com' : 'you@example.com'}
+                          />
+                        </div>
+                        {errors.email && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.email}</p>
+                        )}
+                      </div>
+
+                      {/* Phone */}
+                      <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-right">
+                          {language === 'ar' ? 'رقم الهاتف' : 'Phone Number'} *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">call</span>
+                          </div>
+                          <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-12 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.phone 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? '+20 123 456 7890' : '+1 234 567 8900'}
+                          />
+                        </div>
+                        {errors.phone && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.phone}</p>
+                        )}
+                      </div>
+
+                      {/* Password */}
+                      <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-right">
+                          {language === 'ar' ? 'كلمة المرور' : 'Password'} *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">lock</span>
+                          </div>
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-24 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.password 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? '••••••••' : '••••••••'}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-xl">
+                              {showPassword ? 'visibility_off' : 'visibility'}
+                            </span>
+                          </button>
+                        </div>
+                        
+                        {/* Password Strength - Enhanced */}
+                        {formData.password && (
+                          <div className="mt-3 space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-medium text-gray-500">
+                                {language === 'ar' ? 'قوة كلمة المرور:' : 'Password strength:'}
+                              </span>
+                              <span className={`text-xs font-bold text-${strength.color}`}>
+                                {strength.text}
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                              <div 
+                                className={`h-2 rounded-full bg-${strength.color} transition-all duration-500`}
+                                style={{ width: `${(strength.score / 5) * 100}%` }}
+                              ></div>
+                            </div>
+                            <div className="grid grid-cols-4 gap-2">
+                              {[1, 2, 3, 4].map((i) => (
+                                <div 
+                                  key={i}
+                                  className={`h-1 rounded-full ${
+                                    i <= strength.score ? `bg-${strength.color}` : 'bg-gray-300 dark:bg-gray-600'
+                                  }`}
+                                ></div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {errors.password && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.password}</p>
+                        )}
+                      </div>
+
+                      {/* Confirm Password */}
+                      <div className="group">
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-right">
+                          {language === 'ar' ? 'تأكيد كلمة المرور' : 'Confirm Password'} *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <span className="material-symbols-outlined">lock_reset</span>
+                          </div>
+                          <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-4 pr-24 border-2 rounded-2xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-right ${
+                              errors.confirmPassword 
+                                ? 'border-red-500 dark:border-red-500 bg-red-50 dark:bg-red-900/20' 
+                                : 'border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 hover:border-primary/50'
+                            }`}
+                            placeholder={language === 'ar' ? '••••••••' : '••••••••'}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-xl">
+                              {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                            </span>
+                          </button>
+                        </div>
+                        {errors.confirmPassword && (
+                          <p className="mt-2 text-sm text-red-600 text-right animate-fadeIn">{errors.confirmPassword}</p>
+                        )}
+                      </div>
+
+                      {/* Checkboxes - Enhanced */}
+                      <div className="space-y-5">
+                        <label className="group flex items-start gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 p-3 rounded-xl transition-colors">
+                          <div className="relative mt-1">
+                            <input
+                              type="checkbox"
+                              name="agreeToTerms"
+                              checked={formData.agreeToTerms}
+                              onChange={handleChange}
+                              className="peer sr-only"
+                            />
+                            <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 peer-checked:border-primary peer-checked:bg-primary transition-all duration-200 flex items-center justify-center group-hover:border-primary">
+                              {formData.agreeToTerms && (
+                                <span className="material-symbols-outlined text-white text-sm">check</span>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 select-none flex-1 text-right">
+                            {language === 'ar' 
+                              ? 'أوافق على '
+                              : 'I agree to the '
+                            }
+                            <Link to="/terms" className="text-primary hover:text-purple-600 font-medium hover:underline">
+                              {language === 'ar' ? 'الشروط والأحكام' : 'Terms and Conditions'}
+                            </Link>
+                            {language === 'ar' ? ' و ' : ' and '}
+                            <Link to="/privacy" className="text-primary hover:text-purple-600 font-medium hover:underline">
+                              {language === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}
+                            </Link>
+                            *
+                          </span>
+                        </label>
+                        
+                        <label className="group flex items-start gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 p-3 rounded-xl transition-colors">
+                          <div className="relative mt-1">
+                            <input
+                              type="checkbox"
+                              name="newsletter"
+                              checked={formData.newsletter}
+                              onChange={handleChange}
+                              className="peer sr-only"
+                            />
+                            <div className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 peer-checked:border-primary peer-checked:bg-primary transition-all duration-200 flex items-center justify-center group-hover:border-primary">
+                              {formData.newsletter && (
+                                <span className="material-symbols-outlined text-white text-sm">check</span>
+                              )}
+                            </div>
+                          </div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 select-none flex-1 text-right">
+                            {language === 'ar' 
+                              ? 'أرغب في تلقي عروض حصرية وأحدث التحديثات عبر البريد الإلكتروني'
+                              : 'I want to receive exclusive offers and latest updates via email'
+                            }
+                          </span>
+                        </label>
+                      </div>
+
+                      {errors.agreeToTerms && (
+                        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-4 animate-fadeIn">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                              <span className="material-symbols-outlined text-red-600 dark:text-red-400 text-sm">
+                                error
+                              </span>
+                            </div>
+                            <p className="text-red-600 dark:text-red-400 text-sm flex-1 text-right">
+                              {errors.agreeToTerms}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {errors.submit && (
+                        <div className="bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/10 border border-red-200 dark:border-red-800 rounded-2xl p-4 animate-fadeIn">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                              <span className="material-symbols-outlined text-red-600 dark:text-red-400 text-sm">
+                                error
+                              </span>
+                            </div>
+                            <p className="text-red-600 dark:text-red-400 text-sm flex-1 text-right">
+                              {errors.submit}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Submit Button */}
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full group relative bg-gradient-to-r from-primary to-purple-600 text-white py-4 rounded-2xl font-semibold hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none overflow-hidden"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                        <div className="relative flex items-center justify-center gap-3">
+                          {isLoading ? (
+                            <>
+                              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                              {language === 'ar' ? 'جاري إنشاء الحساب...' : 'Creating account...'}
+                            </>
+                          ) : (
+                            <>
+                              <span className="material-symbols-outlined text-xl">rocket_launch</span>
+                              {language === 'ar' ? 'إنشاء حساب' : 'Create Account'}
+                            </>
+                          )}
+                        </div>
+                      </button>
+
+                      {/* Divider */}
+                      <div className="relative my-8">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+                        </div>
+                      </div>
+
+                      {/* Login Link */}
+                      <div className="text-center pt-6">
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {language === 'ar' ? 'هل لديك حساب بالفعل؟' : 'Already have an account?'}
+                          <Link 
+                            to="/login" 
+                            className="group relative text-primary font-semibold hover:text-purple-600 transition-colors mr-1 inline-flex items-center gap-1"
+                          >
+                            {language === 'ar' ? ' سجل الدخول' : ' Sign in'}
+                            <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
+                              arrow_forward
+                            </span>
+                          </Link>
+                        </p>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -629,6 +681,38 @@ const Register = () => {
           </div>
         </div>
       </div>
+
+      {/* Add animations */}
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes gradient {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+      `}</style>
     </div>
   );
 };

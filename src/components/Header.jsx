@@ -232,15 +232,6 @@ const Header = () => {
                     <span>{language === 'ar' ? 'الملف الشخصي' : 'Profile'}</span>
                   </Link>
                   
-                  <Link
-                    to="/orders"
-                    className={`${language === 'ar' ? 'arabic-text text-right' : 'text-left'} flex items-center gap-3 w-full px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors`}
-                    onClick={() => setIsUserDropdownOpen(false)}
-                  >
-                    <span className="material-symbols-outlined text-lg">shopping_bag</span>
-                    <span>{language === 'ar' ? 'طلباتي' : 'My Orders'}</span>
-                  </Link>
-                  
                   {isAdmin && (
                     <Link
                       to="/admin"
@@ -374,15 +365,6 @@ const Header = () => {
                   >
                     <span className="material-symbols-outlined">person</span>
                     <span>{language === 'ar' ? 'الملف الشخصي' : 'Profile'}</span>
-                  </Link>
-                  
-                  <Link
-                    to="/orders"
-                    className={`${language === 'ar' ? 'arabic-text text-right' : ''} flex items-center gap-3 py-2 hover:text-primary transition-colors`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span className="material-symbols-outlined">shopping_bag</span>
-                    <span>{language === 'ar' ? 'طلباتي' : 'My Orders'}</span>
                   </Link>
                   
                   {isAdmin && (
