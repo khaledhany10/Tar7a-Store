@@ -7,7 +7,7 @@ const OrderForm = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   
   // رابط Google Form الخاص بك
-  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScQdpH3BDWF9mjImvy0n3ZZU5D-jRUoqoBkQc4UPXIW2Blfjw/viewform?usp=pp_url';
+  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwesrwPOyS0NbNKjsErX_IIY7ppqKq7gUy00O8sYR4ysdcZw/viewform';
   
   // إيميل استلام البيانات
   const RECEIVING_EMAIL = 'hanykhaled153@gmail.com';

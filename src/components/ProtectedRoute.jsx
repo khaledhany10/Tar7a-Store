@@ -28,21 +28,35 @@ const isAdminUser = () => {
     
     const user = JSON.parse(userData);
     
-    // قائمة بريدات المديرين
-    const adminEmails = [
-      'admin@tar7a.com',
-      'admin@tar7astore.com', 
-      'manager@tar7a.com',
-      'your-email@example.com' // أضف بريدك هنا
-    ];
+    // بيانات المدير الثابتة
+    const adminCredentials = {
+      email: "admin@tar7a.com",
+      password: "Admin@Tar7a123"  // كلمة مرور قوية
+    };
     
-    const isAdmin = user.isAdmin || adminEmails.includes(user.email?.toLowerCase());
+    // التحقق من تطابق البريد الإلكتروني وكلمة المرور
+    const isEmailMatch = user.email?.toLowerCase() === adminCredentials.email.toLowerCase();
+    const isPasswordMatch = user.password === adminCredentials.password;
     
-    return isAdmin && user.loggedIn === true;
+    // فقط إذا كان البريد وكلمة المرور متطابقين تماماً
+    const isAdmin = isEmailMatch && isPasswordMatch && user.loggedIn === true;
+    
+    return isAdmin;
   } catch (error) {
     console.error('Error checking admin status:', error);
     return false;
   }
+};
+
+// دالة خاصة للتحقق من بيانات تسجيل الدخول الإدارية
+export const validateAdminLogin = (email, password) => {
+  const adminCredentials = {
+    email: "admin@tar7a.com",
+    password: "Admin@Tar7a123"
+  };
+  
+  return email?.toLowerCase() === adminCredentials.email.toLowerCase() && 
+         password === adminCredentials.password;
 };
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
@@ -54,12 +68,17 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
       const loggedIn = isUserLoggedIn();
       
       if (!loggedIn) {
-        // إذا لم يكن مسجلاً، إعادة توجيه لصفحة تسجيل الدخول
-        alert(
-          language === 'ar' 
-            ? '⚠️ يجب تسجيل الدخول للوصول لهذه الصفحة'
-            : '⚠️ You must be logged in to access this page'
-        );
+        // استخدام Custom Event بدلاً من alert
+        const event = new CustomEvent('show-toast', {
+          detail: {
+            message: language === 'ar' 
+              ? 'يجب تسجيل الدخول للوصول لهذه الصفحة'
+              : 'You must be logged in to access this page',
+            type: 'warning'
+          }
+        });
+        window.dispatchEvent(event);
+        
         navigate('/login');
         return;
       }
@@ -69,28 +88,39 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
         
         if (!isAdmin) {
           // إذا لم يكن مديراً، إعادة توجيه للصفحة الرئيسية
-          alert(
-            language === 'ar' 
-              ? '⛔ ليس لديك صلاحيات الوصول إلى هذه الصفحة'
-              : '⛔ You do not have permission to access this page'
-          );
+          const event = new CustomEvent('show-toast', {
+            detail: {
+              message: language === 'ar' 
+                ? 'ليس لديك صلاحيات الوصول إلى لوحة التحكم'
+                : 'You do not have permission to access the admin panel',
+              type: 'error'
+            }
+          });
+          window.dispatchEvent(event);
+          
           navigate('/');
           return;
         }
       }
     };
     
-    checkAccess();
+    // إضافة تأخير بسيط للسماح بتحميل localStorage
+    const timeoutId = setTimeout(checkAccess, 100);
     
     // استمع لتغييرات localStorage
-    const handleStorageChange = () => {
-      checkAccess();
+    const handleStorageChange = (e) => {
+      if (e.key === 'tar7a_user') {
+        checkAccess();
+      }
     };
     
     window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('localStorageChange', handleStorageChange);
     
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('localStorageChange', handleStorageChange);
     };
   }, [navigate, language, requireAdmin]);
   

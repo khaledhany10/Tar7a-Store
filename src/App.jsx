@@ -15,7 +15,7 @@ import Admin from './components/Admin';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
-import AdminGuard from './components/Admin';
+import AdminLogin from './components/admin/AdminLogin';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/products" element={<AllProducts />} />
               <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/AboutUs" element={<AboutUs />} />
+              <Route path="/about" element={<AboutUs />} />
               <Route path="/customize-order" element={<CustomizeOrder />} />
               <Route path="/order-form" element={<OrderForm />} />
               
@@ -40,19 +40,26 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               
-              {/* Protected Routes */}
+              {/* Admin Login Route (Public) */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              
+              {/* Protected User Routes */}
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               } />
               
-              {/* Admin Route with Guard */}
+              {/* Protected Admin Routes */}
               <Route path="/admin" element={
-                <ProtectedRoute requireAdmin={true}>
-                  <AdminGuard>
-                    <Admin />
-                  </AdminGuard>
+                <ProtectedRoute requireAdmin>
+                  <Admin />
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/admin/dashboard" element={
+                <ProtectedRoute requireAdmin>
+                  <Admin />
                 </ProtectedRoute>
               } />
               
