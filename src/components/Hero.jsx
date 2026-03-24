@@ -235,7 +235,7 @@ const Hero = () => {
       </div>
 
       {/* Features Bar */}
-      <div className="relative z-40 -mt-20">
+      <div className="relative z-40 -mt10">
         <div className="max-w-[1400px] mx-auto px-6 md:px-20">
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 md:p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
