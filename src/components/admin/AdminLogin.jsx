@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
-import { validateAdminLogin } from '../ProtectedRoute';
+// استيراد دوال تسجيل الدخول من ProtectedRoute
+import { validateAdminLogin, loginAsAdmin } from '../ProtectedRoute';
 
 const AdminLogin = () => {
   const { language } = useLanguage();
@@ -24,22 +25,40 @@ const AdminLogin = () => {
       [name]: value
     }));
     
+    // مسح الخطأ عند الكتابة
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    if (errors.submit) {
+      setErrors(prev => ({ ...prev, submit: '' }));
+    }
+  };
+
+  // دالة لعرض الإشعارات (بدلاً من CustomEvent)
+  const showNotification = (message, type = 'info') => {
+    // يمكنك استخدام alert مؤقتاً أو تطوير نظام إشعارات لاحقاً
+    console.log(`[${type}] ${message}`);
+    if (type === 'error') {
+      alert(message);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // التحقق من الحقول المطلوبة
     const newErrors = {};
     
     if (!formData.email.trim()) {
       newErrors.email = language === 'ar' ? 'البريد الإلكتروني مطلوب' : 'Email is required';
+    } else if (!formData.email.includes('@')) {
+      newErrors.email = language === 'ar' ? 'البريد الإلكتروني غير صالح' : 'Invalid email format';
     }
     
     if (!formData.password) {
       newErrors.password = language === 'ar' ? 'كلمة المرور مطلوبة' : 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = language === 'ar' ? 'كلمة المرور يجب أن تكون 6 أحرف على الأقل' : 'Password must be at least 6 characters';
     }
     
     if (Object.keys(newErrors).length > 0) {
@@ -50,61 +69,55 @@ const AdminLogin = () => {
     setIsLoading(true);
     
     try {
-      // التحقق من بيانات المدير
-      const isValid = validateAdminLogin(formData.email, formData.password);
+      // استخدام دالة loginAsAdmin من ProtectedRoute
+      const result = loginAsAdmin(formData.email, formData.password);
       
-      if (!isValid) {
-        throw new Error('Invalid credentials');
+      if (!result.success) {
+        throw new Error(result.error || 'Invalid credentials');
       }
       
-      // حفظ بيانات المدير في localStorage
-      const adminData = {
-        email: formData.email,
-        isAdmin: true,
-        loggedIn: true,
-        adminLoginTime: new Date().toISOString()
-      };
-      
-      localStorage.setItem('tar7a_user', JSON.stringify(adminData));
-      
       // إشعار بالنجاح
-      const event = new CustomEvent('show-toast', {
-        detail: {
-          message: language === 'ar' 
-            ? 'تم تسجيل الدخول كمدير بنجاح!'
-            : 'Logged in as admin successfully!',
-          type: 'success'
-        }
-      });
-      window.dispatchEvent(event);
+      showNotification(
+        language === 'ar' 
+          ? 'تم تسجيل الدخول كمدير بنجاح!'
+          : 'Logged in as admin successfully!',
+        'success'
+      );
       
-      // إعادة تحميل الصفحة لتفعيل ProtectedRoute
+      // إرسال حدث لتحديث ProtectedRoute
       window.dispatchEvent(new Event('localStorageChange'));
       
-      // توجيه إلى لوحة التحكم
-      navigate('/admin/dashboard');
+      // تأخير بسيط قبل التوجيه
+      setTimeout(() => {
+        navigate('/admin/dashboard', { replace: true });
+      }, 500);
       
     } catch (error) {
       console.error('Admin login error:', error);
       
-      const event = new CustomEvent('show-toast', {
-        detail: {
-          message: language === 'ar' 
-            ? 'بيانات تسجيل الدخول غير صحيحة'
-            : 'Invalid login credentials',
-          type: 'error'
-        }
-      });
-      window.dispatchEvent(event);
+      showNotification(
+        language === 'ar' 
+          ? 'بيانات تسجيل الدخول غير صحيحة'
+          : 'Invalid login credentials',
+        'error'
+      );
       
       setErrors({
         submit: language === 'ar' 
-          ? 'بيانات تسجيل الدخول الإدارية غير صحيحة'
-          : 'Invalid administrator login credentials'
+          ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
+          : 'Invalid email or password'
       });
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // دالة لملء بيانات التجربة بسرعة
+  const fillTestCredentials = () => {
+    setFormData({
+      email: 'admin@tar7a.com',
+      password: 'Admin@Tar7a123'
+    });
   };
 
   return (
@@ -116,7 +129,7 @@ const AdminLogin = () => {
           <div className="relative bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-gray-700/50">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-red-500 to-yellow-500 flex items-center justify-center mb-6 shadow-lg">
+              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-red-500 to-yellow-500 flex items-center justify-center mb-6 shadow-lg animate-pulse">
                 <span className="material-symbols-outlined text-white text-3xl">
                   admin_panel_settings
                 </span>
@@ -138,7 +151,7 @@ const AdminLogin = () => {
               {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  {language === 'ar' ? 'بريد المدير' : 'Admin Email'}
+                  {language === 'ar' ? 'البريد الإلكتروني' : 'Email'}
                 </label>
                 <div className="relative">
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -149,9 +162,12 @@ const AdminLogin = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 pr-12 bg-gray-700/50 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all duration-300"
+                    className={`w-full px-4 py-3 pr-12 bg-gray-700/50 border ${
+                      errors.email ? 'border-red-500' : 'border-gray-600'
+                    } rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all duration-300`}
                     placeholder="admin@tar7a.com"
                     autoComplete="username"
+                    disabled={isLoading}
                   />
                 </div>
                 {errors.email && (
@@ -162,7 +178,7 @@ const AdminLogin = () => {
               {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  {language === 'ar' ? 'كلمة مرور المدير' : 'Admin Password'}
+                  {language === 'ar' ? 'كلمة المرور' : 'Password'}
                 </label>
                 <div className="relative">
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -173,14 +189,18 @@ const AdminLogin = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 pr-24 bg-gray-700/50 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all duration-300"
+                    className={`w-full px-4 py-3 pr-12 pl-12 bg-gray-700/50 border ${
+                      errors.password ? 'border-red-500' : 'border-gray-600'
+                    } rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all duration-300`}
                     placeholder="••••••••"
                     autoComplete="current-password"
+                    disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-yellow-500 transition-colors"
+                    disabled={isLoading}
                   >
                     <span className="material-symbols-outlined text-sm">
                       {showPassword ? 'visibility_off' : 'visibility'}
@@ -192,6 +212,17 @@ const AdminLogin = () => {
                 )}
               </div>
 
+              {/* Quick Fill Button */}
+              <button
+                type="button"
+                onClick={fillTestCredentials}
+                className="w-full text-sm text-yellow-500 hover:text-yellow-400 transition-colors flex items-center justify-center gap-1"
+                disabled={isLoading}
+              >
+                <span className="material-symbols-outlined text-sm">bolt</span>
+                {language === 'ar' ? 'ملء بيانات التجربة' : 'Fill test credentials'}
+              </button>
+
               {/* Credentials Hint */}
               <div className="bg-gray-900/50 border border-gray-700 rounded-xl p-4">
                 <div className="flex items-start gap-3">
@@ -201,8 +232,8 @@ const AdminLogin = () => {
                   <div>
                     <p className="text-xs text-gray-400">
                       {language === 'ar' 
-                        ? 'استخدم بيانات الاعتماد الافتراضية:'
-                        : 'Use default credentials:'
+                        ? 'بيانات الاعتماد الافتراضية:'
+                        : 'Default credentials:'
                       }
                     </p>
                     <p className="text-xs text-gray-300 font-mono mt-1">
@@ -250,6 +281,7 @@ const AdminLogin = () => {
                   type="button"
                   onClick={() => navigate('/')}
                   className="text-sm text-gray-400 hover:text-white transition-colors flex items-center justify-center gap-1 mx-auto"
+                  disabled={isLoading}
                 >
                   <span className="material-symbols-outlined text-sm">arrow_back</span>
                   {language === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}

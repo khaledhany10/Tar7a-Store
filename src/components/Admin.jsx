@@ -8,8 +8,67 @@ import {
   addNewProduct,
   updateProduct,
   deleteProduct,
-  getDynamicStats
+  getDynamicStats,
+  checkStorageQuota,
+  cleanupOldImages
 } from '../data/products';
+
+// للتشخيص - أضف هذا في بداية الملف
+console.log('Admin.jsx loading...');
+try {
+  const quota = checkStorageQuota();
+  console.log('Storage quota:', quota);
+} catch (e) {
+  console.error('Error checking storage:', e);
+}
+
+// معالج الأخطاء العام
+window.onerror = function(msg, url, lineNo, columnNo, error) {
+  console.error('Global error in Admin:', { msg, url, lineNo, columnNo, error });
+  return false;
+};
+
+// دالة ضغط الصور
+const compressImage = async (base64String, maxWidth = 800, maxHeight = 800, quality = 0.7) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = base64String;
+    
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+      
+      // تصغير الأبعاد إذا كانت أكبر من الحد الأقصى
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // ضغط الجودة
+      const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+      resolve(compressedBase64);
+    };
+    
+    img.onerror = () => {
+      // إذا فشل الضغط، أرجع الصورة الأصلية
+      resolve(base64String);
+    };
+  });
+};
 
 // دالة تحويل الملف إلى Base64
 const fileToBase64 = (file) => {
@@ -53,32 +112,44 @@ const getDefaultImage = (collectionType) => {
   return collectionImages[collectionType] || '/Img/Collections/default-product.jpg';
 };
 
-// تخزين الصور في localStorage
+// تخزين الصور في localStorage مع الضغط
 const saveImageToStorage = async (file) => {
   try {
-    const base64 = await fileToBase64(file);
-    const imageId = `image_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    let base64 = await fileToBase64(file);
     
-    // حفظ الصورة في localStorage
-    localStorage.setItem(`tar7a_image_${imageId}`, base64);
+    // ضغط الصورة إذا كانت أكبر من 500KB
+    if (file.size > 500 * 1024) {
+      base64 = await compressImage(base64, 800, 800, 0.7);
+    }
+    
+    const imageId = `image_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const storageKey = `tar7a_image_${imageId}`;
+    
+    // تحقق من المساحة قبل الحفظ
+    const quota = checkStorageQuota();
+    if (quota.isFull) {
+      // نظف الصور القديمة
+      const deleted = cleanupOldImages(allProducts);
+      console.log(`Cleaned up ${deleted} unused images`);
+    }
+    
+    localStorage.setItem(storageKey, base64);
     
     return {
       id: imageId,
       name: file.name,
       type: file.type,
       size: file.size,
-      url: base64, // Base64 URL للمعاينة الفورية
-      storageKey: `tar7a_image_${imageId}`
+      url: base64,
+      storageKey: storageKey
     };
   } catch (error) {
     console.error('Error saving image:', error);
+    if (error.name === 'QuotaExceededError') {
+      throw new Error('مساحة التخزين ممتلئة. الرجاء حذف بعض الصور القديمة.');
+    }
     throw error;
   }
-};
-
-// استرجاع الصورة من localStorage
-const getImageFromStorage = (storageKey) => {
-  return localStorage.getItem(storageKey);
 };
 
 // مكون Drag & Drop لرفع الصور
@@ -92,6 +163,7 @@ const ImageUploader = ({
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedImages, setUploadedImages] = useState(initialImages);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleDragEnter = useCallback((e) => {
@@ -118,7 +190,7 @@ const ImageUploader = ({
       return {
         ...savedImage,
         path: `/Img/Uploads/${savedImage.id}.${file.type.split('/')[1] || 'jpg'}`,
-        previewUrl: savedImage.url // URL للمعاينة
+        previewUrl: savedImage.url
       };
     } catch (error) {
       console.error('Error processing file:', error);
@@ -130,18 +202,19 @@ const ImageUploader = ({
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
+    setError(null);
     
     const files = Array.from(e.dataTransfer.files).filter(file => 
       file.type.startsWith('image/')
     );
     
     if (files.length === 0) {
-      alert(language === 'ar' ? 'الرجاء رفع ملفات صور فقط' : 'Please upload image files only');
+      setError(language === 'ar' ? 'الرجاء رفع ملفات صور فقط' : 'Please upload image files only');
       return;
     }
     
     if (!multiple && files.length > 1) {
-      alert(language === 'ar' ? 'يمكن رفع صورة واحدة فقط' : 'Only one image can be uploaded');
+      setError(language === 'ar' ? 'يمكن رفع صورة واحدة فقط' : 'Only one image can be uploaded');
       return;
     }
     
@@ -160,7 +233,7 @@ const ImageUploader = ({
       }
     } catch (error) {
       console.error('Error processing files:', error);
-      alert(language === 'ar' ? 'حدث خطأ في معالجة الصور' : 'Error processing images');
+      setError(error.message || (language === 'ar' ? 'حدث خطأ في معالجة الصور' : 'Error processing images'));
     } finally {
       setUploading(false);
     }
@@ -174,6 +247,7 @@ const ImageUploader = ({
     if (files.length === 0) return;
     
     setUploading(true);
+    setError(null);
     
     try {
       const processedImages = await Promise.all(files.map(processFile));
@@ -188,6 +262,7 @@ const ImageUploader = ({
       }
     } catch (error) {
       console.error('Error processing files:', error);
+      setError(error.message || (language === 'ar' ? 'حدث خطأ في معالجة الصور' : 'Error processing images'));
     } finally {
       setUploading(false);
       e.target.value = '';
@@ -196,7 +271,6 @@ const ImageUploader = ({
 
   const removeImage = useCallback((index) => {
     const imageToRemove = uploadedImages[index];
-    // إزالة الصورة من localStorage
     if (imageToRemove.storageKey) {
       localStorage.removeItem(imageToRemove.storageKey);
     }
@@ -212,6 +286,12 @@ const ImageUploader = ({
 
   return (
     <div className="space-y-4">
+      {error && (
+        <div className="bg-red-100 dark:bg-red-900/20 border border-red-300 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+      
       <div
         className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 cursor-pointer ${
           isDragging 
@@ -251,7 +331,7 @@ const ImageUploader = ({
               }
             </p>
             <span className="text-xs text-gray-400">
-              {language === 'ar' ? 'JPG, PNG, GIF, WebP - حتى 5MB' : 'JPG, PNG, GIF, WebP - Up to 5MB'}
+              {language === 'ar' ? 'JPG, PNG, GIF, WebP - سيتم ضغط الصور الكبيرة' : 'JPG, PNG, GIF, WebP - Large images will be compressed'}
             </span>
           </>
         )}
@@ -283,6 +363,9 @@ const ImageUploader = ({
                     src={image.previewUrl || image.url}
                     alt={`Uploaded ${index + 1}`}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZWVlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBFcnJvcjwvdGV4dD48L3N2Zz4=';
+                    }}
                   />
                 </div>
                 <button
@@ -420,6 +503,7 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
 
   const [uploadedImages, setUploadedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (product?.images && product.images.length > 0) {
@@ -455,11 +539,10 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
   const handleImageUpload = (images) => {
     setUploadedImages(images);
     if (images.length > 0) {
-      // استخدام Base64 URL مباشرة للصورة الرئيسية
       setFormData(prev => ({
         ...prev,
-        image: images[0].previewUrl, // استخدم base64 مباشرة
-        images: images.map(img => img.previewUrl) // حفظ base64 URLs
+        image: images[0].previewUrl,
+        images: images.map(img => img.previewUrl)
       }));
     }
   };
@@ -467,7 +550,7 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
   const handleSingleImageSelect = (image) => {
     setFormData(prev => ({
       ...prev,
-      image: image.previewUrl, // استخدم base64 مباشرة
+      image: image.previewUrl,
       images: [image.previewUrl]
     }));
   };
@@ -475,8 +558,25 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
     try {
+      // تحقق من المساحة قبل الحفظ
+      const quota = checkStorageQuota();
+      if (quota.isFull) {
+        const confirmSave = window.confirm(
+          language === 'ar' 
+            ? 'مساحة التخزين ممتلئة تقريباً. هل تريد محاولة الحفظ مع تنظيف الصور القديمة؟'
+            : 'Storage is almost full. Do you want to try saving with cleanup?'
+        );
+        if (!confirmSave) {
+          setIsLoading(false);
+          return;
+        }
+        // تنظيف الصور القديمة
+        cleanupOldImages(allProducts);
+      }
+      
       const processedData = {
         ...formData,
         rating: parseFloat(formData.rating) || 4.0,
@@ -492,14 +592,13 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
         sizes: product?.sizes || ['S', 'M', 'L', 'XL'],
         tags: product?.tags || ['فاخر', 'إسلامي', 'حجاب', 'شيفون'],
         images: formData.images.length > 0 ? formData.images : [formData.image],
-        // تأكد من أن الصورة الرئيسية هي أول صورة في المصفوفة
         image: formData.images[0] || formData.image
       };
       
-      onSubmit(processedData);
+      await onSubmit(processedData);
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert(language === 'ar' ? 'حدث خطأ في حفظ المنتج' : 'Error saving product');
+      setError(error.message || (language === 'ar' ? 'حدث خطأ في حفظ المنتج' : 'Error saving product'));
     } finally {
       setIsLoading(false);
     }
@@ -520,6 +619,12 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
+
+          {error && (
+            <div className="mb-6 bg-red-100 dark:bg-red-900/20 border border-red-300 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -552,12 +657,6 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
                           e.target.src = getDefaultImage(formData.collectionType);
                         }}
                       />
-                      <div className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center truncate">
-                        {formData.image.length > 50 
-                          ? formData.image.substring(0, 50) + '...' 
-                          : formData.image
-                        }
-                      </div>
                     </div>
                   </div>
                 )}
@@ -753,23 +852,38 @@ const ProductForm = ({ product, onSubmit, onCancel, language, collectionsList })
   );
 };
 
-// الباقي من الكود يبقى كما هو (دوال التصدير والاستيراد والمكون الرئيسي Admin)
-// ... [ابقى باقي الكود كما هو]
-
 const Admin = () => {
   const { language } = useLanguage();
-  const [products, setProducts] = useState(allProducts);
-  const [filteredProducts, setFilteredProducts] = useState(allProducts);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [selectedCollection, setSelectedCollection] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [storageWarning, setStorageWarning] = useState(null);
 
+  // تحميل المنتجات عند بدء التشغيل
   useEffect(() => {
-    setProducts(allProducts);
-    setFilteredProducts(allProducts);
-  }, []);
+    try {
+      setProducts([...allProducts]);
+      setFilteredProducts([...allProducts]);
+      
+      // فحص مساحة التخزين
+      const quota = checkStorageQuota();
+      if (quota.isFull) {
+        const deleted = cleanupOldImages(allProducts);
+        setStorageWarning(
+          language === 'ar' 
+            ? `تحذير: مساحة التخزين تقترب من الامتلاء (${quota.used}MB مستخدم). تم حذف ${deleted} صورة قديمة.`
+            : `Warning: Storage is almost full (${quota.used}MB used). Deleted ${deleted} old images.`
+        );
+      }
+    } catch (error) {
+      console.error('Error loading products:', error);
+    }
+  }, [language]);
 
+  // فلترة المنتجات
   useEffect(() => {
     let filtered = [...products];
     
@@ -780,7 +894,7 @@ const Admin = () => {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(query) ||
+        p.name?.toLowerCase().includes(query) ||
         (p.description && p.description.toLowerCase().includes(query)) ||
         (p.collectionName && p.collectionName.toLowerCase().includes(query))
       );
@@ -791,53 +905,73 @@ const Admin = () => {
 
   const handleDeleteProduct = (productId) => {
     if (window.confirm(language === 'ar' ? 'هل أنت متأكد من حذف هذا المنتج؟' : 'Are you sure you want to delete this product?')) {
-      const success = deleteProduct(productId);
-      if (success) {
-        setProducts(allProducts);
-        alert(language === 'ar' ? 'تم حذف المنتج بنجاح' : 'Product deleted successfully');
+      try {
+        const success = deleteProduct(productId);
+        if (success) {
+          setProducts([...allProducts]);
+          alert(language === 'ar' ? 'تم حذف المنتج بنجاح' : 'Product deleted successfully');
+        }
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        alert(language === 'ar' ? 'حدث خطأ في حذف المنتج' : 'Error deleting product');
       }
     }
   };
 
   const handleSubmitProduct = (productData) => {
-    if (editingProduct) {
-      const updated = updateProduct(editingProduct.id, productData);
-      if (updated) {
-        setProducts(allProducts);
-        alert(language === 'ar' ? 'تم تحديث المنتج بنجاح' : 'Product updated successfully');
-      }
-    } else {
-      const newProduct = addNewProduct(productData);
-      setProducts(allProducts);
-      alert(language === 'ar' ? 'تم إضافة المنتج بنجاح' : 'Product added successfully');
-    }
-    
-    setShowForm(false);
-    setEditingProduct(null);
-  };
-
-  const handleResetProducts = () => {
-    if (window.confirm(
-      language === 'ar' 
-        ? 'هل تريد إعادة تعيين جميع المنتجات إلى الحالة الافتراضية؟ سيتم حذف كل التغييرات والصور.'
-        : 'Do you want to reset all products to default? All changes and images will be lost.'
-    )) {
-      // حذف كل الصور المخزنة
-      Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('tar7a_image_')) {
-          localStorage.removeItem(key);
+    try {
+      if (editingProduct) {
+        const updated = updateProduct(editingProduct.id, productData);
+        if (updated) {
+          setProducts([...allProducts]);
+          alert(language === 'ar' ? 'تم تحديث المنتج بنجاح' : 'Product updated successfully');
         }
-      });
-      localStorage.removeItem('tar7a_products');
-      window.location.reload();
+      } else {
+        const newProduct = addNewProduct(productData);
+        setProducts([...allProducts]);
+        alert(language === 'ar' ? 'تم إضافة المنتج بنجاح' : 'Product added successfully');
+      }
+      
+      setShowForm(false);
+      setEditingProduct(null);
+    } catch (error) {
+      console.error('Error saving product:', error);
+      alert(error.message || (language === 'ar' ? 'حدث خطأ في حفظ المنتج' : 'Error saving product'));
     }
   };
 
-  const stats = useMemo(() => getDynamicStats(), [products]);
+
+  const stats = useMemo(() => {
+    try {
+      return getDynamicStats();
+    } catch (error) {
+      console.error('Error getting stats:', error);
+      return {
+        totalProducts: products.length,
+        inStockCount: products.filter(p => p.inStock).length,
+        outOfStockCount: products.filter(p => !p.inStock).length,
+        averagePrice: 130,
+        collectionsCount: collections.length
+      };
+    }
+  }, [products]);
+
+  if (!products.length) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">
+            {language === 'ar' ? 'جاري تحميل المنتجات...' : 'Loading products...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Header remains the same */}
+      {/* Header */}
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -867,19 +1001,23 @@ const Admin = () => {
               
               <button
                 onClick={() => {
-                  const dataStr = JSON.stringify(allProducts.map(p => ({
-                    ...p,
-                    // استبدال base64 URLs بمسارات افتراضية عند التصدير
-                    image: p.image.startsWith('data:') ? '/Img/default-product.jpg' : p.image,
-                    images: p.images ? p.images.map(img => 
-                      img.startsWith('data:') ? '/Img/default-product.jpg' : img
-                    ) : []
-                  })), null, 2);
-                  const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-                  const linkElement = document.createElement('a');
-                  linkElement.setAttribute('href', dataUri);
-                  linkElement.setAttribute('download', `tar7a_products_${new Date().toISOString().split('T')[0]}.json`);
-                  linkElement.click();
+                  try {
+                    const dataStr = JSON.stringify(allProducts.map(p => ({
+                      ...p,
+                      image: p.image?.startsWith('data:') ? '/Img/default-product.jpg' : p.image,
+                      images: p.images ? p.images.map(img => 
+                        img?.startsWith('data:') ? '/Img/default-product.jpg' : img
+                      ) : []
+                    })), null, 2);
+                    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                    const linkElement = document.createElement('a');
+                    linkElement.setAttribute('href', dataUri);
+                    linkElement.setAttribute('download', `tar7a_products_${new Date().toISOString().split('T')[0]}.json`);
+                    linkElement.click();
+                  } catch (error) {
+                    console.error('Error exporting:', error);
+                    alert(language === 'ar' ? 'حدث خطأ في التصدير' : 'Error exporting');
+                  }
                 }}
                 className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               >
@@ -913,6 +1051,7 @@ const Admin = () => {
                           }
                         }
                       } catch (error) {
+                        console.error('Error importing:', error);
                         alert(language === 'ar' ? 'خطأ في الملف' : 'File error');
                       }
                     };
@@ -921,15 +1060,15 @@ const Admin = () => {
                 />
               </label>
               
-              <button
-                onClick={handleResetProducts}
-                className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined">restart_alt</span>
-                {language === 'ar' ? 'إعادة التعيين' : 'Reset All'}
-              </button>
             </div>
           </div>
+          
+          {/* تحذير التخزين */}
+          {storageWarning && (
+            <div className="mt-4 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-800 text-yellow-800 dark:text-yellow-400 px-4 py-3 rounded-lg">
+              {storageWarning}
+            </div>
+          )}
         </div>
       </div>
 
@@ -1108,14 +1247,14 @@ const Admin = () => {
         </div>
         <p className="mb-2">
           {language === 'ar' 
-            ? '💾 الصور تحفظ في ذاكرة المتصفح (localStorage). حجم التخزين محدود بـ 5-10MB.'
-            : '💾 Images are saved in browser storage (localStorage). Storage limited to 5-10MB.'
+            ? '💾 الصور تحفظ في ذاكرة المتصفح (localStorage). يتم ضغط الصور الكبيرة تلقائياً.'
+            : '💾 Images are saved in browser storage (localStorage). Large images are automatically compressed.'
           }
         </p>
         <p>
           {language === 'ar' 
-            ? '📱 للحصول على تجربة أفضل، استخدم صور بحجم مناسب (أقل من 1MB للصورة).'
-            : '📱 For best experience, use properly sized images (less than 1MB per image).'
+            ? '📱 مساحة التخزين المتاحة: حتى 5-10MB. يتم تنظيف الصور غير المستخدمة تلقائياً.'
+            : '📱 Available storage: Up to 5-10MB. Unused images are automatically cleaned up.'
           }
         </p>
       </div>

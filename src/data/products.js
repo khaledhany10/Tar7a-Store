@@ -1,5 +1,61 @@
-// data/products.js
+// src/data/products.js
 import imagesData from './images.json';
+
+// دالة للتحقق من حجم localStorage
+export const checkStorageQuota = () => {
+  try {
+    let total = 0;
+    for (let key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) {
+        total += (localStorage[key].length * 2) / 1024 / 1024; // الحجم بالميجابايت
+      }
+    }
+    return {
+      used: Math.round(total * 100) / 100,
+      available: Math.max(0, 5 - total), // تقديري
+      isFull: total > 4.5 // تحذير عندما يصل لـ 4.5MB
+    };
+  } catch {
+    return { used: 0, available: 5, isFull: false };
+  }
+};
+
+// دالة لتنظيف الصور القديمة غير المستخدمة
+export const cleanupOldImages = (products) => {
+  try {
+    const usedImageKeys = new Set();
+    
+    // جمع كل مفاتيح الصور المستخدمة في المنتجات
+    (products || []).forEach(product => {
+      if (product.images) {
+        product.images.forEach(img => {
+          if (typeof img === 'string' && img.includes('tar7a_image_')) {
+            const match = img.match(/tar7a_image_[a-zA-Z0-9]+/);
+            if (match) usedImageKeys.add(match[0]);
+          }
+        });
+      }
+      if (product.image && typeof product.image === 'string' && product.image.includes('tar7a_image_')) {
+        const match = product.image.match(/tar7a_image_[a-zA-Z0-9]+/);
+        if (match) usedImageKeys.add(match[0]);
+      }
+    });
+    
+    // حذف الصور غير المستخدمة
+    let deletedCount = 0;
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('tar7a_image_') && !usedImageKeys.has(key)) {
+        localStorage.removeItem(key);
+        deletedCount++;
+      }
+    });
+    
+    return deletedCount;
+  } catch (error) {
+    console.error('Error cleaning up images:', error);
+    return 0;
+  }
+};
 
 export const loadProductsFromStorage = () => {
   try {
@@ -15,10 +71,23 @@ export const loadProductsFromStorage = () => {
 
 export const saveProductsToStorage = (products) => {
   try {
+    // تنظيف الصور القديمة أولاً
+    cleanupOldImages(products);
+    
+    // تحقق من المساحة قبل الحفظ
+    const quota = checkStorageQuota();
+    if (quota.isFull) {
+      console.warn('Storage almost full, attempting cleanup...');
+      cleanupOldImages(products);
+    }
+    
     localStorage.setItem('tar7a_products', JSON.stringify(products));
     return true;
   } catch (error) {
     console.error('Error saving products to storage:', error);
+    if (error.name === 'QuotaExceededError') {
+      alert('مساحة التخزين ممتلئة. الرجاء حذف بعض الصور القديمة.');
+    }
     return false;
   }
 };
@@ -292,7 +361,7 @@ export const addNewProduct = (productData) => {
     id: `PRD${Date.now().toString().slice(-6)}`,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    images: [productData.image],
+    images: productData.images || [productData.image],
     colors: productData.colors || [
       { name: 'ذهبي', value: '#FFD700' },
       { name: 'فضي', value: '#C0C0C0' },
